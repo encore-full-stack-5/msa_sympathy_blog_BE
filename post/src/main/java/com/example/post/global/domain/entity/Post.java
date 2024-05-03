@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name= "POSTS")
@@ -29,4 +30,5 @@ public class Post {
     private LocalDateTime createdAt;
     @Column(name="USER_ID")
     private Long userId;
+
 }
