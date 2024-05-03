@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Builder
-@Table(name = "POSTVIEWS")
+@Table(name = "POST_VIEWS")
 public class PostView {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
