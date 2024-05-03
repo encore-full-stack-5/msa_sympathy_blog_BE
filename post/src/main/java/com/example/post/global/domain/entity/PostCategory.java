@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Builder
-@Table(name = "POSTCATEGORYS")
+@Table(name = "POST_CATEGORYS")
 public class PostCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
