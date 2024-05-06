@@ -25,7 +25,7 @@ public class Category {
     private String categoryName;
 
     @Column(name = "POST_CATEGORY_ID")
-    @OneToMany(mappedBy = "PostCategory")
-    private List<PostCategory> PostCategory;
+    @OneToMany(mappedBy = "category")
+    private List<PostCategory> postCategories;
 
 }
