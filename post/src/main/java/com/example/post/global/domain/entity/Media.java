@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,4 +23,8 @@ public class Media {
 
     @Column(name = "PATH")
     private String path;
+
+    @Column(name ="MEDIA_POST_ID")
+    @OneToMany(mappedBy = "media")
+    private List<MediaPost> mediaPosts;
 }

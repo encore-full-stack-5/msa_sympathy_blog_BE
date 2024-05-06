@@ -17,7 +17,7 @@ public class JwtTokenUtils {
     private String tokenSecret;
 
 
-    // 토큰 parse
+//     토큰 parse
     public TokenInfo parseToken(String token){
         Claims payload = (Claims) Jwts
                 .parser()

@@ -40,4 +40,15 @@ public class Post {
     @OneToMany(mappedBy = "post")
     private List<PostCategory> postCategories;
 
+
+    @Column(name = "USER_BLOG_ID")
+    private Long userBlogId;
+
+    @Column(name ="MEDIA_POST_ID")
+    @OneToMany(mappedBy = "post")
+    private List<MediaPost> mediaPosts;
+
+    @OneToOne
+    @JoinColumn(name = "POST_VIEW_ID")
+    private PostView postView;
 }
