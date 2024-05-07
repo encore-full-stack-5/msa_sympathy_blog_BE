@@ -21,6 +21,6 @@ public class UserBlog {
     private Long id;
     @Column(name="USER_NICKNAME", nullable = false)
     private String nickname;
-    @OneToMany(mappedBy = "userBlog", fetch = FetchType.LAZY) // 매핑될 필드의 이름
+    @OneToMany(mappedBy = "userBlog")
     private List<Post> posts;
 }
