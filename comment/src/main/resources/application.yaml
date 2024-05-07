@@ -2,7 +2,7 @@ spring:
   elasticsearch:
     cluster-name:
     rest:
-      uris: http://localhost:8080
+      uris: http://localhost:9200
   datasource:
     url: jdbc:mysql://localhost:3306/comment?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
     username: root
@@ -11,9 +11,21 @@ spring:
     hibernate:
       ddl-auto: create
     show-sql: true
+  application:
+    name: comment
 
 token:
   secret: ssssssssssssssssssssssssssmmmmmmmmmmmmmmm
   expiration: 600000
 
 
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${random.uui}
+
+server:
+  port: 8082
