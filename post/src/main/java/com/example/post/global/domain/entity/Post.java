@@ -44,7 +44,7 @@ public class Post {
     @Column(name ="MEDIA_POST_ID")
     @OneToMany(mappedBy = "post")
     private List<MediaPost> mediaPosts;
-
+//
     @OneToOne
     @JoinColumn(name = "POST_VIEW_ID")
     private PostView postView;
