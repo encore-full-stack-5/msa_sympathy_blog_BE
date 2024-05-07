@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name= "USER_BLOGS")
@@ -18,7 +19,7 @@ public class UserBlog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USER_ID")
-    private Long id;
+    private UUID id;
     @Column(name="USER_NICKNAME", nullable = false)
     private String nickname;
     @OneToMany(mappedBy = "userBlog")

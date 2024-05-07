@@ -1,5 +1,7 @@
 package com.example.post.global.domain.entity;
 
+import com.example.post.global.domain.type.PublicScope;
+import com.example.post.global.domain.type.Topic;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name= "POSTS")
@@ -19,7 +22,7 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "POST_ID")
-    private Long id;
+    private UUID id;
 
     @Column(name="POST_TITLE", nullable = false)
     private String title;
@@ -28,7 +31,10 @@ public class Post {
     private String content;
 
     @Column(name="POST_PUBLIC_SCOPE", nullable = false)
-    private String publicScope;
+    private PublicScope publicScope;
+
+    @Column(name="POST_TOPIC", nullable = false)
+    private Topic topic;
 
     @Column(name="POST_CREATED_AT", nullable = false)
     private LocalDateTime createdAt;
