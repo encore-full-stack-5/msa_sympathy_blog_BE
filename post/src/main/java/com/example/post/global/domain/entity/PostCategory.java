@@ -10,16 +10,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Builder
-@Table(name = "POSTCATEGORYS")
+@Table(name = "POST_CATEGORYS")
 public class PostCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Column(name = "BRIDGE_ID")
     private int bridgeId;
-    @Column(name = "CATEGORY_ID")
-    private int categoryId;
-    @Column(name = "POST_ID")
-    private int postId;
 
+    @ManyToOne
+    @JoinColumn(name = "CATEGORY_ID")
+    private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "POST_ID")
+    private Post post;
 
 }

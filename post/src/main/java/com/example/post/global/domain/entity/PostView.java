@@ -10,15 +10,16 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Builder
-@Table(name = "POSTVIEWS")
+@Table(name = "POST_VIEWS")
 public class PostView {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "POST_ID")
+    @Column(name = "POST_VIEW_ID")
     private Long id;
-    @Column(name = "VIEWS")
-    private String views;
-    @Column( name = "POSTING_ID")
-    private int postingId;
+    @Column(name = "VIEW")
+    private String view;
 
+    @OneToOne
+    @PrimaryKeyJoinColumn(name = "POST_ID")
+    private Post post;
 }
