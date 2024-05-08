@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @Entity
@@ -16,7 +17,7 @@ public class UserBlog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "USER_BLOG_ID")
-    private Long id;
+    private UUID id;
     @Column(name = "NICKNAME")
     private String nickname;
     @Column(name = "BLOG_NAME")
