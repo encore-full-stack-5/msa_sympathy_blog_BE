@@ -20,7 +20,7 @@ public class Image {
     @ManyToOne
     private Long post_id;
 
-    @Column(name = "PATH")
+    @Column(name = "PATH", nullable = false)
     @Setter
     private String path;
 

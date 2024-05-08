@@ -1,5 +1,7 @@
 package com.example.post.global.domain.entity;
 
+import com.example.post.global.domain.type.PublicScope;
+import com.example.post.global.domain.type.Topic;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,7 +30,8 @@ public class Post {
     private String content;
 
     @Column(name="POST_PUBLIC_SCOPE", nullable = false)
-    private String publicScope;
+    @Enumerated(EnumType.STRING)
+    private PublicScope publicScope;
 
     @Column(name="POST_CREATED_AT", nullable = false)
     private LocalDateTime createdAt;
@@ -41,11 +44,16 @@ public class Post {
     @ManyToOne(fetch = FetchType.LAZY)
     private UserBlog userBlog;
 
-    @Column(name ="MEDIA_POST_ID")
-    @OneToMany(mappedBy = "post")
-    private List<MediaPost> mediaPosts;
+//    mapping table 삭제로 필요 없어짐
+//    @Column(name ="MEDIA_POST_ID")
+//    @OneToMany(mappedBy = "post")
+//    private List<MediaPost> mediaPosts;
 //
     @OneToOne
     @JoinColumn(name = "POST_VIEW_ID")
     private PostView postView;
+
+    @Column(name = "TOPIC")
+    @Enumerated(EnumType.STRING)
+    private Topic topic;
 }
