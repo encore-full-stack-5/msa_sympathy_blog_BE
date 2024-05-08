@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.util.UUID;
 
 
 @Entity
@@ -19,18 +19,18 @@ import java.util.List;
 public class Neighbor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "NEIGHBOR_ID")
-    private Long id;
+    private UUID id;
 
     @Column(name = "TYPE")
     private String type;
 
     @Column(name = "REQUEST_ID")
-    private Long requestUserId;
+    private UUID requestUserId;
 
     @Column(name = "RESPONSE_ID")
-    private Long responseUserId;
+    private UUID responseUserId;
 
     @Column(name = "STATUS")
     private Boolean status;
