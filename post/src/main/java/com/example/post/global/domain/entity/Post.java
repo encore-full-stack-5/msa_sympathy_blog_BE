@@ -36,9 +36,8 @@ public class Post {
     @Column(name="POST_CREATED_AT", nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name="POST_CATEGORY_ID")
-    @OneToMany(mappedBy = "post")
-    private List<PostCategory> postCategories;
+    @JoinColumn(name = "CATEGORY_ID", nullable = false)
+    private Category category;
 
     @JoinColumn(name = "USER_BLOG_ID")
     @ManyToOne(fetch = FetchType.LAZY)

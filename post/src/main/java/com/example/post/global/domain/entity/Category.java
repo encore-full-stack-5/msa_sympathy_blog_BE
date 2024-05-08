@@ -24,8 +24,4 @@ public class Category {
     @Column(name="CATEGORY_NAME")
     private String categoryName;
 
-    @Column(name = "POST_CATEGORY_ID")
-    @OneToMany(mappedBy = "category")
-    private List<PostCategory> postCategories;
-
 }
