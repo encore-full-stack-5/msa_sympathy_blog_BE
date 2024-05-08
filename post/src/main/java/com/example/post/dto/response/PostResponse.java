@@ -1,13 +1,8 @@
 package com.example.post.dto.response;
 
-import com.example.post.global.domain.entity.MediaPost;
 import com.example.post.global.domain.entity.Post;
-import com.example.post.global.domain.type.PublicScope;
-import com.example.post.global.domain.type.Topic;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
 
 public record PostResponse(
 //        카테고리, 미디어 추가 예정
