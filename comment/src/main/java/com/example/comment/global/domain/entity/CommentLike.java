@@ -18,9 +18,10 @@ public class CommentLike {
     @Column(name = "LIKE_ID")
     private Long id;
     @Column(name = "IS_LIKED")
-    Boolean isLiked;
-    @Column(name = "POST_ID")
-    Long postId;
+    boolean isLiked;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "COMMENT_ID")
+    private Comment comment;
     @Column(name = "USER_ID")
     Long userId;
 

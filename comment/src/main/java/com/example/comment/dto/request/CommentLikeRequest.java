@@ -1,4 +1,4 @@
 package com.example.comment.dto.request;
 
-public record LikeRequest() {
+public record CommentLikeRequest() {
 }
