@@ -40,7 +40,7 @@ public class PostServiceImpl implements PostService{
 
 //    pageable이 뭘까?
     @Override
-    public Page<PostResponse> getPostByUserId(Pageable pageable, String userId) {
+    public Page<PostResponse> getPostsByUserId(Pageable pageable, String userId) {
         Page<Post> posts = postRepository.findAllByUserBlog_Id(pageable, userId);
         return posts.map(PostResponse::from);
     }
