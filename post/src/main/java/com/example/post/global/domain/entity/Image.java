@@ -11,19 +11,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @Builder
-@Table(name = "MEDIA_POSTS")
-public class MediaPost {
+@Table(name = "MEDIAS")
+public class Media {
 
     @Id
-    @Column(name = "MEDIA_POST_ID")
+    @Column(name = "MEDIA_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JoinColumn(name = "POST_ID")
-    @ManyToOne
-    private Post post;
-
-    @JoinColumn(name = "MEDIA_ID")
-    @ManyToOne
-    private Media media;
+    @Column(name = "PATH")
+    private String path;
 }

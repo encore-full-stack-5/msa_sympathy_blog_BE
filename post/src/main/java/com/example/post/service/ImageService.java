@@ -1,4 +1,4 @@
 package com.example.post.service;
 
-public class MediaPostServiceImpl {
+public interface MediaService {
 }
