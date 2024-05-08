@@ -16,6 +16,4 @@ public interface PostService {
 
     PostResponse getPostById(Long id);
     Page<PostResponse> getPostsByUserId(Pageable pageable, String userId);
-
-    PostView getViewByPostId(Long postId);
 }

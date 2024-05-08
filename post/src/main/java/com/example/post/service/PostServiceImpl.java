@@ -5,6 +5,7 @@ import com.example.post.dto.response.PostResponse;
 import com.example.post.global.domain.entity.Post;
 import com.example.post.global.domain.entity.PostView;
 import com.example.post.global.domain.repository.PostRepository;
+import com.example.post.global.domain.repository.PostViewRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,9 +18,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService{
     private final PostRepository postRepository;
+    private final PostViewRepository postViewRepository;
     @Override
     public void save(PostRequest postRequest) {
-        postRepository.save(postRequest.toEntity());
+        Post post = postRepository.save(postRequest.toEntity());
+        PostView postView = new PostView();
+        postView.setPost(post);
+        postView.setView(0);
+        postViewRepository.save(postView);
     }
 
     @Override
@@ -34,7 +40,7 @@ public class PostServiceImpl implements PostService{
 
     @Override
     public PostResponse getPostById(Long id) {
-        PostResponse post = PostResponse.from(postRepository.findById(id).orElse(null));
+        PostResponse post = PostResponse.from(postRepository.findById(id).orElseThrow(IllegalArgumentException::new));
         return post;
     }
 
@@ -43,10 +49,5 @@ public class PostServiceImpl implements PostService{
     public Page<PostResponse> getPostsByUserId(Pageable pageable, String userId) {
         Page<Post> posts = postRepository.findAllByUserBlog_Id(pageable, userId);
         return posts.map(PostResponse::from);
-    }
-
-    @Override
-    public PostView getViewByPostId(Long postId) {
-        return null;
     }
 }

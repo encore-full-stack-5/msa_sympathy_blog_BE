@@ -19,7 +19,7 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "POST_ID")
-    private UUID id;
+    private Long id;
 
     @Column(name="POST_TITLE", nullable = false) @Setter
     private String title;
