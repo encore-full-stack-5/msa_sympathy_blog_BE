@@ -33,11 +33,19 @@ public class Post {
     @Column(name="POST_CREATED_AT", nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name="USER_ID")
-    private Long userId;
-
     @Column(name="POST_CATEGORY_ID")
     @OneToMany(mappedBy = "post")
     private List<PostCategory> postCategories;
 
+    @JoinColumn(name = "USER_BLOG_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private UserBlog userBlog;
+
+    @Column(name ="MEDIA_POST_ID")
+    @OneToMany(mappedBy = "post")
+    private List<MediaPost> mediaPosts;
+//
+    @OneToOne
+    @JoinColumn(name = "POST_VIEW_ID")
+    private PostView postView;
 }

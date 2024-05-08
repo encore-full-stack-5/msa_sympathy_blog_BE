@@ -17,13 +17,13 @@ public class Today {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column( name = "TODAY_ID")
-    private int id;
+    private Long id;
     @Column( name = "COUNT")
     private int count;
     @Column( name = "DATE")
     private LocalDateTime date;
     @Column( name = "USER_ID")
-    private int userId;
+    private Long userId;
 
 
 }

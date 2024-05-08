@@ -6,14 +6,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.apache.catalina.User;
+
+import java.util.List;
+
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Builder
-@Table(name = "NEIGHBOR")
+@Table(name = "NEIGHBORS")
 public class Neighbor {
 
     @Id
@@ -24,15 +26,17 @@ public class Neighbor {
     @Column(name = "TYPE")
     private String type;
 
-    @JoinColumn(name = "USER_ID") // 이렇게 할 수 있나?
-    @ManyToOne
-    private User requestingUser; // 이웃 요청 하는 사람
+    @Column(name = "REQUEST_ID")
+    private Long requestUserId;
 
-    @JoinColumn(name = "USER_ID")   // // 이렇게 할 수 있나?
-    @ManyToOne
-    private User requestedUser; // 이웃 요청 받는 사람
+    @Column(name = "RESPONSE_ID")
+    private Long responseUserId;
 
     @Column(name = "STATUS")
     private Boolean status;
+
+    @ManyToOne
+    @JoinColumn(name = "USER_BLOG_ID")
+    private UserBlog userBlog;
 
 }

@@ -8,11 +8,5 @@ public record PostRequest(
         String content,
         Long userId
 ) {
-    public Post toEntity(TokenInfo tokenInfo) {
-        return Post.builder()
-                .title(title)
-                .content(content)
-                .userId(tokenInfo.id())
-                .build();
-    }
+
 }
