@@ -1,24 +1,27 @@
 package com.example.post.global.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Builder
-@Table(name = "MEDIAS")
-public class Media {
+@Table(name = "IMAGES")
+public class Image {
 
     @Id
-    @Column(name = "MEDIA_ID")
+    @Column(name = "IMAGE_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JoinColumn(name = "POST_ID")
+    @ManyToOne
+    private Long post_id;
+
     @Column(name = "PATH")
+    @Setter
     private String path;
+
 }
