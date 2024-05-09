@@ -26,6 +26,8 @@ public class Comment {
     private Long postId;
     @Column(name = "USER_ID")
     private Long userId;
+    @Column(name = "LikeCount")
+    private Integer likeCount;
 
 
 }

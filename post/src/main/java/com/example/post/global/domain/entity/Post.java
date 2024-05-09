@@ -46,7 +46,7 @@ public class Post {
     @Column(name ="MEDIA_POST_ID") @Setter
     @OneToMany(mappedBy = "post")
     private List<MediaPost> mediaPosts;
-
+  
     @OneToOne(mappedBy = "post", cascade = CascadeType.ALL) @Setter
     private PostView postView;
 }
