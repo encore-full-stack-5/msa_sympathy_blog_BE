@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,27 +20,37 @@ public class TodayServiceImpl implements TodayService{
     @Override
     public void save(TodayRequest request) {
 
-    Optional<Today> byUserBlogIdAndDate = todayRepository.findByUserBlogIdAndDate(UUID.fromString(request.userBlogId()), LocalDate.now());
+        List<Today> byUserBlogIdAndDate =
+                todayRepository.findByUserBlogIdAndDate(UUID.fromString(request.userBlogId()), request.date());
+        Today todayRecord;
+        if (byUserBlogIdAndDate
+                .isEmpty()) {
 
-    byUserBlogIdAndDate.orElseThrow(()->new IllegalArgumentException("오늘 날짜 해당 블로그 정보가 없습니다."));
+            todayRecord = request.toEntity();
 
-    int i = byUserBlogIdAndDate.get().getCount() + 1;
+            todayRepository.save(request.toEntity());
+        } else {
 
-    Today build = Today.builder().userBlogId(UUID.fromString(request.userBlogId())).count(i).build();
-
-    todayRepository.save(build);
-
-
+            todayRecord = byUserBlogIdAndDate
+                    .get(0);
+            todayRecord.setCount(todayRecord.getCount() + 1);
+        }
+        todayRepository.save(todayRecord);
     }
 
     @Override
     public int showCount(TodayRequest request) {
 
-        Optional<Today> byUserBlogIdAndDate = todayRepository.findByUserBlogIdAndDate(UUID.fromString(request.userBlogId()), LocalDate.now());
+        List<Today> byUserBlogIdAndDate = todayRepository.findByUserBlogIdAndDate(UUID.fromString(request.userBlogId()), LocalDate.now());
 
-        byUserBlogIdAndDate.orElseThrow(()->new IllegalArgumentException("오늘 날짜 해당 블로그 정보가 없습니다."));
+        if(byUserBlogIdAndDate.isEmpty()){
+            throw new IllegalArgumentException("데이터가 없습니다.");
+        }
+        int count=0;
+        for(Today aa : byUserBlogIdAndDate){
 
-        int count = byUserBlogIdAndDate.get().getCount();
+            count = aa.getCount();
+        }
 
         return count;
     }

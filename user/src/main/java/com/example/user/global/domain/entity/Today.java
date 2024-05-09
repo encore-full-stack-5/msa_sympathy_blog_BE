@@ -1,10 +1,7 @@
 package com.example.user.global.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -19,7 +16,7 @@ public class Today {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column( name = "TODAY_ID")
     private UUID id;
-    @Column( name = "COUNT")
+    @Column( name = "COUNT")@Setter
     private int count;
     @Column( name = "DATE")
     private LocalDate date;
