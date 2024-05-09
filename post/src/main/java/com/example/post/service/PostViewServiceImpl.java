@@ -15,11 +15,13 @@ public class PostViewServiceImpl implements PostViewService {
     public PostView update(PostViewRequest req, Long id) {
         PostView postView = postViewRepository.findById(id).orElseThrow(IllegalArgumentException::new);
         postView.setView(postView.getView()+1);
+        postViewRepository.save(postView);
         return postView;
     }
 
-    @Override
     public Integer getPostViewByPostId(Long postId) {
-        return postViewRepository.findPostViewByPostId(postId);
+        PostView postView = postViewRepository.findPostViewByPostId(postId);
+        return postView != null ? postView.getView() : 0;
     }
+
 }

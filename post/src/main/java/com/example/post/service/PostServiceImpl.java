@@ -22,11 +22,16 @@ public class PostServiceImpl implements PostService{
     private final PostViewRepository postViewRepository;
     @Override
     public void save(PostRequest postRequest) {
-        Post post = postRepository.save(postRequest.toEntity());
-        PostView postView = new PostView();
-        postView.setPost(post);
-        postView.setView(0);
+        PostView postView = PostView.builder()
+                .post(postRequest.toEntity()).build();
         postViewRepository.save(postView);
+        postRequest.toEntity().setPostView(postView);
+        postView.setView(0);
+        postRepository.save(postRequest.toEntity());
+//        PostView postView = new PostView();
+//        postView.setPost(post);
+//        postView.setView(0);
+//        postViewRepository.save(postView);
     }
 
     @Override
@@ -36,6 +41,7 @@ public class PostServiceImpl implements PostService{
         post.setContent(req.content());
         post.setTitle(req.title());
         post.setMediaPosts(req.toEntity().getMediaPosts());
+        postRepository.save(post);
         return post;
     }
 

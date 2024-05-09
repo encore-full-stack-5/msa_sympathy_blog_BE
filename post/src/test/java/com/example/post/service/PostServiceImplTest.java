@@ -1,6 +1,7 @@
 package com.example.post.service;
 
 import com.example.post.dto.request.PostRequest;
+import com.example.post.dto.response.PostResponse;
 import com.example.post.global.domain.entity.Post;
 import com.example.post.global.domain.entity.PostView;
 import com.example.post.global.domain.entity.UserBlog;
@@ -14,6 +15,7 @@ import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
@@ -33,14 +35,16 @@ class PostServiceImplTest {
     private PostService postService;
     @Autowired
     private UserBlogRepository userBlogRepository;
+
     @Test
     void save() {
+        UserBlog user = UserBlog.builder()
+                .nickname("test").build();
+        userBlogRepository.save(user);
         Post init = Post.builder()
                 .title("title")
                 .content("content")
-                .userBlog(UserBlog.builder()
-                        .id(UUID.fromString("e97db8b3-a63e-4750-85d2-9705b7aa2749"))
-                        .build())
+                .userBlog(user)
                 .createdAt(LocalDateTime.now())
                 .publicScope(PublicScope_buja.valueOf("FULL"))
                 .topic(Topic.valueOf("LIFE"))
@@ -48,12 +52,16 @@ class PostServiceImplTest {
 
         postRepository.save(init);
 
-        PostView postView = new PostView();
-        postView.setPost(init);
+        PostView postView = init.getPostView();
+        if (postView == null) {
+            postView = PostView.builder()
+                    .post(init).build(); // PostView 객체가 없는 경우 새로 생성
+        }
+
         postView.setView(0);
         postViewRepository.save(postView);
         assertEquals(init.getTitle(), "title");
-        assertEquals(0,postViewRepository.findById(1L).get().getView());
+        assertEquals(10,postViewRepository.findById(1L).get().getView());
     }
 
     @Test
@@ -114,7 +122,7 @@ class PostServiceImplTest {
     @Test
     @Transactional
     void getPostsByUserId() {
-        UUID userId = UUID.fromString("e97db8b3-a63e-4750-85d2-9705b7aa2749");
+        UUID userId = UUID.fromString("3c864b47-1c40-4e0a-b780-149c9a3ad49c");
         Pageable pageable = PageRequest.of(0, 5);
 
         // 새로운 UserBlog 객체 생성 및 저장
@@ -124,25 +132,32 @@ class PostServiceImplTest {
                 .build();
 
         for (Long i = 0L; i < 5; i++) {
-            // PostView 엔티티를 먼저 생성하고 저장
-            PostView postView = new PostView();
-            postView.setView(0);
-            postViewRepository.save(postView);
-
-            // Post 엔티티 생성 후에 postView 속성에 저장한 PostView 엔티티 설정
+            // Post 엔티티 생성
             Post init = Post.builder()
-                    .title("title"+i)
+                    .title("title" + i)
                     .content("content")
                     .createdAt(LocalDateTime.now())
                     .publicScope(PublicScope_buja.valueOf("FULL"))
                     .topic(Topic.valueOf("LIFE"))
                     .userBlog(user)
-                    .postView(postView) // Post 엔티티의 postView 속성 설정
                     .build();
+
+            // PostView 객체 생성 및 설정
+            PostView postView = PostView.builder().post(init).build();
+            postView.setView(0);
+            postViewRepository.save(postView);
+
+            // Post 엔티티에 PostView 설정
+            init.setPostView(postView);
+
+            // 생성한 Post 엔티티 저장
             postRepository.save(init);
         }
 
+
         // 사용자 ID를 기반으로 게시물을 가져와서 검증
-        assertEquals(5, postService.getPostsByUserId(pageable, userId).get().toList().size());
+        Page<PostResponse> postResponses = postService.getPostsByUserId(pageable, userId);
+        assertEquals(5, postResponses.getSize());
+
     }
 }

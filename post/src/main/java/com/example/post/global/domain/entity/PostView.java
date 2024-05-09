@@ -17,6 +17,8 @@ public class PostView {
     private Integer view;
 
     @OneToOne
-    @PrimaryKeyJoinColumn(name = "POST_ID") @Setter
+    @JoinColumn(name = "POST_ID")
+    @Setter
     private Post post;
+
 }

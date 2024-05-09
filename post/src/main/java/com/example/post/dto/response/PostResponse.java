@@ -13,15 +13,20 @@ public record PostResponse(
 //        , List<MediaPost> mediaPosts
 ) {
     public static PostResponse from(Post post) {
-        return new PostResponse(post.getId().toString(),
+        Integer view = null;
+        if (post.getPostView() != null) {
+            view = post.getPostView().getView();
+        }
+        return new PostResponse(
+                post.getId().toString(),
                 post.getTitle(),
                 post.getContent(),
                 post.getUserBlog().getId().toString(),
                 post.getCreatedAt(),
                 post.getTopic().name(),
                 post.getPublicScope().name(),
-                post.getPostView().getView()
-                );
+                view
+        );
     }
 
 }
