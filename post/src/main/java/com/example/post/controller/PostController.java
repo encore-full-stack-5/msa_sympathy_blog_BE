@@ -32,7 +32,7 @@ public class PostController {
         return postService.getPostById(id);
     }
     @GetMapping("/user/{userId}")
-    public Page<PostResponse> getPostsByUserId(@PathVariable String userId,
+    public Page<PostResponse> getPostsByUserId(@PathVariable UUID userId,
                                                @PageableDefault(
                                                        page = 0,
                                                        size=5,

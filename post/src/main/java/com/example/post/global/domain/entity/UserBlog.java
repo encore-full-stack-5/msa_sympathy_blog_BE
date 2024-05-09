@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,9 +18,10 @@ import java.util.UUID;
 @Builder
 public class UserBlog {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "USER_ID")
+    @GeneratedValue
+    @Column(name = "USER_ID", columnDefinition = "BINARY(16)")
     private UUID id;
+
     @Column(name="USER_NICKNAME", nullable = false)
     private String nickname;
     @OneToMany(mappedBy = "userBlog")

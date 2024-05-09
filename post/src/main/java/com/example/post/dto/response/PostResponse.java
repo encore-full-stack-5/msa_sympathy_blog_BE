@@ -9,7 +9,7 @@ public record PostResponse(
 //        댓글, 공감 어떻게 리스폰스 받을 건지 고민 됨
         String id, String title, String content, String userId,
         LocalDateTime createdAt, String topic, String publicScope,
-        String nickname, Integer view
+        Integer view
 //        , List<MediaPost> mediaPosts
 ) {
     public static PostResponse from(Post post) {
@@ -20,7 +20,6 @@ public record PostResponse(
                 post.getCreatedAt(),
                 post.getTopic().name(),
                 post.getPublicScope().name(),
-                post.getUserBlog().getNickname(),
                 post.getPostView().getView()
                 );
     }

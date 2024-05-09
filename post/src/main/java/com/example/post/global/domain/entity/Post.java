@@ -7,7 +7,6 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name= "POSTS")
@@ -40,7 +39,7 @@ public class Post {
     @OneToMany(mappedBy = "post")
     private List<PostCategory> postCategories;
 
-    @JoinColumn(name = "USER_BLOG_ID")
+    @JoinColumn(name = "USER_ID")
     @ManyToOne(fetch = FetchType.LAZY)
     private UserBlog userBlog;
 

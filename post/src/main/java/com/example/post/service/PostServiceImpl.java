@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -40,13 +41,13 @@ public class PostServiceImpl implements PostService{
 
     @Override
     public PostResponse getPostById(Long id) {
-        PostResponse post = PostResponse.from(postRepository.findById(id).orElseThrow(IllegalArgumentException::new));
+        PostResponse post = PostResponse.from(postRepository.findById(id).orElseThrow(EntityNotFoundException::new));
         return post;
     }
 
 //    pageable이 뭘까?
     @Override
-    public Page<PostResponse> getPostsByUserId(Pageable pageable, String userId) {
+    public Page<PostResponse> getPostsByUserId(Pageable pageable, UUID userId) {
         Page<Post> posts = postRepository.findAllByUserBlog_Id(pageable, userId);
         return posts.map(PostResponse::from);
     }
