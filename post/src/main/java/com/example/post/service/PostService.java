@@ -7,6 +7,8 @@ import com.example.post.global.domain.entity.PostView;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.UUID;
+
 public interface PostService {
 //    글 쓰기, 삭제, 수정, 
 //    글 하나씩 보기, 작성한 글 전체(목록) 보기
@@ -15,7 +17,5 @@ public interface PostService {
     Post update(PostRequest req, Long id);
 
     PostResponse getPostById(Long id);
-    Page<PostResponse> getPostsByUserId(Pageable pageable, String userId);
-
-    PostView getViewByPostId(Long postId);
+    Page<PostResponse> getPostsByUserId(Pageable pageable, UUID userId);
 }

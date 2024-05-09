@@ -6,7 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface PostRepository extends JpaRepository<Post,Long> {
+import java.util.UUID;
 
-    Page<Post> findAllByUserBlog_Id(Pageable pageable, String userId);
+public interface PostRepository extends JpaRepository<Post, Long> {
+    Page<Post> findAllByUserBlog_Id(Pageable pageable, UUID userId);
 }
