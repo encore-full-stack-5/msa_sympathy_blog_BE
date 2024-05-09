@@ -3,6 +3,7 @@ package com.example.post.controller;
 import com.example.post.dto.request.PostRequest;
 import com.example.post.dto.response.PostResponse;
 import com.example.post.service.PostService;
+import com.example.post.service.PostViewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +32,7 @@ public class PostController {
         return postService.getPostById(id);
     }
     @GetMapping("/user/{userId}")
-    public Page<PostResponse> getPostsByUserId(@PathVariable String userId,
+    public Page<PostResponse> getPostsByUserId(@PathVariable UUID userId,
                                                @PageableDefault(
                                                        page = 0,
                                                        size=5,
@@ -40,5 +41,4 @@ public class PostController {
                                                ) Pageable pageable) {
         return postService.getPostsByUserId(pageable,userId);
     }
-
 }

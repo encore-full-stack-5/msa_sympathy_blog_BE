@@ -7,7 +7,6 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name= "POSTS")
@@ -19,7 +18,7 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "POST_ID")
-    private UUID id;
+    private Long id;
 
     @Column(name="POST_TITLE", nullable = false) @Setter
     private String title;
@@ -40,15 +39,14 @@ public class Post {
     @OneToMany(mappedBy = "post")
     private List<PostCategory> postCategories;
 
-    @JoinColumn(name = "USER_BLOG_ID")
+    @JoinColumn(name = "USER_ID")
     @ManyToOne(fetch = FetchType.LAZY)
     private UserBlog userBlog;
 
     @Column(name ="MEDIA_POST_ID") @Setter
     @OneToMany(mappedBy = "post")
     private List<MediaPost> mediaPosts;
-//
-    @OneToOne
-    @JoinColumn(name = "POST_VIEW_ID") @Setter
+  
+    @OneToOne(mappedBy = "post", cascade = CascadeType.ALL) @Setter
     private PostView postView;
 }
