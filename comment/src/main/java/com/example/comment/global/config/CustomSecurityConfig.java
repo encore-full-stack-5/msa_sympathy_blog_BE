@@ -9,9 +9,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-
-import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
@@ -21,13 +18,7 @@ public class CustomSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
-        http.cors(c->c.configurationSource(request -> {
-                CorsConfiguration corsConfiguration = new CorsConfiguration();
-                corsConfiguration.addAllowedHeader("*");
-                corsConfiguration.setAllowedMethods(List.of("GET","POST","PUT", "DELETE","OPTION"));
-                corsConfiguration.setAllowedOrigins(List.of("*"));
-                return corsConfiguration;
-        }));
+
         http.userDetailsService(authService);
 
         http.authorizeRequests(req ->

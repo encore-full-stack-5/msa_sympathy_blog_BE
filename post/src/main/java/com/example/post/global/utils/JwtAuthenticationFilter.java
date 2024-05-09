@@ -1,5 +1,6 @@
 package com.example.post.global.utils;
 
+import com.example.post.global.utils.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,7 +17,7 @@ import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
-public abstract class JwtAuthenticationFilter extends OncePerRequestFilter {
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final UserDetailsService authService;
 

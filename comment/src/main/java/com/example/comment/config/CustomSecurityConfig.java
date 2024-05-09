@@ -1,4 +1,4 @@
-package com.example.user.global.config;
+package com.example.comment.config;
 
 import com.example.post.global.utils.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;

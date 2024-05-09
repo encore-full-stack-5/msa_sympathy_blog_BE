@@ -14,9 +14,9 @@ spring:
   application:
     name: post
 
-token:
+jwt:
   secret: ssssssssssssssssssssssssssmmmmmmmmmmmmmmm
-  expiration: 600000
+  expiration: 25920000
 
 eureka:
   client:
@@ -27,3 +27,8 @@ eureka:
     instance-id: ${spring.application.name}:${random.uui}
 server:
   port: 8081
+
+logging:
+  level:
+    org.springframework.security: trace
+    com.example.auth: info
