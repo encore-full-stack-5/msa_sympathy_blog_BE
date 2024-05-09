@@ -1,7 +1,7 @@
 package com.example.user.service;
 
 
-public class TodayService {
+public class TodayServiceImpl {
     void save() {
         
     }
