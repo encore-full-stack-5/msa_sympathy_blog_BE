@@ -1,10 +1,9 @@
 package com.example.post.global.domain.entity;
 
+import com.example.post.global.domain.type.PublicScope_buja;
+import com.example.post.global.domain.type.Topic;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,14 +20,17 @@ public class Post {
     @Column(name = "POST_ID")
     private Long id;
 
-    @Column(name="POST_TITLE", nullable = false)
+    @Column(name="POST_TITLE", nullable = false) @Setter
     private String title;
 
-    @Column(name="POST_CONTENT", nullable = false)
+    @Column(name="POST_CONTENT", nullable = false) @Setter
     private String content;
 
-    @Column(name="POST_PUBLIC_SCOPE", nullable = false)
-    private String publicScope;
+    @Column(name="POST_PUBLIC_SCOPE", nullable = false) @Setter
+    private PublicScope_buja publicScope;
+
+    @Column(name="POST_TOPIC", nullable = false) @Setter
+    private Topic topic;
 
     @Column(name="POST_CREATED_AT", nullable = false)
     private LocalDateTime createdAt;
@@ -37,15 +39,14 @@ public class Post {
     @OneToMany(mappedBy = "post")
     private List<PostCategory> postCategories;
 
-    @JoinColumn(name = "USER_BLOG_ID")
+    @JoinColumn(name = "USER_ID")
     @ManyToOne(fetch = FetchType.LAZY)
     private UserBlog userBlog;
 
-    @Column(name ="MEDIA_POST_ID")
+    @Column(name ="MEDIA_POST_ID") @Setter
     @OneToMany(mappedBy = "post")
     private List<MediaPost> mediaPosts;
 
-    @OneToOne
-    @JoinColumn(name = "POST_VIEW_ID")
+    @OneToOne(mappedBy = "post", cascade = CascadeType.ALL) @Setter
     private PostView postView;
 }
