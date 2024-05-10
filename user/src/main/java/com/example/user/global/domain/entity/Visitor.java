@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table(name = "VISITORS")
@@ -18,12 +19,12 @@ import java.time.LocalDateTime;
 public class Visitor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "VISITOR_ID")
-    private Long id;
+    private UUID id;
     @Column(name = "VISITORS_CREATEDAT")
     private LocalDateTime createdAt;
     @Column(name = "VISITOR_USERID")
-    private Long userId;
+    private UUID userId;
 
 }

@@ -15,7 +15,7 @@ public class NeighborServiceImpl implements NeighborService {
 
     //이웃추가
     @Override
-    public void neighborAdd(NeighborRequest request){
+    public void addNeighbor(NeighborRequest request){
         //
         Optional<Neighbor> neighbor = neighborRepository.findByType(request.type());
         if(neighbor.isPresent()){
@@ -29,9 +29,9 @@ public class NeighborServiceImpl implements NeighborService {
     //이웃삭제
     @Override
     public void deleteNeighbor(NeighborRequest request) {
-        Optional<Neighbor> neighbor1 = neighborRepository.findByType(request.type());
-        if (neighbor1.isPresent()) {
-            neighborRepository.delete(neighbor1.get());
+        Optional<Neighbor> neighbor = neighborRepository.findByType(request.type());
+        if (neighbor.isPresent()) {
+            neighborRepository.delete(neighbor.get());
         } else {
             throw new IllegalArgumentException("이웃이 아닙니다");
         }
@@ -43,7 +43,7 @@ public class NeighborServiceImpl implements NeighborService {
         public void acceptNeighborRequest(NeighborRequest request){
             Long requestUserId = request.toEntity().getRequestUserId();
             Long responseUserId = request.toEntity().getResponseUserId();
-           Optional<Neighbor> neighbor2 = neighborRepository.findByResponseUserIdAndAndRequestUserId(requestUserId,responseUserId);
+           Optional<Neighbor> neighbor2 = neighborRepository.findByResponseUserIdAndRequestUserId(requestUserId,responseUserId);
            if(neighbor2.isPresent()){
                Neighbor acceptedNeighbor = request.toEntity();
                acceptedNeighbor.builder()
@@ -64,7 +64,7 @@ public class NeighborServiceImpl implements NeighborService {
         public void rejectNeighborRequest(NeighborRequest request){
                     Long requestUserId = request.toEntity().getRequestUserId();
                     Long responseUserId = request.toEntity().getResponseUserId();
-                    Optional<Neighbor> neighbor3 = neighborRepository.findByResponseUserIdAndAndRequestUserId(requestUserId,responseUserId);
+                    Optional<Neighbor> neighbor3 = neighborRepository.findByResponseUserIdAndRequestUserId(requestUserId,responseUserId);
                     if(neighbor3.isPresent()){
                         Neighbor rejectedNeighbor = Neighbor.builder()
                                 .requestUserId(requestUserId)

@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface NeighborService {
     void addNeighbor(NeighborRequest request);
-    void removeNeighbor(NeighborRequest request);
+    void deleteNeighbor(NeighborRequest request);
 
     void acceptNeighborRequest (NeighborRequest request);
     void rejectNeighborRequest (NeighborRequest request);

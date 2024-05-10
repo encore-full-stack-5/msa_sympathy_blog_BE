@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/neighbor")
 public class NeighborController {
-    private final NeighborService neighborService;
+//    private final NeighborService neighborService;
 //    //이웃추가
 //    @PostMapping("")
 //    //이웃삭제

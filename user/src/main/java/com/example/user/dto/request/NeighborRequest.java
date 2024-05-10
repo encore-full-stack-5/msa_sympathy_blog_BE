@@ -1,6 +1,7 @@
 package com.example.user.dto.request;
 
 import com.example.user.global.domain.entity.Neighbor;
+import com.example.user.global.domain.entity.UserBlog;
 
 import java.util.UUID;
 
@@ -12,10 +13,11 @@ public record NeighborRequest(
 
 
 {
+
     public Neighbor toEntity(){
         return Neighbor.builder()
-                .userBlog(UUID.fromString(userBlogId))
-                .type(null)
+                .type(type)
+                .userBlog(UserBlog.builder().id(UUID.fromString(userBlogId)).build())
                 .status(status)
                 .build();
     }

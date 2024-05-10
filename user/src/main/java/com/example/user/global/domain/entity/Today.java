@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @AllArgsConstructor
@@ -15,15 +16,15 @@ import java.time.LocalDateTime;
 @Table( name = "TODAY")
 public class Today {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column( name = "TODAY_ID")
-    private Long id;
+    private UUID id;
     @Column( name = "COUNT")
     private int count;
     @Column( name = "DATE")
     private LocalDateTime date;
     @Column( name = "USER_ID")
-    private Long userId;
+    private UUID userId;
 
 
 }
