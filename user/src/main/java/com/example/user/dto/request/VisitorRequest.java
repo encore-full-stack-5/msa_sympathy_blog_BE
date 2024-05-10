@@ -8,15 +8,13 @@ import java.util.UUID;
 
 public record VisitorRequest(
 
-        String userBlogId,
-        LocalDate localDate
+        String userBlogId
 
 ) {
     public Visitor toEntity(){
 
         return Visitor.builder()
                 .userBlogId(UUID.fromString(userBlogId))
-                .date(localDate)
                 .build();
     }
 

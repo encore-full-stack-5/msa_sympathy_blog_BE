@@ -10,8 +10,12 @@ import java.util.UUID;
 public interface NeighborRepository extends JpaRepository<Neighbor, UUID> {
 
 
-    Optional<Neighbor> findByResponseUserIdAndRequestUserId(UUID responseUserId, UUID requestUserId);
+    Optional<Neighbor> findByUserBlog_IdAndRequestUserBlogId(UUID userBlogId, UUID requestUserId);
+    List<Neighbor> findByUserBlog_Id(UUID requestUserId);
     Optional<Neighbor>findByType(String type);
-   Optional<Neighbor>findByStatus(Boolean status);
+    Optional<Neighbor>findByStatus(Boolean status);
+
+
+
 
 }

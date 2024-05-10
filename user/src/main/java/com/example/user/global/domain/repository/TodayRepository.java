@@ -15,7 +15,7 @@ public interface TodayRepository extends CrudRepository<Today, UUID> {
 
     Optional<Today> findByDate(LocalDate date);
 
-    Optional<Today> findByUserBlogId(UUID userBlogId);
+    List<Today> findByUserBlogId(UUID userBlogId);
 
 
 }
