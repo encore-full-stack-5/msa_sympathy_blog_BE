@@ -5,7 +5,7 @@ import com.example.post.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/api/v1/images")
+@RequestMapping("/api/v1/{post_id}/images")
 @RestController
 @RequiredArgsConstructor
 public class ImageController {
