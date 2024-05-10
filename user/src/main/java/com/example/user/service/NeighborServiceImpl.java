@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -41,8 +42,8 @@ public class NeighborServiceImpl implements NeighborService {
     //이웃수락
         @Override
         public void acceptNeighborRequest(NeighborRequest request){
-            Long requestUserId = request.toEntity().getRequestUserId();
-            Long responseUserId = request.toEntity().getResponseUserId();
+            UUID requestUserId = request.toEntity().getRequestUserId();
+            UUID responseUserId = request.toEntity().getResponseUserId();
            Optional<Neighbor> neighbor2 = neighborRepository.findByResponseUserIdAndRequestUserId(requestUserId,responseUserId);
            if(neighbor2.isPresent()){
                Neighbor acceptedNeighbor = request.toEntity();
@@ -62,8 +63,8 @@ public class NeighborServiceImpl implements NeighborService {
         //이웃거절
         @Override
         public void rejectNeighborRequest(NeighborRequest request){
-                    Long requestUserId = request.toEntity().getRequestUserId();
-                    Long responseUserId = request.toEntity().getResponseUserId();
+                    UUID requestUserId = request.toEntity().getRequestUserId();
+                    UUID responseUserId = request.toEntity().getResponseUserId();
                     Optional<Neighbor> neighbor3 = neighborRepository.findByResponseUserIdAndRequestUserId(requestUserId,responseUserId);
                     if(neighbor3.isPresent()){
                         Neighbor rejectedNeighbor = Neighbor.builder()

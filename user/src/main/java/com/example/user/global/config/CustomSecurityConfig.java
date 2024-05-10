@@ -1,6 +1,6 @@
 package com.example.user.global.config;
 
-import com.example.post.global.utils.JwtAuthenticationFilter;
+import com.example.user.global.utils.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
