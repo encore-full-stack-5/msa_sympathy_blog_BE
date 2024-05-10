@@ -8,6 +8,7 @@ import com.example.post.global.domain.entity.UserBlog;
 import com.example.post.global.domain.repository.PostRepository;
 import com.example.post.global.domain.repository.PostViewRepository;
 import com.example.post.global.domain.repository.UserBlogRepository;
+import com.example.post.global.domain.type.PublicScope;
 import com.example.post.global.domain.type.PublicScope_buja;
 import com.example.post.global.domain.type.Topic;
 import jakarta.persistence.EntityNotFoundException;
@@ -46,7 +47,7 @@ class PostServiceImplTest {
                 .content("content")
                 .userBlog(user)
                 .createdAt(LocalDateTime.now())
-                .publicScope(PublicScope_buja.valueOf("FULL"))
+                .publicScope(PublicScope.ALL)
                 .topic(Topic.valueOf("LIFE"))
                 .build();
 
@@ -70,7 +71,7 @@ class PostServiceImplTest {
                 .title("title")
                 .content("content")
                 .createdAt(LocalDateTime.now())
-                .publicScope(PublicScope_buja.valueOf("FULL"))
+                .publicScope(PublicScope.ALL)
                 .topic(Topic.valueOf("LIFE"))
                 .build();
         postRepository.save(init);
@@ -87,7 +88,7 @@ class PostServiceImplTest {
                 .title("title")
                 .content("content")
                 .createdAt(LocalDateTime.now())
-                .publicScope(PublicScope_buja.valueOf("FULL"))
+                .publicScope(PublicScope.ALL)
                 .topic(Topic.valueOf("LIFE"))
                 .build();
         postRepository.save(init);
@@ -110,7 +111,7 @@ class PostServiceImplTest {
                 .title("title")
                 .content("content")
                 .createdAt(LocalDateTime.now())
-                .publicScope(PublicScope_buja.valueOf("FULL"))
+                .publicScope(PublicScope.ALL)
                 .topic(Topic.valueOf("LIFE"))
                 .build();
         postRepository.save(init);
@@ -137,7 +138,7 @@ class PostServiceImplTest {
                     .title("title" + i)
                     .content("content")
                     .createdAt(LocalDateTime.now())
-                    .publicScope(PublicScope_buja.valueOf("FULL"))
+                    .publicScope(PublicScope.ALL)
                     .topic(Topic.valueOf("LIFE"))
                     .userBlog(user)
                     .build();

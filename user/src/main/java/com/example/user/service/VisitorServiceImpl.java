@@ -1,4 +1,4 @@
 package com.example.user.service;
 
-public class UserBlogImpl {
+public class VisitorServiceImpl {
 }

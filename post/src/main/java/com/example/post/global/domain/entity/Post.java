@@ -51,9 +51,7 @@ public class Post {
 //    @OneToMany(mappedBy = "post")
 //    private List<MediaPost> mediaPosts;
 //
-    @OneToOne
-    @JoinColumn(name = "POST_VIEW_ID")
-
+    @OneToOne(mappedBy = "post", cascade = CascadeType.ALL) @Setter
     private PostView postView;
 
     @Column(name="POST_TOPIC", nullable = false) @Setter
