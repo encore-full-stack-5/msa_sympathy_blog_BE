@@ -3,26 +3,25 @@ package com.example.post.global.domain.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-
 @Entity
-@Table(name="CATEGORY")
-@Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 @Builder
-public class Category {
+@Table(name = "IMAGES")
+public class Image {
 
     @Id
+    @Column(name = "IMAGE_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name ="CATEGORY_ID")
     private Long id;
 
-    @Column(name="CATEGORY_NAME")
-    @Setter
-    private String categoryName;
-
-    @JoinColumn(name = "USER_ID")
+    @JoinColumn(name = "POST_ID")
     @ManyToOne
-    private UserBlog userBlog;
+    private Long post_id;
+
+    @Column(name = "PATH", nullable = false)
+    @Setter
+    private String path;
 
 }
