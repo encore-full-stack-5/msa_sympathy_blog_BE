@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -22,9 +22,9 @@ public class Today {
     @Column( name = "COUNT")
     private int count;
     @Column( name = "DATE")
-    private LocalDateTime date;
-    @Column( name = "USER_ID")
-    private UUID userId;
+    private LocalDate date;
+    @Column( name = "USER_Blog_ID")
+    private UUID userBlogId;
 
 
 }

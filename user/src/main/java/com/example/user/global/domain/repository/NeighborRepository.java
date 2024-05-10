@@ -13,4 +13,5 @@ public interface NeighborRepository extends JpaRepository<Neighbor, Long> {
     Optional<Neighbor> findByResponseUserIdAndRequestUserId(Long responseUserId, Long requestUserId);
     Optional<Neighbor>findByType(String type);
    Optional<Neighbor>findByStatus(Boolean status);
+
 }

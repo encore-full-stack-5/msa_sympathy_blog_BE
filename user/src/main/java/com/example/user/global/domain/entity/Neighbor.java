@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 import java.util.UUID;
 
 
@@ -28,10 +26,10 @@ public class Neighbor {
     private String type;
 
     @Column(name = "REQUEST_ID")
-    private Long requestUserId;
+    private UUID requestUserId;
 
     @Column(name = "RESPONSE_ID")
-    private Long responseUserId;
+    private UUID responseUserId;
 
     @Column(name = "STATUS")
     private Boolean status;

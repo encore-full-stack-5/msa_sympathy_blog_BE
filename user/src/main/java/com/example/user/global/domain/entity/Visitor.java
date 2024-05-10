@@ -20,7 +20,7 @@ public class Visitor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "VISITOR_ID")
+    @Column(name = "VISITOR_ID, columnDefinition = BINARY(16)")
     private UUID id;
     @Column(name = "VISITORS_CREATEDAT")
     private LocalDateTime createdAt;

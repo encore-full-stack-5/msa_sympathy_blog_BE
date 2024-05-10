@@ -15,7 +15,21 @@ spring:
   application:
     name: user
 
-token:
+jwt:
   secret: ssssssssssssssssssssssssssmmmmmmmmmmmmmmm
   expiration: 600000
 
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${random.uui}
+server:
+  port: 8080
+
+logging:
+  level:
+    org.springframework.security: trace
+    com.example.auth: info

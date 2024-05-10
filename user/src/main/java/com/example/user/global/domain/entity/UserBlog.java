@@ -24,7 +24,7 @@ public class UserBlog {
     private String blogName;
 
     @Column(name="POST_ID")
-    private Long postId;
+    private UUID postId;
 
     @Column(name="NEIGHBOR_ID")
     @OneToMany(mappedBy = "userBlog")
