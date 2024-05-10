@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -20,11 +21,13 @@ public class Visitor {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "VISITOR_ID, columnDefinition = BINARY(16)")
+    @Column(name = "VISITOR_ID")
     private UUID id;
-    @Column(name = "VISITORS_CREATEDAT")
-    private LocalDateTime createdAt;
-    @Column(name = "VISITOR_USERID")
-    private UUID userId;
+    @Column(name = "USER_Blog_ID")
+    private UUID userBlogId;
+    @Column( name = "VISITOR_COUNT")
+    private int count;
+    @Column( name = "VISITOR_DATE")
+    private LocalDate date;
 
 }
