@@ -17,5 +17,4 @@ public interface TodayRepository extends CrudRepository<Today, UUID> {
     Optional<Today> findByUserBlogId(UUID userBlogId);
 
 
-
 }
