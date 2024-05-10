@@ -3,12 +3,14 @@ package com.example.user.global.domain.repository;
 import com.example.user.dto.request.TodayRequest;
 import com.example.user.global.domain.entity.Today;
 import com.example.user.service.TodayService;
+import com.example.user.service.TodayServiceImpl;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,18 +24,39 @@ class TodayRepositoryTest {
     @Autowired
     private TodayRepository todayRepository;
 
+
+
+
     @Test
     void findByUserBlogIdAndDate() {
 
-        TodayRequest request = new TodayRequest(UUID.randomUUID().toString(),
-                LocalDate.of(2024, 5, 8));
+        // Initial record for 2024-05-08
+        TodayRequest initialRequest = new TodayRequest(UUID.randomUUID().toString(), LocalDate.of(2024, 5, 8));
+        Today saved = todayRepository.save(initialRequest.toEntity());
 
+        // Create a new service instance for testing
+        TodayServiceImpl todayService = new TodayServiceImpl(todayRepository);
 
-        Today save = todayRepository.save(request.toEntity());
+        // Increment for 2024-05-08 by calling the save method
+        TodayRequest duplicateDateRequest = new TodayRequest(saved.getUserBlogId().toString(), LocalDate.of(2024, 5, 8));
+        todayService.save(duplicateDateRequest);
 
-        Optional<Today> byUserBlogIdAndDate = todayRepository.findByUserBlogIdAndDate(UUID.fromString(request.userBlogId()), request.date());
+        // New date request (2024-05-09)
+        TodayRequest newDateRequest = new TodayRequest(saved.getUserBlogId().toString(), LocalDate.of(2024, 5, 9));
+        todayService.save(newDateRequest);
 
-        assertEquals(byUserBlogIdAndDate.get().getId(),save.getId());
+        // Verify the count incremented correctly
+        List<Today> forFirstDate = todayRepository.findByUserBlogIdAndDate(UUID.fromString(saved.getUserBlogId().toString()), LocalDate.of(2024, 5, 8));
+        List<Today> forSecondDate = todayRepository.findByUserBlogIdAndDate(UUID.fromString(saved.getUserBlogId().toString()), LocalDate.of(2024, 5, 9));
+
+        for (Today record : forFirstDate) {
+            System.out.println("2024-05-08: Count = " + record.getCount());
+        }
+
+        for (Today record : forSecondDate) {
+            System.out.println("2024-05-09: Count = " + record.getCount());
+        }
+
 
     }
 

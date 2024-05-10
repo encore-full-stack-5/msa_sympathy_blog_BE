@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
@@ -20,8 +21,9 @@ class NeighborRepositoryTest {
     @Test
     void findByResponseUserIdAndRequestUserId() {
         //given
-        Long responseUserId = 1L;
-        Long requestUserId = 2L;
+        UUID responseUserId = UUID.randomUUID();
+
+        UUID requestUserId = UUID.randomUUID();
         //when
         Optional<Neighbor> neighbor = neighborRepository.findByResponseUserIdAndRequestUserId(responseUserId,requestUserId);
         //then
