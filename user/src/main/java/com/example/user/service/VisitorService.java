@@ -8,5 +8,5 @@ import java.util.List;
 public interface VisitorService {
 
     void save(VisitorRequest request);
-    List<Visitor> showVisitor(VisitorRequest request);
+    int showVisitor(VisitorRequest request);
 }

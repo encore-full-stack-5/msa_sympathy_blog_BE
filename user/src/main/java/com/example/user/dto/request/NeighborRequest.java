@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public record NeighborRequest(
         String userBlogId,
+        String requestUserBlogId,
         String type,
         Boolean status
 )
@@ -17,6 +18,7 @@ public record NeighborRequest(
     public Neighbor toEntity(){
         return Neighbor.builder()
                 .type(type)
+                .requestUserBlogId(UUID.fromString(requestUserBlogId))
                 .userBlog(UserBlog.builder().id(UUID.fromString(userBlogId)).build())
                 .status(status)
                 .build();

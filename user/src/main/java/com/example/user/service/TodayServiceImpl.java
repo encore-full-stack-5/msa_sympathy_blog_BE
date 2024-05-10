@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -31,11 +30,12 @@ public class TodayServiceImpl implements TodayService{
             todayRepository.save(request.toEntity());
         } else {
 
-            todayRecord = byUserBlogIdAndDate
-                    .get(0);
-            todayRecord.setCount(todayRecord.getCount() + 1);
+            for (Today todayRecords : byUserBlogIdAndDate) {
+                todayRecords.setCount(todayRecords.getCount() + 1);
+                todayRepository.save(todayRecords);
+            }
         }
-        todayRepository.save(todayRecord);
+
     }
 
     @Override
@@ -44,7 +44,7 @@ public class TodayServiceImpl implements TodayService{
         List<Today> byUserBlogIdAndDate = todayRepository.findByUserBlogIdAndDate(UUID.fromString(request.userBlogId()), LocalDate.now());
 
         if(byUserBlogIdAndDate.isEmpty()){
-            throw new IllegalArgumentException("데이터가 없습니다.");
+            throw new IllegalArgumentException("오늘날짜 방문자가 없습니다.");
         }
         int count=0;
         for(Today aa : byUserBlogIdAndDate){
