@@ -25,10 +25,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void create(String categoryName, Long userId) {
-        Optional<UserBlog> userById = userBlogRepository.findById(userId);
-        if (userById.isEmpty()) throw new IllegalArgumentException("유저가 존재하지 않습니다.");
-        Category category = new Category(null, categoryName, userById.get());
-        categoryRepository.save(category);
+//        Optional<UserBlog> userById = userBlogRepository.findById(userId);
+//        if (userById.isEmpty()) throw new IllegalArgumentException("유저가 존재하지 않습니다.");
+//        Category category = new Category(null, categoryName, userById.get());
+//        categoryRepository.save(category);
     }
 
     @Override

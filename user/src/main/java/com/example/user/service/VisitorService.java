@@ -9,5 +9,4 @@ public interface VisitorService {
 
     void save(VisitorRequest request);
     List<Visitor> showVisitor(VisitorRequest request);
-
 }

@@ -2,6 +2,7 @@ package com.example.post.dto.request;
 
 import com.example.post.global.domain.entity.Post;
 import com.example.post.global.domain.entity.UserBlog;
+import com.example.post.global.domain.type.PublicScope;
 import com.example.post.global.domain.type.PublicScope_buja;
 import com.example.post.global.domain.type.Topic;
 
@@ -27,7 +28,7 @@ public record PostRequest(
                         .id(userId)
                         .nickname(nickname).build())
                 .createdAt(LocalDateTime.now())
-                .publicScope(PublicScope_buja.valueOf(publicScope))
+                .publicScope(PublicScope.ALL)
                 .topic(Topic.valueOf(topic))
                 .build();
     }
