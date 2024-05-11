@@ -18,7 +18,7 @@ public class Image {
 
     @JoinColumn(name = "POST_ID")
     @ManyToOne
-    private Long post_id;
+    private Post post;
 
     @Column(name = "PATH", nullable = false)
     @Setter

@@ -28,6 +28,6 @@ public class ImageController {
 
     @GetMapping
     public Image getOne(@RequestParam Long id) {
-        return imageService.findOne(id);
+        return imageService.findImage(id);
     }
 }

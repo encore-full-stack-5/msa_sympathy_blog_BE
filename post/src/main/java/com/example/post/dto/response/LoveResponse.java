@@ -1,6 +1,6 @@
 package com.example.post.dto.response;
 
-public record LikeResponse(
+public record LoveResponse(
         String nickname,
         String blogName
 ) {

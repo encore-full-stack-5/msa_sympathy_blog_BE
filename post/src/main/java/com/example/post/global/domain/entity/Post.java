@@ -53,7 +53,7 @@ public class Post {
 //
     @OneToOne
     @JoinColumn(name = "POST_VIEW_ID")
-
+    @Setter
     private PostView postView;
 
     @Column(name="POST_TOPIC", nullable = false) @Setter
