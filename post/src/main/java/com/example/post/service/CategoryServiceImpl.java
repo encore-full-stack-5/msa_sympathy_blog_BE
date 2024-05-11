@@ -28,11 +28,13 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+
     public void create(String categoryName, UUID userId) {
         Optional<UserBlog> userById = userBlogRepository.findById(userId);
         if (userById.isEmpty()) throw new IllegalArgumentException("유저가 존재하지 않습니다.");
         Category category = Category.builder().categoryName(categoryName).userBlog(userById.get()).build();
         categoryRepository.save(category);
+
     }
 
     @Override

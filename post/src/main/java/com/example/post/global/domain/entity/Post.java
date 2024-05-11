@@ -46,14 +46,7 @@ public class Post {
     private UserBlog userBlog;
 
 
-//    mapping table 삭제로 필요 없어짐
-//    @Column(name ="MEDIA_POST_ID")
-//    @OneToMany(mappedBy = "post")
-//    private List<MediaPost> mediaPosts;
-//
-    @OneToOne
-    @JoinColumn(name = "POST_VIEW_ID")
-    @Setter
+    @OneToOne(mappedBy = "post", cascade = CascadeType.ALL) @Setter
     private PostView postView;
 
     @Column(name="POST_TOPIC", nullable = false) @Setter

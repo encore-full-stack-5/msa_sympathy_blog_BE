@@ -28,7 +28,7 @@ public record PostRequest(
                         .id(userId)
                         .nickname(nickname).build())
                 .createdAt(LocalDateTime.now())
-                .publicScope(publicScope)
+                .publicScope(PublicScope.ALL)
                 .topic(Topic.valueOf(topic))
                 .build();
     }

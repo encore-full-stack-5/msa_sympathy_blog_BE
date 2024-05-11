@@ -14,7 +14,8 @@ public record TodayRequest(
 
         return Today.builder()
                 .userBlogId(UUID.fromString(userBlogId))
-                .date(LocalDate.now())
+                .count(1)
+                .date(date)
                 .build();
     }
 }
