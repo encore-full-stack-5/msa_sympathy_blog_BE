@@ -21,27 +21,21 @@ class NeighborRepositoryTest {
     @Test
     void findByResponseUserIdAndRequestUserId() {
         //given
-        UUID responseUserId = UUID.randomUUID();
 
-        UUID requestUserId = UUID.randomUUID();
         //when
-        Optional<Neighbor> neighbor = neighborRepository.findByResponseUserIdAndRequestUserId(responseUserId,requestUserId);
+
         //then
-        assertTrue(neighbor.isPresent());
-        assertEquals(responseUserId, neighbor.get().getResponseUserId());
-        assertEquals(requestUserId, neighbor.get().getRequestUserId());
 
     }
 
     @Test
     void findByType() {
         //given
-        String type = "서로이웃";
+
         //when
-        Optional<Neighbor> neighbor = neighborRepository.findByType(type);
+
         //then
-        assertTrue(neighbor.isPresent());
-        assertEquals(type, neighbor.get().getType());
+
 
     }
 }

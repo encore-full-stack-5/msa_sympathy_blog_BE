@@ -7,8 +7,10 @@ import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.w3c.dom.stylesheets.LinkStyle;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -32,11 +34,16 @@ class TodayServiceTest {
 
         Today save = todayRepository.save(request.toEntity());
 
-        Optional<Today> byUserBlogId = todayRepository.findByUserBlogId(UUID.fromString(request.userBlogId()));
+        List<Today> byUserBlogIds = todayRepository.findByUserBlogId(UUID.fromString(request.userBlogId()));
 
-        byUserBlogId.orElseThrow(()->new IllegalArgumentException("못찾음"));
+        if(byUserBlogIds.isEmpty())throw new IllegalArgumentException("못찾음");
 
-        assertEquals(save,byUserBlogId.get());
+        for(Today aa : byUserBlogIds){
+
+            assertEquals(save.getId(),aa.getId());
+
+        }
+
 
 
 
