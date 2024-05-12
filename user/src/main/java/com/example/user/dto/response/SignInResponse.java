@@ -5,6 +5,6 @@ public record SignInResponse(
         String tokenType
 ) {
     public static SignInResponse from(String token) {
-        return new SignInResponse(token, "Bearer");
+        return new SignInResponse(token, "jwt");
     }
 }
