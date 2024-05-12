@@ -20,11 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserBlogController {
     private final UserBlogService userBlogService;
     private final TokenService tokenService;
-    @PostMapping("signup")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void signup(@RequestBody SignUpRequest request) {
-        userBlogService.insertUser(request);
-    }
+
     @PostMapping("signin")
     public SignInResponse signIn(@RequestBody SignInRequest request) {
         return userBlogService.signIn(request);

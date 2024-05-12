@@ -22,14 +22,34 @@ public class Post {
     @Column(name = "POST_ID")
     private Long id;
 
-    @Column(name="POST_TITLE", nullable = false) @Setter
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setPublicScope(PublicScope publicScope) {
+        this.publicScope = publicScope;
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
+    }
+
+    public void setPostView(PostView postView) {
+        this.postView = postView;
+    }
+
+    @Column(name="POST_TITLE", nullable = false)
     private String title;
 
-    @Column(name="POST_CONTENT", nullable = false) @Setter
+    @Column(name="POST_CONTENT", nullable = false)
     private String content;
 
 
-    @Column(name="POST_PUBLIC_SCOPE", nullable = false) @Setter
+    @Column(name="POST_PUBLIC_SCOPE", nullable = false)
     @Enumerated(EnumType.STRING)
     private PublicScope publicScope;
 
@@ -46,10 +66,10 @@ public class Post {
     private UserBlog userBlog;
 
 
-    @OneToOne(mappedBy = "post", cascade = CascadeType.ALL) @Setter
+    @OneToOne(mappedBy = "post", cascade = CascadeType.ALL)
     private PostView postView;
 
-    @Column(name="POST_TOPIC", nullable = false) @Setter
+    @Column(name="POST_TOPIC", nullable = false)
     @Enumerated(EnumType.STRING)
     private Topic topic;
 }
