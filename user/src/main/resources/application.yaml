@@ -16,7 +16,7 @@ spring:
     name: user
 
 jwt:
-  secret: ssssssssssssssssssssssssssmmmmmmmmmmmmmmm
+  secret: fdag32fdsavv32few89vbbafdsbaugubdsag8904fdsafdvcxcbre
   expiration: 600000
 
 eureka:

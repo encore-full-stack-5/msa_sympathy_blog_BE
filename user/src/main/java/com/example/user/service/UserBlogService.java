@@ -8,7 +8,6 @@ import com.example.user.dto.response.TokenResponse;
 import java.util.UUID;
 
 public interface UserBlogService {
-    void insertUser(SignUpRequest request);
     SignInResponse signIn(SignInRequest request);
     TokenResponse passToken(String token);
     String parseToken(String token);

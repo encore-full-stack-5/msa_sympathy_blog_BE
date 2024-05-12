@@ -20,7 +20,7 @@ class UserBlogServiceTest {
 
     @Test
     void 통신1(){
-        SignUpRequest request = new SignUpRequest("buja@2.com", "1234", "r", LocalDate.now(), "남");
+        SignUpRequest request = new SignUpRequest("1234", "buja@2.com");
         Map<String, Object> res= restTemplate
                 .postForEntity(
                         "http://localhost:8080/api/v1/auth/signin"
@@ -30,7 +30,7 @@ class UserBlogServiceTest {
     }
     @Test
     void parseToken() {
-        String token = "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIwMTFmNzkzNy1hYzA4LTRkNmItOWNiMS0wYzhmNjYzOWNmOTciLCJleHAiOjE3MTUzMzU1MTh9.mDi4gU0c_rfj0KPyyDaZhfk-E0Qq300VfpiMk6biFDW95oDXQbMBW2g1LHc5aAeo";
+        String token = "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJidWphQDIuY29tIiwiZXhwIjoxNzE1NTkxOTY5fQ.DRTm9sVieH9rZQYnJLMmL8ZD550tTAH8-w3COWSVYAFPeIYgP108XNQqrH0F14zX";
 
         String email = authService.parseToken(token);
 
@@ -38,3 +38,5 @@ class UserBlogServiceTest {
         System.out.println(email);
     }
 }
+
+//eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJidWphQDIuY29tIiwiZXhwIjoxNzE1NTkxMzEzfQ.0_3S7vxvYdbjWwoIAW7zFXTuLmdLAmPwOzCZqIgPw9IZmEEoxM4RSyQ6vZdwgvpM
