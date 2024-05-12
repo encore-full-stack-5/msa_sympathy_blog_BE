@@ -32,7 +32,7 @@ public class UserBlog implements UserDetails {
     private UUID postId;
 
     @Column(name="NEIGHBOR_ID")
-    @OneToMany(mappedBy = "userBlog")
+    @OneToMany(mappedBy = "userBlog", cascade = CascadeType.ALL)
     private List<Neighbor> neighbors;
 
     @Override
