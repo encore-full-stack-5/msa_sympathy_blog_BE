@@ -48,7 +48,7 @@ class PostServiceImplTest {
                 .userBlog(user)
                 .createdAt(LocalDateTime.now())
                 .publicScope(PublicScope.ALL)
-                .topic(Topic.valueOf("LIFE"))
+                .topic(Topic.valueOf("LIFESTYLE"))
                 .build();
 
         postRepository.save(init);
@@ -72,7 +72,7 @@ class PostServiceImplTest {
                 .content("content")
                 .createdAt(LocalDateTime.now())
                 .publicScope(PublicScope.ALL)
-                .topic(Topic.valueOf("LIFE"))
+                .topic(Topic.valueOf("LIFESTYLE"))
                 .build();
         postRepository.save(init);
 
@@ -89,12 +89,12 @@ class PostServiceImplTest {
                 .content("content")
                 .createdAt(LocalDateTime.now())
                 .publicScope(PublicScope.ALL)
-                .topic(Topic.valueOf("LIFE"))
+                .topic(Topic.valueOf("LIFESTYLE"))
                 .build();
         postRepository.save(init);
         PostRequest req = new PostRequest("title", "dfsdf",
                 UUID.randomUUID(),
-                "ddd","LIFE","FULL");
+                "ddd","LIFESTYLE",PublicScope.ALL);
         assertThrows(EntityNotFoundException.class,
                 () -> postService.update(req,100L));
     }
@@ -139,7 +139,7 @@ class PostServiceImplTest {
                     .content("content")
                     .createdAt(LocalDateTime.now())
                     .publicScope(PublicScope.ALL)
-                    .topic(Topic.valueOf("LIFE"))
+                    .topic(Topic.valueOf("LIFESTYLE"))
                     .userBlog(user)
                     .build();
 

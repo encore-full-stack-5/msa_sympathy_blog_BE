@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -15,12 +16,12 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping // token 이용
-    public List<Category> getAllByUserId(Long userId) {
+    public List<Category> getAllByUserId(UUID userId) {
         return categoryService.getAllByUserId(userId);
     }
 
     @PostMapping // token 이용
-    public void create(@RequestBody String categoryName, Long userId) {
+    public void create(@RequestBody String categoryName, UUID userId) {
         categoryService.create(categoryName, userId);
     }
 

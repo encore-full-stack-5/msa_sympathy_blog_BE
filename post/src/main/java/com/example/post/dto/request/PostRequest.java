@@ -18,7 +18,7 @@ public record PostRequest(
         UUID userId,
         String nickname,
         String topic,
-        String publicScope
+        PublicScope publicScope
 ) {
     public Post toEntity(){
         return Post.builder()

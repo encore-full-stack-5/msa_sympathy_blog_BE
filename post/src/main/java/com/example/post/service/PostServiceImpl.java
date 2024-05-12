@@ -3,16 +3,19 @@ package com.example.post.service;
 import com.example.post.dto.request.PostRequest;
 import com.example.post.dto.response.PostResponse;
 import com.example.post.global.domain.entity.Post;
+import com.example.post.global.domain.entity.PostLove;
 import com.example.post.global.domain.entity.PostView;
+import com.example.post.global.domain.entity.UserBlog;
+import com.example.post.global.domain.repository.PostLoveRepository;
 import com.example.post.global.domain.repository.PostRepository;
 import com.example.post.global.domain.repository.PostViewRepository;
+import com.example.post.global.domain.repository.UserBlogRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -20,6 +23,8 @@ import java.util.UUID;
 public class PostServiceImpl implements PostService{
     private final PostRepository postRepository;
     private final PostViewRepository postViewRepository;
+    private final PostLoveRepository postLoveRepository;
+    private final UserBlogRepository userBlogRepository;
     @Override
     public void save(PostRequest postRequest) {
         PostView postView = PostView.builder()
@@ -28,6 +33,14 @@ public class PostServiceImpl implements PostService{
         postRequest.toEntity().setPostView(postView);
         postView.setView(0);
         postRepository.save(postRequest.toEntity());
+
+        // post 생성과 동시에 postLike post 당 1개 배정
+        UserBlog userBlog = userBlogRepository
+                .findById(postRequest.userId())
+                .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
+        PostLove postLove = PostLove.builder().post(postRequest.toEntity()).userBlog(userBlog).build();
+        postLoveRepository.save(postLove);
+
 //        PostView postView = new PostView();
 //        postView.setPost(post);
 //        postView.setView(0);
@@ -40,7 +53,7 @@ public class PostServiceImpl implements PostService{
                 EntityNotFoundException::new);
         post.setContent(req.content());
         post.setTitle(req.title());
-        post.setMediaPosts(req.toEntity().getMediaPosts());
+//        post.setMediaPosts(req.toEntity().getMediaPosts()); // MediaPost table 삭제
         postRepository.save(post);
         return post;
     }
