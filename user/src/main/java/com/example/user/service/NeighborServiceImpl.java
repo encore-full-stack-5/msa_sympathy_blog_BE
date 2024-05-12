@@ -2,10 +2,12 @@ package com.example.user.service;
 
 import com.example.user.dto.request.NeighborRequest;
 import com.example.user.global.domain.entity.Neighbor;
+import com.example.user.global.domain.entity.UserBlog;
 import com.example.user.global.domain.repository.NeighborRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -14,71 +16,60 @@ import java.util.UUID;
 public class NeighborServiceImpl implements NeighborService {
     private final NeighborRepository neighborRepository;
 
-    //이웃추가
+    //나한테 신청한 신청자들 보기
+    @Override
+    public List<Neighbor> showNeighbor(NeighborRequest request) {
+        UserBlog userBlog = request.toEntity().getUserBlog();
+        List<Neighbor> neighbors = neighborRepository.findByUserBlog_Id(userBlog.getId());
+        if(neighbors.isEmpty()){
+            throw new IllegalArgumentException("신청하고자 하는 유저 블로그가 없습니다.");
+        }
+        return neighbors;
+    }
+
+    //이웃 신청
     @Override
     public void addNeighbor(NeighborRequest request){
-        //
-        Optional<Neighbor> neighbor = neighborRepository.findByType(request.type());
-        if(neighbor.isPresent()){
-            throw new IllegalArgumentException("이미 이웃입니다");
+        List<Neighbor> neighbors = neighborRepository.findByUserBlog_Id(UUID.fromString(request.userBlogId()));
+        if(neighbors.isEmpty()){
+            throw new IllegalArgumentException("신청하고자 하는 유저 블로그가 없습니다.");
         }
         else {
             Neighbor newNeighbor = request.toEntity();
+            newNeighbor.setType("이웃신청중");
             neighborRepository.save(newNeighbor);
         }
     }
-    //이웃삭제
+    //이웃 신청자 삭제
     @Override
     public void deleteNeighbor(NeighborRequest request) {
-        Optional<Neighbor> neighbor = neighborRepository.findByType(request.type());
-        if (neighbor.isPresent()) {
-            neighborRepository.delete(neighbor.get());
-        } else {
-            throw new IllegalArgumentException("이웃이 아닙니다");
+        UUID requestUserId = request.toEntity().getRequestUserBlogId();
+        UserBlog userBlog = request.toEntity().getUserBlog();
+        Optional<Neighbor> acceptNeighbor = neighborRepository.findByUserBlog_IdAndRequestUserBlogId(userBlog.getId(),requestUserId);
+
+        if(acceptNeighbor.isEmpty()){
+            throw new IllegalArgumentException("블로그에 신청한 이력이 없습니다.");
+        }else {
+            neighborRepository.delete(acceptNeighbor.get());
         }
     }
 
-
-    //이웃수락
+    //이웃 신청 수락
         @Override
-        public void acceptNeighborRequest(NeighborRequest request){
-            UUID requestUserId = request.toEntity().getRequestUserId();
-            UUID responseUserId = request.toEntity().getResponseUserId();
-           Optional<Neighbor> neighbor2 = neighborRepository.findByResponseUserIdAndRequestUserId(requestUserId,responseUserId);
-           if(neighbor2.isPresent()){
-               Neighbor acceptedNeighbor = request.toEntity();
-               acceptedNeighbor.builder()
-                       .requestUserId(requestUserId)
-                       .responseUserId(responseUserId)
-                               .status(true)
-                                       .build();
-               neighborRepository.save(acceptedNeighbor);
-           }
-           else {
-               throw new IllegalArgumentException("이웃요청이 없습니다");
-           }
-
-
+        public void acceptNeighborRequest(NeighborRequest request) {
+            UUID requestUserId = request.toEntity().getRequestUserBlogId();
+            UserBlog userBlog = request.toEntity().getUserBlog();
+            Optional<Neighbor> acceptNeighbor = neighborRepository.findByUserBlog_IdAndRequestUserBlogId(userBlog.getId(), requestUserId);
+            if (acceptNeighbor.isEmpty()) {
+                throw new IllegalArgumentException("블로그에 신청한 이력이 없습니다.");
+            } else {
+                Neighbor neighbor = acceptNeighbor.get();
+                neighbor.setStatus(true);
+                neighbor.setType("이웃");
+                neighborRepository.save(neighbor);
             }
-        //이웃거절
-        @Override
-        public void rejectNeighborRequest(NeighborRequest request){
-                    UUID requestUserId = request.toEntity().getRequestUserId();
-                    UUID responseUserId = request.toEntity().getResponseUserId();
-                    Optional<Neighbor> neighbor3 = neighborRepository.findByResponseUserIdAndRequestUserId(requestUserId,responseUserId);
-                    if(neighbor3.isPresent()){
-                        Neighbor rejectedNeighbor = Neighbor.builder()
-                                .requestUserId(requestUserId)
-                                .responseUserId(responseUserId)
-                                .status(false)
-                                .build();
-                        neighborRepository.save(rejectedNeighbor);
-                    }
-                    else {
-                        throw new IllegalArgumentException("이웃요청이 없습니다");
-                    }
+        }
 
-            }
 
     }
 

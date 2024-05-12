@@ -1,9 +1,9 @@
 package com.example.post;
 
 import com.example.post.global.domain.entity.Post;
-import com.example.post.global.domain.entity.PostLike;
+import com.example.post.global.domain.entity.PostLove;
 import com.example.post.global.domain.entity.UserBlog;
-import com.example.post.global.domain.repository.PostLikeRepository;
+import com.example.post.global.domain.repository.PostLoveRepository;
 import com.example.post.global.domain.repository.PostRepository;
 import com.example.post.global.domain.repository.UserBlogRepository;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,7 @@ import java.util.List;
 @SpringBootTest
 class PostApplicationTests {
 	@Autowired
-	PostLikeRepository postLikeRepository;
+	PostLoveRepository postLoveRepository;
 	@Autowired
 	PostRepository postRepository;
 	@Autowired
@@ -30,15 +30,15 @@ class PostApplicationTests {
 				.nickname("test")
 				.build());
 
-		postLikeRepository.save(PostLike.builder()
-						.user(test)
+		postLoveRepository.save(PostLove.builder()
+						.userBlog(test)
 						.post(test1)
 				.build());
 
-		List<PostLike> all = postLikeRepository.findAll();
+		List<PostLove> all = postLoveRepository.findAll();
 		all.stream().forEach(e->{
 			System.out.println(e.getPost().getId());
-			System.out.println(e.getUser().getId());
+			System.out.println(e.getUserBlog().getId());
 		});
 
 	}
