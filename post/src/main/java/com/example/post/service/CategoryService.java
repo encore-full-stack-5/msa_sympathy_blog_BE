@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.UUID;
 
 public interface CategoryService {
+
     List<Category> getAllByUserId(UUID userId);
+    Category getOne(Long id);
     void create(String categoryName, UUID userId);
     void update(Long id, String categoryName);
     void delete(Long id);

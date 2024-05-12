@@ -11,6 +11,7 @@ import com.example.post.global.domain.repository.PostRepository;
 import com.example.post.global.domain.repository.PostViewRepository;
 import com.example.post.global.domain.repository.UserBlogRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

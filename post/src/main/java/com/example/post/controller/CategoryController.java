@@ -20,6 +20,12 @@ public class CategoryController {
         return categoryService.getAllByUserId(userId);
     }
 
+    @GetMapping("/{id}")
+    public Category getOne(@PathVariable Long id) {
+        return categoryService.getOne(id);
+    }
+
+
     @PostMapping // token 이용
     public void create(@RequestBody String categoryName, UUID userId) {
         categoryService.create(categoryName, userId);
