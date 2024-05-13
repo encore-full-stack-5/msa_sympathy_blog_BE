@@ -5,12 +5,12 @@ import com.example.user.global.domain.entity.UserBlog;
 import java.util.UUID;
 
 public record UserBlogRequest(
-        String id, String email, String nickname,
+        String email, String nickname,
         String blogName
 ) {
-    public UserBlog toEntity(){
+    public UserBlog toEntity(UserBlog userBlog){
         return UserBlog.builder()
-                .id(UUID.fromString(id))
+                .id(userBlog.getId())
                 .email(email)
                 .nickname(nickname)
                 .blogName(blogName)
