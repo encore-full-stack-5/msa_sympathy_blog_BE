@@ -1,10 +1,9 @@
 package com.example.comment.global.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -17,12 +16,14 @@ public class CommentLike {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "LIKE_ID")
     private Long id;
+    @Setter
     @Column(name = "IS_LIKED")
     boolean isLiked;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "COMMENT_ID")
     private Comment comment;
+    @Setter
     @Column(name = "USER_ID")
-    Long userId;
+    private  UUID userId;
 
 }

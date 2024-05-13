@@ -6,6 +6,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name ="COMMENTS")
@@ -27,12 +28,13 @@ public class Comment {
     @Column(name = "POST_ID")
     private Long postId;
     @Column(name = "USER_ID")
-    private Long userId;
+    private UUID userId;
     @Column(name = "LIKE_COUNT")
+    @Setter
     private Integer likeCount;
     @Column(name = "NICKNAME")
     private String nickname;
-    //column안해도됨,
+    //column안해도됨
     @OneToMany(mappedBy = "comment")
     private List<CommentLike> commentLikes;
 

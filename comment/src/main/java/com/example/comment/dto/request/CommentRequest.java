@@ -2,21 +2,24 @@ package com.example.comment.dto.request;
 
 import com.example.comment.global.domain.entity.Comment;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 public record CommentRequest(
         Long postId,
-        Long id,
-        Long userId,
+        UUID userId,
         String content,
-        String nickname
+        String nickname,
+        LocalDateTime createdAt
 
 ) {
     public Comment toEntity(){
         return Comment.builder()
                 .postId(postId)
                 .userId(userId)
-                .id(id)
                 .content(content)
                 .nickname(nickname)
+                .createdAt(createdAt)
                 .build();
     }
 

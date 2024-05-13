@@ -1,9 +1,12 @@
 package com.example.comment.service.d2;
 
-import org.springframework.stereotype.Service;
+import com.example.comment.global.domain.entity.Comment;
+import java.util.UUID;
 
-@Service
+
 public interface CommentLikeService {
+    int likeComment(Comment comment, UUID userId);
+
 
 
 
