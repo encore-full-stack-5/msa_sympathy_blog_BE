@@ -1,13 +1,14 @@
 package com.example.post.global.domain.entity;
 
-import com.example.post.global.domain.type.PublicScope_buja;
+
+import com.example.post.global.domain.type.PublicScope;
+
 import com.example.post.global.domain.type.Topic;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 @Entity
 @Table(name= "POSTS")
@@ -19,36 +20,56 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "POST_ID")
-    private UUID id;
+    private Long id;
 
-    @Column(name="POST_TITLE", nullable = false) @Setter
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setPublicScope(PublicScope publicScope) {
+        this.publicScope = publicScope;
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
+    }
+
+    public void setPostView(PostView postView) {
+        this.postView = postView;
+    }
+
+    @Column(name="POST_TITLE", nullable = false)
     private String title;
 
-    @Column(name="POST_CONTENT", nullable = false) @Setter
+    @Column(name="POST_CONTENT", nullable = false)
     private String content;
 
-    @Column(name="POST_PUBLIC_SCOPE", nullable = false) @Setter
-    private PublicScope_buja publicScope;
 
-    @Column(name="POST_TOPIC", nullable = false) @Setter
-    private Topic topic;
+    @Column(name="POST_PUBLIC_SCOPE", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private PublicScope publicScope;
+
 
     @Column(name="POST_CREATED_AT", nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name="POST_CATEGORY_ID")
-    @OneToMany(mappedBy = "post")
-    private List<PostCategory> postCategories;
+    @JoinColumn(name = "CATEGORY_ID", nullable = false)
+    @ManyToOne
+    private Category category;
 
-    @JoinColumn(name = "USER_BLOG_ID")
+    @JoinColumn(name = "USER_ID")
     @ManyToOne(fetch = FetchType.LAZY)
     private UserBlog userBlog;
 
-    @Column(name ="MEDIA_POST_ID") @Setter
-    @OneToMany(mappedBy = "post")
-    private List<MediaPost> mediaPosts;
-//
-    @OneToOne
-    @JoinColumn(name = "POST_VIEW_ID") @Setter
+
+    @OneToOne(mappedBy = "post", cascade = CascadeType.ALL)
     private PostView postView;
+
+    @Column(name="POST_TOPIC", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Topic topic;
 }

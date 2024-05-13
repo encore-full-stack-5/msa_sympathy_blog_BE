@@ -1,8 +1,9 @@
 package com.example.post.dto.request;
 
+import com.example.post.global.domain.entity.Category;
 import com.example.post.global.domain.entity.Post;
 import com.example.post.global.domain.entity.UserBlog;
-import com.example.post.global.domain.type.PublicScope_buja;
+import com.example.post.global.domain.type.PublicScope;
 import com.example.post.global.domain.type.Topic;
 
 import java.time.LocalDateTime;
@@ -16,8 +17,9 @@ public record PostRequest(
         String content,
         UUID userId,
         String nickname,
-        String topic,
-        String publicScope
+        Topic topic,
+        PublicScope publicScope,
+        Category category
 ) {
     public Post toEntity(){
         return Post.builder()
@@ -27,8 +29,9 @@ public record PostRequest(
                         .id(userId)
                         .nickname(nickname).build())
                 .createdAt(LocalDateTime.now())
-                .publicScope(PublicScope_buja.valueOf(publicScope))
-                .topic(Topic.valueOf(topic))
+                .publicScope(PublicScope.ALL)
+                .topic(Topic.ENTERTAINMENT)
+                .category(category)
                 .build();
     }
 }

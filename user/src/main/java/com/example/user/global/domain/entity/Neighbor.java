@@ -2,12 +2,9 @@ package com.example.user.global.domain.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.util.List;
+import java.util.UUID;
 
 
 @Entity
@@ -19,24 +16,24 @@ import java.util.List;
 public class Neighbor {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "NEIGHBOR_ID")
-    private Long id;
+    private UUID id;
 
+    @Setter
     @Column(name = "TYPE")
     private String type;
 
     @Column(name = "REQUEST_ID")
-    private Long requestUserId;
+    private UUID requestUserBlogId;
 
-    @Column(name = "RESPONSE_ID")
-    private Long responseUserId;
-
+    @Setter
     @Column(name = "STATUS")
     private Boolean status;
 
     @ManyToOne
     @JoinColumn(name = "USER_BLOG_ID")
     private UserBlog userBlog;
+
 
 }
