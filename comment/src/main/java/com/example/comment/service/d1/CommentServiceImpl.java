@@ -54,27 +54,20 @@ public class CommentServiceImpl implements CommentService {
         Optional<Comment> byCommentId = commentRepository.findById(commentLike.getComment().getId());
         Comment comment = byCommentId.orElseThrow(()-> new RuntimeException("Comment not found"));
 
-        Integer likeCount = commentLike.getComment().getLikeCount();
-        int currentLikes = (likeCount != null) ? likeCount : 0;
-
-        int likeChange = commentLikeService.likeComment(comment, commentLike.getUserId());
-        int newLikes = currentLikes + likeChange;
-
-
-        comment.setLikeCount(newLikes);
-
-
-        commentRepository.save(comment);
-
+        comment.setLikeCount(comment.getLikeCount() +
+                commentLikeService.likeComment(comment, commentLike.getUserId()));
 
     }
 
     @Override
     public int getCommentLikeTotalByCommentId(Long commentId) {
         Comment comment = commentRepository.findById(commentId).orElseThrow();
-        int likeCount = comment.getLikeCount();
+        if (comment.getCommentLikes() == null) {throw new RuntimeException("like cannot ne null");}
 
-        return   comment.getLikeCount();
+
+
+        Integer likeCount = comment.getLikeCount();
+        return likeCount != null ? likeCount.intValue() : 0;
     }
 
 
