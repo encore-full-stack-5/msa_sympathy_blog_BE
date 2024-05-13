@@ -23,18 +23,23 @@ public class Comment {
     @Setter
     @Column(name = "CONTENT")
     private String content;
+
     @Column(name="COMMENT_CREATED_AT", nullable = false)
     private LocalDateTime createdAt;
+
     @Column(name = "POST_ID")
     private Long postId;
+
     @Column(name = "USER_ID")
     private UUID userId;
+
     @Column(name = "LIKE_COUNT")
     @Setter
     private Integer likeCount;
+
     @Column(name = "NICKNAME")
     private String nickname;
-    //column안해도됨
+
     @OneToMany(mappedBy = "comment")
     private List<CommentLike> commentLikes;
 

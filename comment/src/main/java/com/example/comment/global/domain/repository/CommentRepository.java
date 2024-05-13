@@ -9,5 +9,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
-    Page<Comment> findAllCommentsByUserBlog_Id(Pageable pageable, String userId);
+
 }

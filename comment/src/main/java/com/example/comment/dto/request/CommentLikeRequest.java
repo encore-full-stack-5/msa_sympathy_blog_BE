@@ -7,14 +7,12 @@ import java.util.UUID;
 
 public record CommentLikeRequest(
         Long commentId,
-        UUID userId,
-        boolean isLiked
+        UUID userId
 
 
 ) {
     public CommentLike toEntity(){
         return CommentLike.builder()
-                .isLiked(isLiked)
                 .userId(userId)
                 .comment(Comment.builder().id(commentId).build())
                 .build();

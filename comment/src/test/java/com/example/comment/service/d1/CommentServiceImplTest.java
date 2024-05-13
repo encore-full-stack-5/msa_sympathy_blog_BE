@@ -23,14 +23,14 @@ class CommentServiceImplTest {
 
     @Autowired
     private CommentLikeService commentLikeService;
-    @Qualifier("commentService")
+
     @Autowired
     private CommentService commentService;
 
     @Test
     void saveComment() {
         CommentRequest commentRequest =
-                new CommentRequest(1l,UUID.randomUUID(),"소성민할아버지","송송민", LocalDateTime.now() );
+                new CommentRequest(1l,UUID.randomUUID(),"소성민","송송민", LocalDateTime.now() );
         Comment comment = commentRequest.toEntity();
         commentRepository.save(comment);
     }
@@ -73,7 +73,7 @@ class CommentServiceImplTest {
         Comment comment = commentRequest.toEntity();
         commentRepository.save(comment);
 
-        CommentLikeRequest commentLikeRequest = new CommentLikeRequest(1l,UUID.randomUUID(),false);
+        CommentLikeRequest commentLikeRequest = new CommentLikeRequest(1l,UUID.randomUUID());
         CommentLike commentLike = commentLikeRequest.toEntity();
         commentService.commentLike(commentLike);
 

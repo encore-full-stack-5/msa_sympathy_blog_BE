@@ -15,7 +15,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CommentLikeController {
     private final CommentLikeService commentLikeService;
-    @PostMapping("/{userId}/like}")
+    @PostMapping("/{like}")
     public void likeComment(@PathVariable("userId") UUID userid, Comment comment) {
         commentLikeService.likeComment(comment, userid);
     }

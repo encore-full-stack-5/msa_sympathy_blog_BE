@@ -3,6 +3,7 @@ package com.example.comment.service.d2;
 import com.example.comment.global.domain.entity.Comment;
 import com.example.comment.global.domain.entity.CommentLike;
 import com.example.comment.global.domain.repository.CommentLikeRepository;
+import com.example.comment.global.domain.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
@@ -13,6 +14,7 @@ import java.util.UUID;
 public class CommentLikeServiceImpl implements CommentLikeService {
 
     private final CommentLikeRepository commentLikeRepository;
+    private final CommentRepository commentRepository;
 
 
 
