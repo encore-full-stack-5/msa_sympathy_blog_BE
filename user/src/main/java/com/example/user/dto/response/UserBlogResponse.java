@@ -1,17 +1,19 @@
 package com.example.user.dto.response;
 
-import java.util.Map;
+import com.example.user.global.domain.entity.UserBlog;
 
 public record UserBlogResponse(
         String id,
         String email,
-        String nickname
+        String nickname,
+        String blogName
 ) {
-    public static UserBlogResponse from(Map res){
+    public static UserBlogResponse from(UserBlog res){
         return new UserBlogResponse(
-                res.get("id").toString(),
-                res.get("email").toString(),
-                res.get("nickname").toString()
+                res.getId().toString(),
+                res.getEmail(),
+                res.getNickname(),
+                res.getBlogName()
         );
     }
 }

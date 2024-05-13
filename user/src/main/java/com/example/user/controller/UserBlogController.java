@@ -1,11 +1,15 @@
 package com.example.user.controller;
 
+import com.example.user.dto.request.UserBlogRequest;
 import com.example.user.dto.response.SignInResponse;
+import com.example.user.global.domain.entity.UserBlog;
 import com.example.user.global.dto.UserBlogDto;
 import com.example.user.service.TokenService;
 import com.example.user.service.UserBlogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,6 +23,12 @@ public class UserBlogController {
         UserBlogDto userInfoFromToken = tokenService.getUserInfoFromToken(token);
         return userBlogService.saveInfo(userInfoFromToken);
     }
+
+    @PutMapping("/{id}")
+    public UserBlog update(@PathVariable UUID id, @RequestBody UserBlogRequest req) {
+        userBlogService.update(req, id);
+    }
+
 
 
 
