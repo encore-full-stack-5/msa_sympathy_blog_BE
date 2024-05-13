@@ -9,20 +9,23 @@ import java.util.UUID;
 public record UserBlogDto(
         String id,
         String email,
-        String nickname
+        String nickname,
+        String blogName
 ) {
     public UserBlog toEntity(){
         return UserBlog.builder()
                 .id(UUID.fromString(id))
                 .email(email)
                 .nickname(nickname)
+                .blogName(blogName)
                 .build();
     }
     public static UserBlogDto from(UserBlog userBlog){
         return new UserBlogDto(
                 userBlog.getId().toString(),
                 userBlog.getEmail(),
-                userBlog.getNickname()
+                userBlog.getNickname(),
+                userBlog.getBlogName()
         );
     }
 }

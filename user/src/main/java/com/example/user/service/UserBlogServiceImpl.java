@@ -1,11 +1,14 @@
 
 package com.example.user.service;
 
+import com.example.user.dto.request.UserBlogRequest;
 import com.example.user.dto.response.SignInResponse;
+import com.example.user.dto.response.UserBlogResponse;
 import com.example.user.global.domain.entity.UserBlog;
 import com.example.user.global.domain.repository.UserBlogRepository;
 import com.example.user.global.dto.UserBlogDto;
 import com.example.user.global.utils.JwtUtil;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -48,4 +51,20 @@ public class UserBlogServiceImpl implements UserBlogService, UserDetailsService 
         return UserBlogDto.from(save);
     }
 
+    @Override
+    public UserBlog update(UserBlogRequest req, UUID id) {
+        UserBlog userBlog = userRepository.findById(id).orElseThrow(
+                EntityNotFoundException::new);
+        userBlog.setNickname(req.nickname());
+        userBlog.setBlogName(req.blogName());
+        userRepository.save(userBlog);
+        return userBlog;
+    }
+
+    public UserBlogResponse getUserBlogByid(UUID id) {
+        UserBlogResponse blogResponse = UserBlogResponse
+                .from(userRepository.findAllById(id)
+                        .orElseThrow(EntityNotFoundException::new));
+        return blogResponse;
+    }
 }

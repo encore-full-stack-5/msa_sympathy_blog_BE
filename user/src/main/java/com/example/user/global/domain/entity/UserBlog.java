@@ -22,6 +22,15 @@ public class UserBlog implements UserDetails {
     private UUID id;
     @Column(name = "USER_EMAIL", unique = true)
     private String email;
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void setBlogName(String blogName) {
+        this.blogName = blogName;
+    }
+
     @Column(name = "NICKNAME")
     private String nickname;
     @Column(name = "BLOG_NAME")
