@@ -1,10 +1,11 @@
 package com.example.post.global.domain.entity;
 
+
+import com.example.post.global.domain.type.PublicScope;
+
+import com.example.post.global.domain.type.Topic;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -21,23 +22,54 @@ public class Post {
     @Column(name = "POST_ID")
     private Long id;
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setPublicScope(PublicScope publicScope) {
+        this.publicScope = publicScope;
+    }
+
+    public void setTopic(Topic topic) {
+        this.topic = topic;
+    }
+
+    public void setPostView(PostView postView) {
+        this.postView = postView;
+    }
+
     @Column(name="POST_TITLE", nullable = false)
     private String title;
 
     @Column(name="POST_CONTENT", nullable = false)
     private String content;
 
+
     @Column(name="POST_PUBLIC_SCOPE", nullable = false)
-    private String publicScope;
+    @Enumerated(EnumType.STRING)
+    private PublicScope publicScope;
+
 
     @Column(name="POST_CREATED_AT", nullable = false)
     private LocalDateTime createdAt;
 
-    @Column(name="USER_ID")
-    private Long userId;
+    @JoinColumn(name = "CATEGORY_ID", nullable = false)
+    @ManyToOne
+    private Category category;
 
-    @Column(name="POST_CATEGORY_ID")
-    @OneToMany(mappedBy = "post")
-    private List<PostCategory> postCategories;
+    @JoinColumn(name = "USER_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private UserBlog userBlog;
 
+
+    @OneToOne(mappedBy = "post", cascade = CascadeType.ALL)
+    private PostView postView;
+
+    @Column(name="POST_TOPIC", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Topic topic;
 }

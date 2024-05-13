@@ -1,12 +1,10 @@
 package com.example.user.global.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @AllArgsConstructor
@@ -15,15 +13,15 @@ import java.time.LocalDateTime;
 @Table( name = "TODAY")
 public class Today {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column( name = "TODAY_ID")
-    private int id;
-    @Column( name = "COUNT")
+    private UUID id;
+    @Column( name = "COUNT")@Setter
     private int count;
     @Column( name = "DATE")
-    private LocalDateTime date;
-    @Column( name = "USER_ID")
-    private int userId;
+    private LocalDate date;
+    @Column( name = "USER_Blog_ID")
+    private UUID userBlogId;
 
 
 }

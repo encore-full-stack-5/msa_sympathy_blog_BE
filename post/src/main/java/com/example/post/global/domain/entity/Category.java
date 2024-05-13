@@ -1,15 +1,11 @@
 package com.example.post.global.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.util.List;
 
 @Entity
-@Table(name="CATEGORY")
+@Table(name="CATEGORIES")
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,10 +18,12 @@ public class Category {
     private Long id;
 
     @Column(name="CATEGORY_NAME")
+    @Setter
     private String categoryName;
 
-    @Column(name = "POST_CATEGORY_ID")
-    @OneToMany(mappedBy = "category")
-    private List<PostCategory> postCategories;
+
+    @ManyToOne
+    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")
+    private UserBlog userBlog;
 
 }

@@ -11,6 +11,9 @@ java {
 	sourceCompatibility = '17'
 }
 
+
+
+
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
@@ -20,8 +23,17 @@ configurations {
 repositories {
 	mavenCentral()
 }
-
+ext {
+	set('springCloudVersion', "2023.0.1")
+}
 dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
@@ -34,6 +46,13 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
 
 tasks.named('test') {
 	useJUnitPlatform()

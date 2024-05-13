@@ -1,10 +1,7 @@
 package com.example.post.global.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @AllArgsConstructor
@@ -14,11 +11,14 @@ import lombok.NoArgsConstructor;
 public class PostView {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "POST_ID")
+    @Column(name = "POST_VIEW_ID")
     private Long id;
-    @Column(name = "VIEWS")
-    private String views;
-    @Column( name = "POSTING_ID")
-    private int postingId;
+    @Column(name = "VIEW") @Setter
+    private Integer view;
+
+    @OneToOne
+    @JoinColumn(name = "POST_ID")
+    @Setter
+    private Post post;
 
 }
