@@ -2,9 +2,11 @@ package com.example.post.service;
 
 import com.example.post.dto.request.PostRequest;
 import com.example.post.dto.response.PostResponse;
+import com.example.post.global.domain.entity.Category;
 import com.example.post.global.domain.entity.Post;
 import com.example.post.global.domain.entity.PostView;
 import com.example.post.global.domain.entity.UserBlog;
+import com.example.post.global.domain.repository.CategoryRepository;
 import com.example.post.global.domain.repository.PostRepository;
 import com.example.post.global.domain.repository.PostViewRepository;
 import com.example.post.global.domain.repository.UserBlogRepository;
@@ -34,12 +36,19 @@ class PostServiceImplTest {
     private PostService postService;
     @Autowired
     private UserBlogRepository userBlogRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Test
     void save() {
         UserBlog user = UserBlog.builder()
                 .nickname("test").build();
         userBlogRepository.save(user);
+        Category category = Category.builder()
+                .categoryName("일상")
+                .userBlog(user)
+                .build();
+        categoryRepository.save(category);
         Post init = Post.builder()
                 .title("title")
                 .content("content")
@@ -47,6 +56,7 @@ class PostServiceImplTest {
                 .createdAt(LocalDateTime.now())
                 .publicScope(PublicScope.ALL)
                 .topic(Topic.valueOf("LIFESTYLE"))
+                .category(category)
                 .build();
 
         postRepository.save(init);
@@ -57,7 +67,7 @@ class PostServiceImplTest {
                     .post(init).build(); // PostView 객체가 없는 경우 새로 생성
         }
 
-        postView.setView(0);
+        postView.setView(10);
         postViewRepository.save(postView);
         assertEquals(init.getTitle(), "title");
         assertEquals(10,postViewRepository.findById(1L).get().getView());
@@ -70,6 +80,7 @@ class PostServiceImplTest {
                 .content("content")
                 .createdAt(LocalDateTime.now())
                 .publicScope(PublicScope.ALL)
+                .category(categoryRepository.findById(1L).get())
                 .topic(Topic.valueOf("LIFESTYLE"))
                 .build();
         postRepository.save(init);
@@ -88,6 +99,7 @@ class PostServiceImplTest {
                 .createdAt(LocalDateTime.now())
                 .publicScope(PublicScope.ALL)
                 .topic(Topic.valueOf("LIFESTYLE"))
+                .category(categoryRepository.findById(1L).get())
                 .build();
         postRepository.save(init);
         PostRequest req = new PostRequest("title", "dfsdf",
@@ -110,7 +122,8 @@ class PostServiceImplTest {
                 .content("content")
                 .createdAt(LocalDateTime.now())
                 .publicScope(PublicScope.ALL)
-                .topic(Topic.valueOf("LIFE"))
+                .category(categoryRepository.findById(1L).get())
+                .topic(Topic.valueOf("LIFESTYLE"))
                 .build();
         postRepository.save(init);
 
@@ -121,7 +134,7 @@ class PostServiceImplTest {
     @Test
     @Transactional
     void getPostsByUserId() {
-        UUID userId = UUID.fromString("3c864b47-1c40-4e0a-b780-149c9a3ad49c");
+        UUID userId = UUID.fromString("de9518eb-5335-4593-8136-2b791d40827c");
         Pageable pageable = PageRequest.of(0, 5);
 
         // 새로운 UserBlog 객체 생성 및 저장
@@ -137,6 +150,7 @@ class PostServiceImplTest {
                     .content("content")
                     .createdAt(LocalDateTime.now())
                     .publicScope(PublicScope.ALL)
+                    .category(categoryRepository.findById(1L).get())
                     .topic(Topic.valueOf("LIFESTYLE"))
                     .userBlog(user)
                     .build();

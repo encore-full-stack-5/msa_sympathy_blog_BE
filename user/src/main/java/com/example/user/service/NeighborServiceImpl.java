@@ -4,6 +4,7 @@ import com.example.user.dto.request.NeighborRequest;
 import com.example.user.global.domain.entity.Neighbor;
 import com.example.user.global.domain.entity.UserBlog;
 import com.example.user.global.domain.repository.NeighborRepository;
+import com.example.user.global.domain.repository.UserBlogRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,23 +16,25 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class NeighborServiceImpl implements NeighborService {
     private final NeighborRepository neighborRepository;
+    private final UserBlogRepository userBlogRepository;
+
 
     //나한테 신청한 신청자들 보기
     @Override
     public List<Neighbor> showNeighbor(NeighborRequest request) {
         UserBlog userBlog = request.toEntity().getUserBlog();
-        List<Neighbor> neighbors = neighborRepository.findByUserBlog_Id(userBlog.getId());
-        if(neighbors.isEmpty()){
+        List<Neighbor> byUserBlogIds = neighborRepository.findByUserBlog_Id(UUID.fromString(request.userBlogId()));
+        if(byUserBlogIds.isEmpty()){
             throw new IllegalArgumentException("신청하고자 하는 유저 블로그가 없습니다.");
         }
-        return neighbors;
+        return byUserBlogIds;
     }
 
     //이웃 신청
     @Override
     public void addNeighbor(NeighborRequest request){
-        List<Neighbor> neighbors = neighborRepository.findByUserBlog_Id(UUID.fromString(request.userBlogId()));
-        if(neighbors.isEmpty()){
+        Optional<UserBlog> userBlog = userBlogRepository.findAllById(UUID.fromString(request.userBlogId()));
+        if(userBlog.isEmpty()){
             throw new IllegalArgumentException("신청하고자 하는 유저 블로그가 없습니다.");
         }
         else {

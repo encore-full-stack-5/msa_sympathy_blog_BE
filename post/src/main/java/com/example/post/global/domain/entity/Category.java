@@ -21,8 +21,9 @@ public class Category {
     @Setter
     private String categoryName;
 
-    @JoinColumn(name = "USER_ID")
+
     @ManyToOne
+    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")
     private UserBlog userBlog;
 
 }

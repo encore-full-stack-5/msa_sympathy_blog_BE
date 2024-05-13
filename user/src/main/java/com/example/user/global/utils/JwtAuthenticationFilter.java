@@ -26,8 +26,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
         String bearerToken = request.getHeader("Authorization");
-        if(bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            String token = bearerToken.substring(7);
+        if(bearerToken != null && bearerToken.startsWith("jwt ")) {
+            String token = bearerToken.substring(4);
 //            Token 까서 (jwtUtil)
             String email = jwtUtil.getByEmailFromTokenAndValidate(token);
 //            userDetails 생성(authService)

@@ -4,7 +4,6 @@ import com.example.post.global.domain.entity.Category;
 import com.example.post.global.domain.entity.Post;
 import com.example.post.global.domain.entity.UserBlog;
 import com.example.post.global.domain.type.PublicScope;
-import com.example.post.global.domain.type.PublicScope_buja;
 import com.example.post.global.domain.type.Topic;
 
 import java.time.LocalDateTime;
