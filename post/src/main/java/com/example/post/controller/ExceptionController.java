@@ -1,8 +1,7 @@
 package com.example.post.controller;
 
-import com.example.post.exception.CategoryNotFoundException;
-import com.example.post.exception.NoLoverException;
-import com.example.post.exception.UserNotFoundException;
+import com.example.post.exception.*;
+import com.example.post.global.domain.entity.Image;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,7 +26,22 @@ public class ExceptionController {
         return e.getMessage();
     }
 
+    @ExceptionHandler(PostLoveNotFoundException.class)
+    public String handlerPostLoveNotFoundException(PostLoveNotFoundException e) {
+        log.debug(e.getMessage());
+        return e.getMessage();
+    }
 
+    @ExceptionHandler(PostNotFoundException.class)
+    public String handlerPostNotFoundException(PostNotFoundException e) {
+        log.debug(e.getMessage());
+        return e.getMessage();
+    }
 
+    @ExceptionHandler(ImageNotFoundException.class)
+    public String handlerImageNotFoundException(ImageNotFoundException e) {
+        log.debug(e.getMessage());
+        return e.getMessage();
+    }
 
 }

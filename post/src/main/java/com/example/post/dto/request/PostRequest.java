@@ -18,7 +18,7 @@ public record PostRequest(
         String content,
         UUID userId,
         String nickname,
-        String topic,
+        Topic topic,
         PublicScope publicScope,
         Category category
 ) {
@@ -31,7 +31,7 @@ public record PostRequest(
                         .nickname(nickname).build())
                 .createdAt(LocalDateTime.now())
                 .publicScope(PublicScope.ALL)
-                .topic(Topic.valueOf(topic))
+                .topic(Topic.ENTERTAINMENT)
                 .category(category)
                 .build();
     }

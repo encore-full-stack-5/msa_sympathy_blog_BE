@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface PostLoveRepository extends JpaRepository<PostLove, Long> {
-    Optional<Long> countByPostId(Long postId);
+    Optional<Long> countByPostIdAndLove(Long postId, boolean love);
     Optional<PostLove> findByPostIdAndUserBlogId (Long postId, UUID userBlogId);
     List<PostLove> findByPostIdAndLove (Long postId, boolean love);
 }

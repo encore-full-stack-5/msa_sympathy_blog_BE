@@ -3,7 +3,6 @@ package com.example.post.service;
 import com.example.post.dto.request.PostRequest;
 import com.example.post.dto.response.PostResponse;
 import com.example.post.global.domain.entity.Post;
-import com.example.post.global.domain.entity.PostView;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

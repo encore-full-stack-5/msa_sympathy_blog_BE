@@ -2,7 +2,7 @@ package com.example.post.service;
 
 import com.example.post.dto.response.LoveResponse;
 import com.example.post.exception.NoLoverException;
-import com.example.post.exception.UserNotFoundException;
+import com.example.post.exception.PostLoveNotFoundException;
 import com.example.post.global.domain.entity.Post;
 import com.example.post.global.domain.entity.PostLove;
 import com.example.post.global.domain.entity.UserBlog;
@@ -10,10 +10,9 @@ import com.example.post.global.domain.repository.PostLoveRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +24,7 @@ public class PostLoveServiceImpl implements PostLoveService {
 
     @Override
     public Long countLove(Post post) {
-        return postLoveRepository.countByPostId(post.getId()).orElseGet(() -> 0L);
+        return postLoveRepository.countByPostIdAndLove(post.getId(), true).orElseGet(() -> 0L);
     }
 
     @Override
@@ -33,8 +32,7 @@ public class PostLoveServiceImpl implements PostLoveService {
     public void updateLove(Post post, UserBlog userBlog) {
         PostLove postLove = postLoveRepository
                 .findByPostIdAndUserBlogId(post.getId(), userBlog.getId())
-                .orElseThrow(UserNotFoundException::new);
-
+                .orElseThrow(PostLoveNotFoundException::new);
         postLove.setLove(!postLove.isLove());
         // click하고 love true/false는 front 에서 알아서 바꿈
     }
