@@ -62,6 +62,7 @@ public class UserBlog implements UserDetails {
 
     @Column(name="USER_NICKNAME", nullable = false)
     private String nickname;
+
     @OneToMany(mappedBy = "userBlog")
     private List<Post> posts;
 }

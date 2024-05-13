@@ -1,5 +1,7 @@
 package com.example.post.service;
 
+import com.example.post.exception.ImageNotFoundException;
+import com.example.post.exception.PostNotFoundException;
 import com.example.post.global.domain.entity.Image;
 import com.example.post.global.domain.entity.Post;
 import com.example.post.global.domain.repository.ImageRepository;
@@ -7,8 +9,6 @@ import com.example.post.global.domain.repository.PostRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,9 +18,7 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public void save(Long postId, String path) {
-        Optional<Post> postById = postRepository.findById(postId);
-        Post post = postById
-                .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
+        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         imageRepository.save(Image.builder()
                 .post(post)
                 .path(path)
@@ -35,15 +33,12 @@ public class ImageServiceImpl implements ImageService {
     @Override
     @Transactional
     public void update(Long id, String newPath) {
-        Image image = imageRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 이미지가 존재하지 않습니다."));
+        Image image = imageRepository.findById(id).orElseThrow(ImageNotFoundException::new);
         image.setPath(newPath);
     }
 
     @Override
     public Image findImage(Long id) {
-        Image image = imageRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 이미지가 존재하지 않습니다."));
-        return image;
+        return imageRepository.findById(id).orElseThrow(ImageNotFoundException::new);
     }
 }
