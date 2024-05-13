@@ -46,6 +46,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
 
+
     @Override
     @Transactional
     public void commentLike(CommentLike commentLike) {
@@ -66,6 +67,14 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.save(comment);
 
 
+    }
+
+    @Override
+    public int getCommentLikeTotalByCommentId(Long commentId) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow();
+        int likeCount = comment.getLikeCount();
+
+        return   comment.getLikeCount();
     }
 
 

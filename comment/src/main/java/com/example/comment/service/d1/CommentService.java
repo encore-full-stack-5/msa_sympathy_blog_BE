@@ -15,5 +15,6 @@ public interface CommentService {
     void deleteComment(Long id);
     Comment getCommentId(Long id);
     void commentLike(CommentLike commentLike);
+    int getCommentLikeTotalByCommentId(Long commentId);
 
 }

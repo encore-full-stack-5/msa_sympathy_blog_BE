@@ -83,4 +83,12 @@ class CommentServiceImplTest {
 
 
     }
+
+    @Test
+    void getCommentLikeTotalByCommentId() {
+        CommentRequest commentRequest =
+                new CommentRequest(1l,UUID.randomUUID(),"소성민할아버지","송송민", LocalDateTime.now() );
+        Comment comment = commentRequest.toEntity();
+        commentRepository.save(comment);
+    }
 }
