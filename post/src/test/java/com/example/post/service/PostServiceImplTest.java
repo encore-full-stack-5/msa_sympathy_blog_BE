@@ -104,7 +104,7 @@ class PostServiceImplTest {
         postRepository.save(init);
         PostRequest req = new PostRequest("title", "dfsdf",
                 UUID.randomUUID(),
-                "ddd","LIFESTYLE",PublicScope.ALL);
+                "ddd",Topic.LIFESTYLE, PublicScope.ALL, Category.builder().categoryName("Hola").build());
         assertThrows(EntityNotFoundException.class,
                 () -> postService.update(req,100L));
     }
