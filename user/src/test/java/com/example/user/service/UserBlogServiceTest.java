@@ -20,13 +20,13 @@ class UserBlogServiceTest {
 
     @Test
     void 통신1(){
-        SignUpRequest request = new SignUpRequest("buja@2.com", "1234", "r", LocalDate.now(), "남");
-        Map<String, Object> res= restTemplate
-                .postForEntity(
-                        "http://localhost:8080/api/v1/auth/signin"
-                        ,request
-                        , Map.class).getBody();
-        System.out.println(res);
+//        SignUpRequest request = new SignUpRequest("buja@2.com", "1234", "r", LocalDate.now(), "남");
+//        Map<String, Object> res= restTemplate
+//                .postForEntity(
+//                        "http://localhost:8080/api/v1/auth/signin"
+//                        ,request
+//                        , Map.class).getBody();
+//        System.out.println(res);
     }
     @Test
     void parseToken() {

@@ -19,14 +19,14 @@ public class VisitorServiceImpl implements VisitorService{
     private final TodayRepository todayRepository;
 
 
+
     @Override
     public void save(VisitorRequest request) {
 
         List<Today> byUserBlogIdCount = todayRepository.findByUserBlogId(UUID.fromString(request.userBlogId()));
 
         if(byUserBlogIdCount.isEmpty()){
-
-            visitorRepository.save(request.toEntity());
+            throw new IllegalArgumentException("byUserBlogIdCount.isEmpty");
         }
 
         int count=0;
@@ -34,7 +34,8 @@ public class VisitorServiceImpl implements VisitorService{
 
             count += aa.getCount();
         }
-        Visitor visitor = Visitor.builder().count(count).build();
+        Visitor visitor = Visitor.builder().count(count).userBlogId(UUID.fromString(request.userBlogId())).build();
+
         visitorRepository.save(visitor);
     }
 
@@ -46,8 +47,7 @@ public class VisitorServiceImpl implements VisitorService{
         if(byUserBlogIdCount.isEmpty()){
             visitorRepository.save(request.toEntity());
         }
-        int count = byUserBlogIdCount.get().getCount();
 
-        return count;
+        return byUserBlogIdCount.get().getCount();
     }
 }

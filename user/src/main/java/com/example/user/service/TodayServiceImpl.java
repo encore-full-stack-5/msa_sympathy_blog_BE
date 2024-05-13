@@ -6,8 +6,8 @@ import com.example.user.global.domain.repository.TodayRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.List;
+
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -19,38 +19,30 @@ public class TodayServiceImpl implements TodayService{
     @Override
     public void save(TodayRequest request) {
 
-        List<Today> byUserBlogIdAndDate =
+        Optional<Today> byUserBlogIdAndDate =
                 todayRepository.findByUserBlogIdAndDate(UUID.fromString(request.userBlogId()), request.date());
-        Today todayRecord;
-        if (byUserBlogIdAndDate
-                .isEmpty()) {
-
-            todayRecord = request.toEntity();
+        if (byUserBlogIdAndDate.isEmpty()) {
 
             todayRepository.save(request.toEntity());
         } else {
-
-            for (Today todayRecords : byUserBlogIdAndDate) {
-                todayRecords.setCount(todayRecords.getCount() + 1);
-                todayRepository.save(todayRecords);
+            byUserBlogIdAndDate.get().setCount(byUserBlogIdAndDate.get().getCount() + 1);
+                todayRepository.save(byUserBlogIdAndDate.get());
             }
         }
 
-    }
+
 
     @Override
     public int showCount(TodayRequest request) {
 
-        List<Today> byUserBlogIdAndDate = todayRepository.findByUserBlogIdAndDate(UUID.fromString(request.userBlogId()), LocalDate.now());
+        Optional<Today> byUserBlogIdAndDate =
+                todayRepository.findByUserBlogIdAndDate(UUID.fromString(request.userBlogId()), request.date());
 
         if(byUserBlogIdAndDate.isEmpty()){
             throw new IllegalArgumentException("오늘날짜 방문자가 없습니다.");
         }
-        int count=0;
-        for(Today aa : byUserBlogIdAndDate){
 
-            count = aa.getCount();
-        }
+        int count = byUserBlogIdAndDate.get().getCount();
 
         return count;
     }
