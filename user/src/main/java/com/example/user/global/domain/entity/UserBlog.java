@@ -37,7 +37,7 @@ public class UserBlog implements UserDetails {
     private String blogName;
 
     @Column(name="POST_ID")
-    private UUID postId;
+    private Long postId;
 
     @Column(name="NEIGHBOR_ID")
     @OneToMany(mappedBy = "userBlog", cascade = CascadeType.ALL)
