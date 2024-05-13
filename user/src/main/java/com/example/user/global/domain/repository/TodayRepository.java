@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public interface TodayRepository extends CrudRepository<Today, UUID> {
 
-    List<Today> findByUserBlogIdAndDate(UUID userBlogId, LocalDate date);
+    Optional<Today> findByUserBlogIdAndDate(UUID userBlogId, LocalDate date);
 
     Optional<Today> findByDate(LocalDate date);
 
