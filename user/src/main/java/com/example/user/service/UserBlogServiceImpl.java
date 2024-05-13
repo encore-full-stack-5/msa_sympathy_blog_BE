@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Optional;
 import java.util.UUID;
 
 
@@ -26,22 +27,25 @@ public class UserBlogServiceImpl implements UserBlogService, UserDetailsService 
     private final JwtUtil jwtUtil;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository
-                .findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException(username+" not found"));
-    }
-    @Override
-    public SignInResponse insertUser(UserBlogDto req) {
-        boolean existsById = userRepository.existsById(UUID.fromString(req.id()));
-        if(!existsById) userRepository.save(req.toEntity());
-        String generatedToken = jwtUtil.generateToken(req);
-        return SignInResponse.from(generatedToken);
+                .findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException(email + " not found"));
     }
 
+
     @Override
-    public SignInResponse signIn(String token) {
-        UserBlog userBlog =
-        return null;
+    public UserBlogDto saveInfo(UserBlogDto req) {
+        // 데이터베이스에 저장할 Entity 생성
+        UserBlog userBlog = UserBlog.builder()
+                .email(req.toEntity().getEmail())
+                .nickname(req.toEntity().getNickname())
+                .id(req.toEntity().getId())
+                .build();
+
+        // 데이터베이스에 저장
+        UserBlog save = userRepository.save(userBlog);
+        return UserBlogDto.from(save);
     }
+
 }

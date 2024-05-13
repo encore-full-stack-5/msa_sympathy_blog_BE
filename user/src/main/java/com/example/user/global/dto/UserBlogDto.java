@@ -18,11 +18,11 @@ public record UserBlogDto(
                 .nickname(nickname)
                 .build();
     }
-    public static UserBlogDto from(Map res){
+    public static UserBlogDto from(UserBlog userBlog){
         return new UserBlogDto(
-                res.get("id").toString(),
-                res.get("email").toString(),
-                res.get("nickname").toString()
+                userBlog.getId().toString(),
+                userBlog.getEmail(),
+                userBlog.getNickname()
         );
     }
 }

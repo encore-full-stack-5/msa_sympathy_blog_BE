@@ -15,9 +15,9 @@ public class UserBlogController {
     private final TokenService tokenService;
 
     @PostMapping("/signIn")
-    public SignInResponse signIn(@RequestHeader("Authorization") String token){
-//        UserBlogDto userInfoFromToken = tokenService.getUserInfoFromToken(token);
-        return userBlogService.signIn(token);
+    public UserBlogDto signIn(@RequestHeader("Authorization") String token){
+        UserBlogDto userInfoFromToken = tokenService.getUserInfoFromToken(token);
+        return userBlogService.saveInfo(userInfoFromToken);
     }
 
 

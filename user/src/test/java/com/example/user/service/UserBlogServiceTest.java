@@ -2,6 +2,8 @@ package com.example.user.service;
 
 import com.example.user.dto.request.SignUpRequest;
 import com.example.user.dto.request.TeamRequest;
+import com.example.user.global.domain.entity.UserBlog;
+import com.example.user.global.domain.repository.UserBlogRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,6 +23,8 @@ class UserBlogServiceTest {
     private UserBlogService authService;
     @Autowired
     private RestTemplate restTemplate;
+    @Autowired
+    private UserBlogRepository userBlogRepository;
 
     @Test
     void 통신1(){
@@ -50,6 +55,9 @@ class UserBlogServiceTest {
                         ,Map.class
                 ).getBody();
         System.out.println(res);
+
+        List<UserBlog> all = userBlogRepository.findAll();
+        assertFalse(all.isEmpty());
 //        String token = "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJidWphQDIuY29tIiwiZXhwIjoxNzE1NTkxOTY5fQ.DRTm9sVieH9rZQYnJLMmL8ZD550tTAH8-w3COWSVYAFPeIYgP108XNQqrH0F14zX";
 //
 //        String email = authService.parseToken(token);
