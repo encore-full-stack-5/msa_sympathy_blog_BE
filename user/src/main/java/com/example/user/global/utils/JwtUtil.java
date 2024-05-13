@@ -1,5 +1,7 @@
 package com.example.user.global.utils;
 
+import com.example.user.dto.request.UserBlogRequest;
+import com.example.user.global.dto.UserBlogDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -22,10 +24,12 @@ public class JwtUtil {
         this.secretKey = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    public String generateToken(String email) {
+    public String generateToken(UserBlogDto req) {
         String token = Jwts.builder()
-                .subject(email)
-                .expiration(new Date(System.currentTimeMillis() + expiration))
+                .claim("id", req.id())
+                .claim("email", req.email())
+                .claim("nickname", req.nickname())
+                .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(secretKey)
                 .compact();
         return token;
