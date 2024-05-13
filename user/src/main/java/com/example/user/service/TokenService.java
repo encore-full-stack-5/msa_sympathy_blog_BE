@@ -1,7 +1,7 @@
 package com.example.user.service;
 
-import com.example.user.dto.request.TeamRequest;
+import com.example.user.global.dto.UserBlogDto;
 
 public interface TokenService {
-    Boolean isAuthenticatedTeam(TeamRequest request);
+    UserBlogDto getUserInfoFromToken(String token);
 }

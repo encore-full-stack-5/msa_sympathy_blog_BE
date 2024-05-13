@@ -8,11 +8,11 @@ import lombok.*;
 @NoArgsConstructor
 @Getter
 @Builder
-@Table(name = "POST_LIKES")
+@Table(name = "POST_LOVES")
 public class PostLove {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "POST_LIKE_ID")
+    @Column(name = "POST_LOVE_ID")
     private Long id;
 
     @Column(name = "LOVE")

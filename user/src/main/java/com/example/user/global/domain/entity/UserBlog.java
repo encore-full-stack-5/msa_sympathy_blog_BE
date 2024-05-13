@@ -18,7 +18,6 @@ import java.util.UUID;
 @Getter @Builder
 public class UserBlog implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "USER_BLOG_ID")
     private UUID id;
     @Column(name = "USER_EMAIL", unique = true)

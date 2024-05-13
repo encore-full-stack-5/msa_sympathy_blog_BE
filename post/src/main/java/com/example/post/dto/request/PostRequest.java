@@ -1,5 +1,6 @@
 package com.example.post.dto.request;
 
+import com.example.post.global.domain.entity.Category;
 import com.example.post.global.domain.entity.Post;
 import com.example.post.global.domain.entity.UserBlog;
 import com.example.post.global.domain.type.PublicScope;
@@ -16,8 +17,9 @@ public record PostRequest(
         String content,
         UUID userId,
         String nickname,
-        String topic,
-        PublicScope publicScope
+        Topic topic,
+        PublicScope publicScope,
+        Category category
 ) {
     public Post toEntity(){
         return Post.builder()
@@ -28,7 +30,8 @@ public record PostRequest(
                         .nickname(nickname).build())
                 .createdAt(LocalDateTime.now())
                 .publicScope(PublicScope.ALL)
-                .topic(Topic.valueOf(topic))
+                .topic(Topic.ENTERTAINMENT)
+                .category(category)
                 .build();
     }
 }

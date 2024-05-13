@@ -17,13 +17,13 @@ public class PostLoveController {
     private final PostLoveService postLoveService;
 
     @GetMapping("/count")
-    public Long countLike(@RequestBody Post post) {
-        return postLoveService.countLike(post);
+    public Long countLove(@RequestBody Post post) {
+        return postLoveService.countLove(post);
     }
 
     @PutMapping
-    public void updateLike(@RequestBody Post post, @RequestBody UserBlog userBlog) {
-        postLoveService.updateLike(post, userBlog);
+    public void updateLove(@RequestBody Post post, @RequestBody UserBlog userBlog) {
+        postLoveService.updateLove(post, userBlog);
     }
 
     @GetMapping("/lovers")

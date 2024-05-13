@@ -5,9 +5,9 @@ spring:
     rest:
       uri: http://localhost:9200
   datasource:
-    url: jdbc:mysql://localhost:3306/user?characterEncoding=UTF-8&serverTimezone=Asia/Seoul
-    username: root
-    password: 1234
+    username: sa
+    password:
+    url: jdbc:h2:mem:test1
   jpa:
     hibernate:
       ddl-auto: update
