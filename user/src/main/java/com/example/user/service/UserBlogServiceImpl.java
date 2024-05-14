@@ -5,10 +5,12 @@ import com.example.user.dto.request.UserBlogRequest;
 import com.example.user.dto.response.UserBlogResponse;
 import com.example.user.global.domain.entity.UserBlog;
 import com.example.user.global.domain.repository.UserBlogRepository;
+import com.example.user.kafka.dto.KafkaUserBlogDto;
 import com.example.user.global.dto.UserBlogDto;
 import com.example.user.global.utils.JwtUtil;
-import com.example.user.kafka.dto.KafkaPostDto;
 import com.example.user.kafka.dto.KafkaStatus;
+import com.example.user.kafka.producer.UserBlogIdProducer;
+import com.example.user.kafka.dto.KafkaPostDto;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class UserBlogServiceImpl implements UserBlogService, UserDetailsService {
+    private final UserBlogIdProducer userBlogIdProducer;
     public final UserBlogRepository userRepository;
     private final JwtUtil jwtUtil;
 
@@ -59,11 +62,30 @@ public class UserBlogServiceImpl implements UserBlogService, UserDetailsService 
         userBlog.setNickname(req.nickname());
         userBlog.setBlogName(req.blogName());
         userRepository.save(userBlog);
+
+        KafkaUserBlogDto kafkaUserBlogDto = new KafkaUserBlogDto(id.toString(),req.nickname());
+        KafkaStatus<KafkaUserBlogDto> kafkaStatus = new KafkaStatus<>(kafkaUserBlogDto,"update");
+        userBlogIdProducer.send(kafkaUserBlogDto,"update");
         return userBlog;
     }
 
     @Override
-    public UserBlogResponse getUserBlogByid(UUID id) {
+    public KafkaUserBlogDto deleteUserBlog(UserBlogRequest req, UUID id) {
+
+        UserBlog userBlog = userRepository.findById(id).orElseThrow(
+                EntityNotFoundException::new);
+
+        userRepository.delete(userBlog);
+
+        KafkaUserBlogDto kafkaUserBlogDto = new KafkaUserBlogDto(id.toString(),null);
+        KafkaStatus<KafkaUserBlogDto> kafkaStatus = new KafkaStatus<>(kafkaUserBlogDto,"delete");
+        userBlogIdProducer.send(kafkaUserBlogDto,"delete");
+
+        return kafkaUserBlogDto;
+    }
+
+
+    public UserBlogResponse getUserBlogById(UUID id) {
         UserBlogResponse blogResponse = UserBlogResponse
                 .from(userRepository.findAllById(id)
                         .orElseThrow(EntityNotFoundException::new));
