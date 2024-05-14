@@ -12,7 +12,6 @@ import java.util.UUID;
 public interface UserBlogService {
     SignInResponse saveInfo(UserBlogDto req);
     UserBlog update(UserBlogRequest req, UUID id);
+    UserBlogResponse getUserBlogById(UUID id);
     KafkaUserBlogDto deleteUserBlog(UserBlogRequest req, UUID id);
-
-    UserBlogResponse getUserBlogByid(UUID id);
 }

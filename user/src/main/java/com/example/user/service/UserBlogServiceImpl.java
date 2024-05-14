@@ -2,6 +2,7 @@
 package com.example.user.service;
 
 import com.example.user.dto.request.UserBlogRequest;
+import com.example.user.dto.response.SignInResponse;
 import com.example.user.dto.response.UserBlogResponse;
 import com.example.user.global.domain.entity.UserBlog;
 import com.example.user.global.domain.repository.UserBlogRepository;
@@ -69,7 +70,6 @@ public class UserBlogServiceImpl implements UserBlogService, UserDetailsService 
         return userBlog;
     }
 
-    @Override
     public KafkaUserBlogDto deleteUserBlog(UserBlogRequest req, UUID id) {
 
         UserBlog userBlog = userRepository.findById(id).orElseThrow(
@@ -83,7 +83,6 @@ public class UserBlogServiceImpl implements UserBlogService, UserDetailsService 
 
         return kafkaUserBlogDto;
     }
-
 
     public UserBlogResponse getUserBlogById(UUID id) {
         UserBlogResponse blogResponse = UserBlogResponse
