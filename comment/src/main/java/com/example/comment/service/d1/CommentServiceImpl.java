@@ -41,11 +41,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment getCommentId(Long id) {
-        commentRepository.findById(id).orElseThrow();
-        return null;
+        return commentRepository.findById(id).orElseThrow();
     }
-
-
 
     @Override
     @Transactional
