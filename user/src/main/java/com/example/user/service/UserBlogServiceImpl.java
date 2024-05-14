@@ -10,9 +10,12 @@ import com.example.user.global.dto.UserBlogDto;
 import com.example.user.global.utils.JwtUtil;
 import com.example.user.kafka.dto.KafkaStatus;
 import com.example.user.kafka.producer.UserBlogIdProducer;
+import com.example.user.kafka.dto.KafkaPostDto;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -38,17 +41,18 @@ public class UserBlogServiceImpl implements UserBlogService, UserDetailsService 
 
 
     @Override
-    public UserBlogDto saveInfo(UserBlogDto req) {
-        // 데이터베이스에 저장할 Entity 생성
+    public SignInResponse saveInfo(UserBlogDto req) {
         UserBlog userBlog = UserBlog.builder()
                 .email(req.toEntity().getEmail())
                 .nickname(req.toEntity().getNickname())
                 .id(req.toEntity().getId())
                 .build();
 
-        // 데이터베이스에 저장
         UserBlog save = userRepository.save(userBlog);
-        return UserBlogDto.from(save);
+        UserBlogDto userBlogDto = UserBlogDto.from(save);
+
+        String token = jwtUtil.generateToken(userBlogDto);
+        return SignInResponse.from(token);
     }
 
     @Override
@@ -87,4 +91,14 @@ public class UserBlogServiceImpl implements UserBlogService, UserDetailsService 
                         .orElseThrow(EntityNotFoundException::new));
         return blogResponse;
     }
+
+    @KafkaListener(topics = "post-topic", id = "user")
+    @Transactional
+    public void listen(KafkaStatus<KafkaPostDto> dto) {
+        if (dto.status().equals("insert")) {
+            UserBlog user = userRepository.findById(dto.data().userBlogId()).orElseThrow(EntityNotFoundException::new);
+            user.setPostId(dto.data().id());
+        }
+    }
+
 }

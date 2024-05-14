@@ -7,14 +7,14 @@ import java.util.Map;
 import java.util.UUID;
 
 public record UserBlogDto(
-        String id,
+        String userBlogId,
         String email,
         String nickname,
         String blogName
 ) {
     public UserBlog toEntity(){
         return UserBlog.builder()
-                .id(UUID.fromString(id))
+                .id(UUID.fromString(userBlogId))
                 .email(email)
                 .nickname(nickname)
                 .blogName(blogName)

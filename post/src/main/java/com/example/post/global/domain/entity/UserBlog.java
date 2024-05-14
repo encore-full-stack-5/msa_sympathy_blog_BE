@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -32,7 +31,7 @@ public class UserBlog implements UserDetails {
 
     @Override
     public String getUsername() {
-        return nickname;
+        return id.toString();
     }
 
     @Override
@@ -56,7 +55,6 @@ public class UserBlog implements UserDetails {
     }
 
     @Id
-    @GeneratedValue
     @Column(name = "USER_ID", columnDefinition = "BINARY(16)")
     private UUID id;
 

@@ -20,11 +20,12 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     consumer:
       value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
-      group-id: product
+      group-id: user
       auto-offset-reset: earliest
+
 jwt:
   secret: fdag32fdsavv32few89vbbafdsbaugubdsag8904fdsafdvcxcbre
-  expiration: 600000
+  expiration: 25920000
 
 eureka:
   client:

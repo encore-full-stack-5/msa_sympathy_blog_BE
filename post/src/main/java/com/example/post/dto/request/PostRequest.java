@@ -15,8 +15,6 @@ public record PostRequest(
 //        추후 카테고리 추가 예정
         String title,
         String content,
-        UUID userId,
-        String nickname,
         Topic topic,
         PublicScope publicScope,
         Category category
@@ -25,12 +23,9 @@ public record PostRequest(
         return Post.builder()
                 .title(title)
                 .content(content)
-                .userBlog(UserBlog.builder()
-                        .id(userId)
-                        .nickname(nickname).build())
                 .createdAt(LocalDateTime.now())
-                .publicScope(PublicScope.ALL)
-                .topic(Topic.ENTERTAINMENT)
+                .publicScope(publicScope)
+                .topic(topic)
                 .category(category)
                 .build();
     }
