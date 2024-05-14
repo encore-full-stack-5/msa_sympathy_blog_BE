@@ -29,13 +29,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if(bearerToken != null && bearerToken.startsWith("Bearer ")) {
             String token = bearerToken.substring(7);
 //            Token 까서 (jwtUtil)
-//            String email = jwtUtil.getByEmailFromTokenAndValidate(token);
+            String email = jwtUtil.getByEmailFromTokenAndValidate(token);
 //            userDetails 생성(authService)
-//            UserDetails user = authService.loadUserByUsername(email);
-//            UsernamePasswordAuthenticationToken authentication
-//                    = new UsernamePasswordAuthenticationToken(user, null,
-//                    user.getAuthorities());
-//            SecurityContextHolder.getContext().setAuthentication(authentication);
+            UserDetails user = authService.loadUserByUsername(email);
+            UsernamePasswordAuthenticationToken authentication
+                    = new UsernamePasswordAuthenticationToken(user, null,
+                    user.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         filterChain.doFilter(request,response);
 

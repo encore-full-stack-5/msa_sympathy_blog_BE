@@ -5,15 +5,15 @@ import com.example.post.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-@RequestMapping("/api/v1/images")
+@RequestMapping("/api/v1/{post_id}/images")
 @RestController
 @RequiredArgsConstructor
 public class ImageController {
     private final ImageService imageService;
 
-    @PostMapping("/{postId}")
-    public void save(@PathVariable Long postId, @RequestParam String path) {
-        imageService.save(postId, path);
+    @PostMapping
+    public void save(@PathVariable Long post_id, @RequestParam String path) {
+        imageService.save(post_id, path);
     }
 
     @DeleteMapping

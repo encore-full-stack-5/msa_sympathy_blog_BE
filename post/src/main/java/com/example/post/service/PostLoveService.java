@@ -13,7 +13,7 @@ public interface PostLoveService {
     Long countLove(Post post);
     // 좋아요 클릭 기능 (클릭, 해제)
     // 프론트에서 좋아요 수랑, true/false알아서 바꿔줌
-    boolean updateLove(Post post, UserBlog userBlog);
+    void updateLove(Post post, UserBlog userBlog);
     // 해당 post의 좋아요를 누른 사람의 nickname, blog명 return (이웃추가)
     List<LoveResponse> getLovers(Post post);
 }

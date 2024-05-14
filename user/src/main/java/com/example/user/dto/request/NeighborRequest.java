@@ -15,7 +15,6 @@ public record NeighborRequest(
 
 {
 
-
     public Neighbor toEntity(){
         return Neighbor.builder()
                 .type(type)

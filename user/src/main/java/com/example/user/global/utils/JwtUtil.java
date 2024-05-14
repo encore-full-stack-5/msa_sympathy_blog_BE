@@ -1,8 +1,6 @@
 package com.example.user.global.utils;
 
 import com.example.user.dto.request.UserBlogRequest;
-import com.example.user.global.domain.entity.UserBlog;
-import com.example.user.global.domain.repository.UserBlogRepository;
 import com.example.user.global.dto.UserBlogDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -12,7 +10,6 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
-import java.util.UUID;
 
 @Component
 public class JwtUtil {
@@ -29,7 +26,7 @@ public class JwtUtil {
 
     public String generateToken(UserBlogDto req) {
         String token = Jwts.builder()
-                .claim("id", req.userBlogId())
+                .claim("id", req.id())
                 .claim("email", req.email())
                 .claim("nickname", req.nickname())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
@@ -38,17 +35,13 @@ public class JwtUtil {
         return token;
     }
 
-    public UserBlog getByEmailFromTokenAndValidate(String token) {
+    public String getByEmailFromTokenAndValidate(String token) {
         Claims payload = (Claims) Jwts.parser()
                 .verifyWith(secretKey)
                 .build()
                 .parse(token)
                 .getPayload();
-        UserBlog build = UserBlog.builder().id(UUID.fromString(payload.get("id", String.class)))
-                .nickname(payload.get("nickname", String.class))
-                .email(payload.get("email", String.class))
-                .build();
-
-        return build;
+        return payload.getSubject();
     }
+
 }
