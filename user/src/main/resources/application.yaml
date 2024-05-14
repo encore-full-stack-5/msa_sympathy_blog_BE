@@ -24,7 +24,7 @@ spring:
       auto-offset-reset: earliest
 jwt:
   secret: fdag32fdsavv32few89vbbafdsbaugubdsag8904fdsafdvcxcbre
-  expiration: 600000
+  expiration: 25920000
 
 eureka:
   client:

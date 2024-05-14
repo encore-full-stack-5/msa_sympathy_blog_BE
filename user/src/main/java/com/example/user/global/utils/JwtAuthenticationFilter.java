@@ -1,5 +1,6 @@
 package com.example.user.global.utils;
 
+import com.example.user.global.domain.entity.UserBlog;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,14 +27,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
         String bearerToken = request.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("jwt ")) {
-            String token = bearerToken.substring(4); // "jwt " 다음에 있는 토큰 추출
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            String token = bearerToken.substring(7); // "jwt " 다음에 있는 토큰 추출
             try {
                 // JWT 토큰을 검증하고 유효성을 확인하는 로직을 여기에 추가하세요.
-                String email = jwtUtil.getByEmailFromTokenAndValidate(token);
-                if (email != null) {
+                UserBlog user = jwtUtil.getByEmailFromTokenAndValidate(token);
+                if (user != null) {
                     // 토큰에서 추출한 이메일을 사용하여 사용자 정보를 가져오는 코드 (예: 데이터베이스 조회)
-                    UserDetails user = authService.loadUserByUsername(email);
+//                    UserDetails user = authService.loadUserByUsername(email);
                     // 사용자 정보를 기반으로 인증 객체 생성
                     UsernamePasswordAuthenticationToken authentication
                             = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
