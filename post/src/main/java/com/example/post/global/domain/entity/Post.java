@@ -57,9 +57,17 @@ public class Post {
     @Column(name="POST_CREATED_AT", nullable = false)
     private LocalDateTime createdAt;
 
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     @JoinColumn(name = "CATEGORY_ID", nullable = false)
     @ManyToOne
     private Category category;
+
+    public void setUserBlog(UserBlog userBlog) {
+        this.userBlog = userBlog;
+    }
 
     @JoinColumn(name = "USER_ID")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -72,4 +80,7 @@ public class Post {
     @Column(name="POST_TOPIC", nullable = false)
     @Enumerated(EnumType.STRING)
     private Topic topic;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private List<PostLove> postLoves;
 }
