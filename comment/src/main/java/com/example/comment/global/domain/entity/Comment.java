@@ -40,7 +40,8 @@ public class Comment {
     @Column(name = "NICKNAME")
     private String nickname;
 
-    @OneToMany(mappedBy = "comment")
+//    comment 지우면 commentLike도 지우기 위해 cascade 설정
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
     private List<CommentLike> commentLikes;
 
 

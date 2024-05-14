@@ -5,10 +5,15 @@ import com.example.comment.dto.request.CommentRequest;
 import com.example.comment.global.domain.entity.Comment;
 import com.example.comment.global.domain.entity.CommentLike;
 import com.example.comment.global.domain.repository.CommentRepository;
+import com.example.comment.kafka.dto.KafkaPostDto;
+import com.example.comment.kafka.dto.KafkaStatus;
 import com.example.comment.service.d2.CommentLikeService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -67,5 +72,12 @@ public class CommentServiceImpl implements CommentService {
         return likeCount != null ? likeCount.intValue() : 0;
     }
 
-
+    @KafkaListener(topics = "post-topic")
+    public void deleteCommentsByPostId(KafkaStatus<KafkaPostDto> kafkaStatus, String status) {
+        if (status.equals("delete")) {
+            Long postId = kafkaStatus.data().id();
+            List<Comment> comments = commentRepository.findAllByPostId(postId);
+            comments.forEach((el) -> commentRepository.deleteById(el.getId()));
+        }
+    }
 }

@@ -5,6 +5,7 @@ import com.example.post.dto.response.PostResponse;
 import com.example.post.global.domain.entity.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.UUID;
 
@@ -17,4 +18,6 @@ public interface PostService {
 
     PostResponse getPostById(Long id);
     Page<PostResponse> getPostsByUserId(Pageable pageable, UUID userId);
+
+    void deleteById(Long id);
 }

@@ -26,7 +26,7 @@ public class UserBlogController {
 
     @PutMapping("/{id}")
     public UserBlog update(@PathVariable UUID id, @RequestBody UserBlogRequest req) {
-        userBlogService.update(req, id);
+        return userBlogService.update(req, id);
     }
 
 

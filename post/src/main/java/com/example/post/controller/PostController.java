@@ -2,6 +2,7 @@ package com.example.post.controller;
 
 import com.example.post.dto.request.PostRequest;
 import com.example.post.dto.response.PostResponse;
+import com.example.post.kafka.PostProducer;
 import com.example.post.service.PostService;
 import com.example.post.service.PostViewService;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -41,4 +43,10 @@ public class PostController {
                                                ) Pageable pageable) {
         return postService.getPostsByUserId(pageable,userId);
     }
+
+    @DeleteMapping("{id}")
+    public void deleteById(@PathVariable Long id) {
+        postService.deleteById(id);
+    }
+
 }

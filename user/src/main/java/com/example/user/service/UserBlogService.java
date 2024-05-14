@@ -10,5 +10,5 @@ import java.util.UUID;
 public interface UserBlogService {
     UserBlogDto saveInfo(UserBlogDto req);
     UserBlog update(UserBlogRequest req, UUID id);
-    UserBlog updatePostId(UUID id, Long postId);
+
 }

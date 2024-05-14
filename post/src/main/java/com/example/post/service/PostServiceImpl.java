@@ -55,8 +55,11 @@ public class PostServiceImpl implements PostService{
         // user service에서 UserBlog entity의 postId update -> but, 방금 넣어준 post를 찾을 방법이 없다.
         List<Post> posts = postRepository.findAllByUserBlog(userBlog);
         Post post = posts.get(posts.size()-1);
-        KafkaPostDto kafkaPostDto = new KafkaPostDto(post.getId(), post.getTitle(), post.getContent(), post.getUserBlog().getId());
-        producer.send(kafkaPostDto, "insert");
+        KafkaPostDto kafkaPostDto = new KafkaPostDto(post.getId()
+                , post.getTitle()
+                , post.getContent()
+                , post.getUserBlog().getId());
+        producer.sendToUser(kafkaPostDto, "insert");
 
 
 
@@ -74,6 +77,7 @@ public class PostServiceImpl implements PostService{
         post.setTitle(req.title());
 //        post.setMediaPosts(req.toEntity().getMediaPosts()); // MediaPost table 삭제
         postRepository.save(post);
+
         return post;
     }
 
@@ -88,5 +92,13 @@ public class PostServiceImpl implements PostService{
     public Page<PostResponse> getPostsByUserId(Pageable pageable, UUID userId) {
         Page<Post> posts = postRepository.findAllByUserBlog_Id(pageable, userId);
         return posts.map(PostResponse::from);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        Post post = postRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        postRepository.deleteById(id);
+        KafkaPostDto kafkaPostDto = new KafkaPostDto(id, post.getTitle(), post.getContent(), post.getUserBlog().getId());
+        producer.sendToComment(kafkaPostDto, "delete");
     }
 }
