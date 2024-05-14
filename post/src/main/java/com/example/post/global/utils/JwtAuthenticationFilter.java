@@ -1,6 +1,6 @@
 package com.example.post.global.utils;
 
-import com.example.post.global.utils.JwtUtil;
+import com.example.post.global.domain.entity.UserBlog;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,9 +30,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if(bearerToken != null && bearerToken.startsWith("Bearer ")) {
             String token = bearerToken.substring(7);
 //            Token 까서 (jwtUtil)
-            String email = jwtUtil.getByEmailFromTokenAndValidate(token);
+            UserBlog user = jwtUtil.getByUUIDFromTokenAndValidate(token);
 //            userDetails 생성(authService)
-            UserDetails user = authService.loadUserByUsername(email);
+//            UserDetails user = authService.loadUserByUsername(email);
             UsernamePasswordAuthenticationToken authentication
                     = new UsernamePasswordAuthenticationToken(user, null,
                     user.getAuthorities());
