@@ -39,7 +39,3 @@ logging:
   level:
     org.springframework.security: trace
     com.example.auth: info
-
-kafka:
-  product:
-    name: post-topic
