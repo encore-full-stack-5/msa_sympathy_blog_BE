@@ -29,7 +29,7 @@ public class JwtUtil {
 
     public String generateToken(UserBlogDto req) {
         String token = Jwts.builder()
-                .claim("id", req.id())
+                .claim("id", req.userBlogId())
                 .claim("email", req.email())
                 .claim("nickname", req.nickname())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))

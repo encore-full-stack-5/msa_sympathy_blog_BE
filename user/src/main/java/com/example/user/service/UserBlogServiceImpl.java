@@ -2,15 +2,18 @@
 package com.example.user.service;
 
 import com.example.user.dto.request.UserBlogRequest;
-import com.example.user.dto.response.SignInResponse;
 import com.example.user.dto.response.UserBlogResponse;
 import com.example.user.global.domain.entity.UserBlog;
 import com.example.user.global.domain.repository.UserBlogRepository;
 import com.example.user.global.dto.UserBlogDto;
 import com.example.user.global.utils.JwtUtil;
+import com.example.user.kafka.dto.KafkaPostDto;
+import com.example.user.kafka.dto.KafkaStatus;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -66,4 +69,14 @@ public class UserBlogServiceImpl implements UserBlogService, UserDetailsService 
                         .orElseThrow(EntityNotFoundException::new));
         return blogResponse;
     }
+
+    @KafkaListener(topics = "post-topic", id = "user")
+    @Transactional
+    public void listen(KafkaStatus<KafkaPostDto> dto) {
+        if (dto.status().equals("insert")) {
+            UserBlog user = userRepository.findById(dto.data().userBlogId()).orElseThrow(EntityNotFoundException::new);
+            user.setPostId(dto.data().id());
+        }
+    }
+
 }

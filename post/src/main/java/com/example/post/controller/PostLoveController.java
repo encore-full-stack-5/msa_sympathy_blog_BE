@@ -16,17 +16,17 @@ public class PostLoveController {
 
     private final PostLoveService postLoveService;
 
-    @GetMapping("/count")
+    @GetMapping("/count") // 페이지 새로고침할 때 전체 갯수 가져오기
     public Long countLove(@RequestBody Post post) {
         return postLoveService.countLove(post);
     }
 
-    @PutMapping
-    public void updateLove(@RequestBody Post post, @RequestBody UserBlog userBlog) {
-        postLoveService.updateLove(post, userBlog);
+    @PutMapping // 버튼 누르면 좋아요 변경하기
+    public boolean updateLove(@RequestBody Post post, @RequestBody UserBlog userBlog) {
+        return postLoveService.updateLove(post, userBlog);
     }
 
-    @GetMapping("/lovers")
+    @GetMapping("/lovers") // 좋아요 누른 사람의 닉네임과 블로그 이름 가져오기
     public List<LoveResponse> getLovers(@RequestBody Post post) {
         return postLoveService.getLovers(post);
     }
