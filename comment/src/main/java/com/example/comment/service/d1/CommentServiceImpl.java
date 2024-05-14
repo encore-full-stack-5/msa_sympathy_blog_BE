@@ -5,10 +5,15 @@ import com.example.comment.dto.request.CommentRequest;
 import com.example.comment.global.domain.entity.Comment;
 import com.example.comment.global.domain.entity.CommentLike;
 import com.example.comment.global.domain.repository.CommentRepository;
+import com.example.comment.kafka.dto.KafkaStatus;
+import com.example.comment.kafka.dto.KafkaUserBlogDto;
 import com.example.comment.service.d2.CommentLikeService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -31,7 +36,6 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentRepository.findById(id).orElseThrow();
         Comment updatedComment = request.toEntity();
         commentRepository.save(updatedComment);
-
     }
 
     @Override
@@ -65,6 +69,27 @@ public class CommentServiceImpl implements CommentService {
 
         Integer likeCount = comment.getLikeCount();
         return likeCount != null ? likeCount.intValue() : 0;
+    }
+
+    @KafkaListener(topics = "userBlog-topic")
+    public void synchronization(KafkaStatus<KafkaUserBlogDto> status) {
+        switch (status.status()) {
+            case "delete" -> {
+                List<Comment> byUserIds = commentRepository.findByUserId(UUID.fromString(status.data().userBlogId()));
+
+                for (Comment byUserId : byUserIds) {
+                    commentRepository.deleteById(byUserId.getId());
+                }
+            }
+            case "update" -> {
+                List<Comment> byUserIds = commentRepository.findByUserId(UUID.fromString(status.data().userBlogId()));
+
+                for (Comment byUserId : byUserIds) {
+                    byUserId.setNickname(status.data().nickname());
+                    commentRepository.save(byUserId);
+                }
+            }
+        }
     }
 
 
