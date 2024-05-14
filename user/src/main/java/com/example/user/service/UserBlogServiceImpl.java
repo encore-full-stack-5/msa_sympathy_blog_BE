@@ -60,7 +60,7 @@ public class UserBlogServiceImpl implements UserBlogService, UserDetailsService 
     }
 
     @Override
-    public UserBlogResponse getUserBlogByid(UUID id) {
+    public UserBlogResponse getUserBlogById(UUID id) {
         UserBlogResponse blogResponse = UserBlogResponse
                 .from(userRepository.findAllById(id)
                         .orElseThrow(EntityNotFoundException::new));
