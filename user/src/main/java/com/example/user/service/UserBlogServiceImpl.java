@@ -13,6 +13,7 @@ import com.example.user.kafka.producer.UserBlogIdProducer;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -87,4 +88,5 @@ public class UserBlogServiceImpl implements UserBlogService, UserDetailsService 
                         .orElseThrow(EntityNotFoundException::new));
         return blogResponse;
     }
+
 }
