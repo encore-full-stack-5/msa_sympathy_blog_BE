@@ -15,7 +15,7 @@ spring:
     name: post
 
 jwt:
-  secret: ssssssssssssssssssssssssssmmmmmmmmmmmmmmm
+  secret: fdag32fdsavv32few89vbbafdsbaugubdsag8904fdsafdvcxcbre
   expiration: 25920000
 
 eureka:
