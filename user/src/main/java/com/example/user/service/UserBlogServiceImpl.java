@@ -2,6 +2,7 @@
 package com.example.user.service;
 
 import com.example.user.dto.request.UserBlogRequest;
+import com.example.user.dto.response.SignInResponse;
 import com.example.user.dto.response.UserBlogResponse;
 import com.example.user.global.domain.entity.UserBlog;
 import com.example.user.global.domain.repository.UserBlogRepository;
