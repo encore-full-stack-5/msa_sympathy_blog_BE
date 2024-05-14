@@ -37,6 +37,7 @@ public class UserBlog implements UserDetails {
     private String blogName;
 
     @Column(name="POST_ID")
+    @Setter
     private Long postId;
 
     @Column(name="NEIGHBOR_ID")

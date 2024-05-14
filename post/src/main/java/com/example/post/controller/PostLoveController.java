@@ -22,8 +22,8 @@ public class PostLoveController {
     }
 
     @PutMapping // 버튼 누르면 좋아요 변경하기
-    public void updateLove(@RequestBody Post post, @RequestBody UserBlog userBlog) {
-        postLoveService.updateLove(post, userBlog);
+    public boolean updateLove(@RequestBody Post post, @RequestBody UserBlog userBlog) {
+        return postLoveService.updateLove(post, userBlog);
     }
 
     @GetMapping("/lovers") // 좋아요 누른 사람의 닉네임과 블로그 이름 가져오기
