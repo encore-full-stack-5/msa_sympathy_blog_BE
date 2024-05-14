@@ -14,10 +14,18 @@ spring:
     show-sql: true
   application:
     name: user
+  kafka:
+    bootstrap-servers: 192.168.0.20:9092
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
+      group-id: user
+      auto-offset-reset: earliest
 
 jwt:
   secret: fdag32fdsavv32few89vbbafdsbaugubdsag8904fdsafdvcxcbre
-  expiration: 600000
+  expiration: 25920000
 
 eureka:
   client:

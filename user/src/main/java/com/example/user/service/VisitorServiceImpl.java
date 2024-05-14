@@ -18,8 +18,6 @@ public class VisitorServiceImpl implements VisitorService{
     private final VisitorRepository visitorRepository;
     private final TodayRepository todayRepository;
 
-
-
     @Override
     public void save(VisitorRequest request) {
 

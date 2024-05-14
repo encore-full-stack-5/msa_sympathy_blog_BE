@@ -22,6 +22,10 @@ public class Category {
     private String categoryName;
 
 
+    public void setUserBlog(UserBlog userBlog) {
+        this.userBlog = userBlog;
+    }
+
     @ManyToOne
     @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")
     private UserBlog userBlog;
