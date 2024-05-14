@@ -25,8 +25,8 @@ spring:
 
 
 jwt:
-  secret: ssssssssssssssssssssssssssmmmmmmmmmmmmmmm
-  expiration: 600000
+  secret: fdag32fdsavv32few89vbbafdsbaugubdsag8904fdsafdvcxcbre
+  expiration: 25920000
 
 
 eureka:

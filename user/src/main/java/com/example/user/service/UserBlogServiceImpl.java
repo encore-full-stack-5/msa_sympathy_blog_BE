@@ -38,17 +38,18 @@ public class UserBlogServiceImpl implements UserBlogService, UserDetailsService 
 
 
     @Override
-    public UserBlogDto saveInfo(UserBlogDto req) {
-        // 데이터베이스에 저장할 Entity 생성
+    public SignInResponse saveInfo(UserBlogDto req) {
         UserBlog userBlog = UserBlog.builder()
                 .email(req.toEntity().getEmail())
                 .nickname(req.toEntity().getNickname())
                 .id(req.toEntity().getId())
                 .build();
 
-        // 데이터베이스에 저장
         UserBlog save = userRepository.save(userBlog);
-        return UserBlogDto.from(save);
+        UserBlogDto userBlogDto = UserBlogDto.from(save);
+
+        String token = jwtUtil.generateToken(userBlogDto);
+        return SignInResponse.from(token);
     }
 
     @Override
@@ -61,6 +62,7 @@ public class UserBlogServiceImpl implements UserBlogService, UserDetailsService 
         return userBlog;
     }
 
+    @Override
     public UserBlogResponse getUserBlogByid(UUID id) {
         UserBlogResponse blogResponse = UserBlogResponse
                 .from(userRepository.findAllById(id)
