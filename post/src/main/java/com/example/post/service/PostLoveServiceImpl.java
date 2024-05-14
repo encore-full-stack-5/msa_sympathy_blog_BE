@@ -29,12 +29,13 @@ public class PostLoveServiceImpl implements PostLoveService {
 
     @Override
     @Transactional
-    public void updateLove(Post post, UserBlog userBlog) {
+    public boolean updateLove(Post post, UserBlog userBlog) {
         PostLove postLove = postLoveRepository
                 .findByPostIdAndUserBlogId(post.getId(), userBlog.getId())
                 .orElseThrow(PostLoveNotFoundException::new);
         postLove.setLove(!postLove.isLove());
-        // click하고 love true/false는 front 에서 알아서 바꿈
+        return !postLove.isLove();
+        // return 값에 따라, front에서 좋아요 수 +1, -1 결정
     }
 
     @Override
