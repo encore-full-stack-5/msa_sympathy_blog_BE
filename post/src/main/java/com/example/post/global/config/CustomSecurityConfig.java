@@ -25,7 +25,7 @@ public class CustomSecurityConfig {
         http.userDetailsService(authService);
 
         http.authorizeRequests(req ->
-                req.requestMatchers("/api/v1/posts/{id}", "/api/v1/posts/user/{userId}")
+                req.requestMatchers("/api/v1/auth/signin","/api/v1/auth/signup")
                         .permitAll()
                         .anyRequest()
                         .authenticated()

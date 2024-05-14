@@ -29,5 +29,9 @@ public class CommentLikeServiceImpl implements CommentLikeService {
             commentLikeRepository.save(CommentLike.builder().userId(userId).comment(comment).isLiked(true).build());
             return +1;
         }
+
+
+
+
     }
 }

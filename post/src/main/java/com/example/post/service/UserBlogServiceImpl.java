@@ -7,8 +7,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 @Service
 @RequiredArgsConstructor
 public class UserBlogServiceImpl implements UserBlogService, UserDetailsService {
@@ -16,7 +14,7 @@ public class UserBlogServiceImpl implements UserBlogService, UserDetailsService 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userBlogRepository
-                .findById(UUID.fromString(username))
+                .findByNickname(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
     }
 }

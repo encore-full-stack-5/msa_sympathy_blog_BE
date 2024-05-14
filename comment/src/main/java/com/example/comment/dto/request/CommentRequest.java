@@ -20,7 +20,6 @@ public record CommentRequest(
                 .content(content)
                 .nickname(nickname)
                 .createdAt(createdAt)
-                .likeCount(0)
                 .build();
     }
 

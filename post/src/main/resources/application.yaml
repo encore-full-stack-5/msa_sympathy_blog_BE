@@ -9,22 +9,13 @@ spring:
     password: 1234
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true
   application:
     name: post
-  kafka:
-    bootstrap-servers: 192.168.0.20:9092
-    producer:
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-    consumer:
-      value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      group-id: user
-      auto-offset-reset: earliest
 
 jwt:
-  secret: fdag32fdsavv32few89vbbafdsbaugubdsag8904fdsafdvcxcbre
+  secret: ssssssssssssssssssssssssssmmmmmmmmmmmmmmm
   expiration: 25920000
 
 eureka:
@@ -35,7 +26,7 @@ eureka:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${random.uui}
 server:
-  port: 8088
+  port: 8081
 
 logging:
   level:

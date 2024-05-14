@@ -22,6 +22,7 @@ public class NeighborServiceImpl implements NeighborService {
     //나한테 신청한 신청자들 보기
     @Override
     public List<Neighbor> showNeighbor(NeighborRequest request) {
+        UserBlog userBlog = request.toEntity().getUserBlog();
         List<Neighbor> byUserBlogIds = neighborRepository.findByUserBlog_Id(UUID.fromString(request.userBlogId()));
         if(byUserBlogIds.isEmpty()){
             throw new IllegalArgumentException("신청하고자 하는 유저 블로그가 없습니다.");
@@ -54,8 +55,6 @@ public class NeighborServiceImpl implements NeighborService {
         }else {
             neighborRepository.delete(acceptNeighbor.get());
         }
-
-
     }
 
     //이웃 신청 수락
@@ -73,8 +72,6 @@ public class NeighborServiceImpl implements NeighborService {
                 neighborRepository.save(neighbor);
             }
         }
-
-
 
 
     }

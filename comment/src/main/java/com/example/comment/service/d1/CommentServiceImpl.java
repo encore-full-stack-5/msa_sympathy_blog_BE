@@ -5,15 +5,10 @@ import com.example.comment.dto.request.CommentRequest;
 import com.example.comment.global.domain.entity.Comment;
 import com.example.comment.global.domain.entity.CommentLike;
 import com.example.comment.global.domain.repository.CommentRepository;
-import com.example.comment.kafka.dto.KafkaStatus;
-import com.example.comment.kafka.dto.KafkaUserBlogDto;
 import com.example.comment.service.d2.CommentLikeService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -36,6 +31,7 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentRepository.findById(id).orElseThrow();
         Comment updatedComment = request.toEntity();
         commentRepository.save(updatedComment);
+
     }
 
     @Override
@@ -45,8 +41,11 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment getCommentId(Long id) {
-        return commentRepository.findById(id).orElseThrow();
+        commentRepository.findById(id).orElseThrow();
+        return null;
     }
+
+
 
     @Override
     @Transactional
@@ -55,41 +54,27 @@ public class CommentServiceImpl implements CommentService {
         Optional<Comment> byCommentId = commentRepository.findById(commentLike.getComment().getId());
         Comment comment = byCommentId.orElseThrow(()-> new RuntimeException("Comment not found"));
 
-        comment.setLikeCount(comment.getLikeCount() +
-                commentLikeService.likeComment(comment, commentLike.getUserId()));
+        Integer likeCount = commentLike.getComment().getLikeCount();
+        int currentLikes = (likeCount != null) ? likeCount : 0;
+
+        int likeChange = commentLikeService.likeComment(comment, commentLike.getUserId());
+        int newLikes = currentLikes + likeChange;
+
+
+        comment.setLikeCount(newLikes);
+
+
+        commentRepository.save(comment);
+
 
     }
 
     @Override
     public int getCommentLikeTotalByCommentId(Long commentId) {
         Comment comment = commentRepository.findById(commentId).orElseThrow();
-        if (comment.getCommentLikes() == null) {throw new RuntimeException("like cannot ne null");}
+        int likeCount = comment.getLikeCount();
 
-
-
-        Integer likeCount = comment.getLikeCount();
-        return likeCount != null ? likeCount.intValue() : 0;
-    }
-
-    @KafkaListener(topics = "userBlog-topic")
-    public void synchronization(KafkaStatus<KafkaUserBlogDto> status) {
-        switch (status.status()) {
-            case "delete" -> {
-                List<Comment> byUserIds = commentRepository.findByUserId(UUID.fromString(status.data().userBlogId()));
-
-                for (Comment byUserId : byUserIds) {
-                    commentRepository.deleteById(byUserId.getId());
-                }
-            }
-            case "update" -> {
-                List<Comment> byUserIds = commentRepository.findByUserId(UUID.fromString(status.data().userBlogId()));
-
-                for (Comment byUserId : byUserIds) {
-                    byUserId.setNickname(status.data().nickname());
-                    commentRepository.save(byUserId);
-                }
-            }
-        }
+        return   comment.getLikeCount();
     }
 
 
