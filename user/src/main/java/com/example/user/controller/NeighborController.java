@@ -33,7 +33,11 @@ public class NeighborController {
         neighborService.addNeighbor(request);
     }
 
-
+    @PutMapping("/delete{requestId}/{userBlogId}")
+    public void deleteNeighbor(@PathVariable("userBlogId")String userBlogId,@PathVariable("requestId")String requestId){
+        NeighborRequest request = new NeighborRequest(userBlogId,requestId,null,null);
+        neighborService.deleteNeighbor(request);
+    }
 
 
 }
