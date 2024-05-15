@@ -1,17 +1,16 @@
 package com.example.comment.service.d1;
 
-import com.example.comment.dto.request.CommentLikeRequest;
+
 import com.example.comment.dto.request.CommentRequest;
 import com.example.comment.global.domain.entity.Comment;
 import com.example.comment.global.domain.entity.CommentLike;
 import com.example.comment.global.domain.repository.CommentRepository;
-<<<<<<< HEAD
+
 import com.example.comment.kafka.dto.KafkaPostDto;
 import com.example.comment.kafka.dto.KafkaStatus;
-=======
-import com.example.comment.kafka.dto.KafkaStatus;
+
 import com.example.comment.kafka.dto.KafkaUserBlogDto;
->>>>>>> 87ba3750b6afbd8b7b90800e00f752b1caefcf8a
+
 import com.example.comment.service.d2.CommentLikeService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
