@@ -41,19 +41,9 @@ public class UserApplication {
 		return new JsonMessageConverter();
 	}
 
-	public static class KafkaInitiator {
 
-		@Autowired
-		private UserBlogIdProducer userBlogIdProducer;
-		@Autowired
-		private KafkaTemplate<String, KafkaStatus<KafkaUserBlogDto>> kafkaTemplate;
 
-		@Scheduled(cron = "* * * * * *")
-		public void init() {
-			KafkaUserBlogDto kafkaUserBlogDto = new KafkaUserBlogDto(UUID.randomUUID().toString(), "aa");
-			userBlogIdProducer.send(kafkaUserBlogDto, "update");
-		}
-	}
+
 
 
 }

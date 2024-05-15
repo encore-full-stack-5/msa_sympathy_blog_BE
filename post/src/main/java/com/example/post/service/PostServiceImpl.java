@@ -4,12 +4,15 @@ import com.example.post.dto.request.PostRequest;
 import com.example.post.dto.response.PostResponse;
 import com.example.post.global.domain.entity.*;
 import com.example.post.global.domain.repository.*;
+import com.example.post.kafka.PostProducer;
+import com.example.post.kafka.dto.KafkaPostDto;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -20,6 +23,9 @@ public class PostServiceImpl implements PostService{
     private final PostLoveRepository postLoveRepository;
     private final UserBlogRepository userBlogRepository;
     private final CategoryRepository categoryRepository;
+    private final PostProducer producer;
+
+
     @Override
     public void save(PostRequest postRequest, UserBlog userBlog) {
         Post post = postRequest.toEntity();
@@ -60,6 +66,24 @@ public class PostServiceImpl implements PostService{
                 .orElseThrow(() -> new IllegalArgumentException("유저가 존재하지 않습니다."));
         PostLove postLove = PostLove.builder().post(post).userBlog(newUserBlog).build();
         postLoveRepository.save(postLove);
+
+
+        // user service에서 UserBlog entity의 postId update -> but, 방금 넣어준 post를 찾을 방법이 없다.
+        List<Post> posts = postRepository.findAllByUserBlog(userBlog);
+        Post recentPost = posts.get(posts.size()-1);
+        KafkaPostDto kafkaPostDto = new KafkaPostDto(recentPost.getId()
+                , recentPost.getTitle()
+                , recentPost.getContent()
+                , recentPost.getUserBlog().getId());
+        producer.sendToUser(kafkaPostDto, "insert");
+
+
+
+//        PostView postView = new PostView();
+//        postView.setPost(post);
+//        postView.setView(0);
+//        postViewRepository.save(postView);
+
     }
 
 
@@ -71,6 +95,7 @@ public class PostServiceImpl implements PostService{
         post.setTitle(req.title());
 //        post.setMediaPosts(req.toEntity().getMediaPosts()); // MediaPost table 삭제
         postRepository.save(post);
+
         return post;
     }
 
@@ -85,5 +110,13 @@ public class PostServiceImpl implements PostService{
     public Page<PostResponse> getPostsByUserId(Pageable pageable, UUID userId) {
         Page<Post> posts = postRepository.findAllByUserBlog_Id(pageable, userId);
         return posts.map(PostResponse::from);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        Post post = postRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        postRepository.deleteById(id);
+        KafkaPostDto kafkaPostDto = new KafkaPostDto(id, post.getTitle(), post.getContent(), post.getUserBlog().getId());
+        producer.sendToComment(kafkaPostDto, "delete");
     }
 }
