@@ -12,22 +12,22 @@ public class ImageController {
     private final ImageService imageService;
 
     @PostMapping("/{postId}")
-    public void save(@PathVariable Long postId, @RequestParam String path) {
+    public void save(@PathVariable Long postId, @RequestBody String path) {
         imageService.save(postId, path);
     }
 
     @DeleteMapping
-    public void delete(@RequestParam Long id) {
+    public void delete(@RequestBody Long id) {
         imageService.delete(id);
     }
 
     @PutMapping
-    public void update(@RequestParam Long id, @RequestParam String newPath) {
+    public void update(@RequestBody Long id, @RequestBody String newPath) {
         imageService.update(id, newPath);
     }
 
     @GetMapping
-    public Image getOne(@RequestParam Long id) {
+    public Image getOne(@RequestBody Long id) {
         return imageService.findImage(id);
     }
 }
