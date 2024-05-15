@@ -12,6 +12,7 @@ import com.example.comment.kafka.dto.KafkaStatus;
 import com.example.comment.kafka.dto.KafkaUserBlogDto;
 
 import com.example.comment.service.d2.CommentLikeService;
+import com.example.comment.kafka.dto.KafkaPostDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -93,17 +94,19 @@ public class CommentServiceImpl implements CommentService {
 
                 for (Comment byUserId : byUserIds) {
                     commentRepository.deleteById(byUserId.getId());
+                 }
                 }
-            }
             case "update" -> {
                 List<Comment> byUserIds = commentRepository.findByUserId(UUID.fromString(status.data().userBlogId()));
 
                 for (Comment byUserId : byUserIds) {
                     byUserId.setNickname(status.data().nickname());
                     commentRepository.save(byUserId);
+                  }
                 }
-            }
-        }
+
+             }
     }
+
 
 }
