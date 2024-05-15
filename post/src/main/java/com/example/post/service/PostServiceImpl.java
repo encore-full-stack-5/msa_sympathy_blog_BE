@@ -70,11 +70,11 @@ public class PostServiceImpl implements PostService{
 
         // user service에서 UserBlog entity의 postId update -> but, 방금 넣어준 post를 찾을 방법이 없다.
         List<Post> posts = postRepository.findAllByUserBlog(userBlog);
-        Post post = posts.get(posts.size()-1);
-        KafkaPostDto kafkaPostDto = new KafkaPostDto(post.getId()
-                , post.getTitle()
-                , post.getContent()
-                , post.getUserBlog().getId());
+        Post recentPost = posts.get(posts.size()-1);
+        KafkaPostDto kafkaPostDto = new KafkaPostDto(recentPost.getId()
+                , recentPost.getTitle()
+                , recentPost.getContent()
+                , recentPost.getUserBlog().getId());
         producer.sendToUser(kafkaPostDto, "insert");
 
 
