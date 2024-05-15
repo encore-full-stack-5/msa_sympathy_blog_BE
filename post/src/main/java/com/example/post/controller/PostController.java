@@ -2,18 +2,23 @@ package com.example.post.controller;
 
 import com.example.post.dto.request.PostRequest;
 import com.example.post.dto.response.PostResponse;
+
 import com.example.post.global.domain.entity.UserBlog;
-import com.example.post.global.dto.UserBlogDto;
+
+
 import com.example.post.service.PostService;
-import com.example.post.service.PostViewService;
+
 import com.example.post.service.TokenService;
-import jakarta.annotation.security.RolesAllowed;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -49,4 +54,10 @@ public class PostController {
                                                ) Pageable pageable) {
         return postService.getPostsByUserId(pageable,userId);
     }
+
+    @DeleteMapping("{id}")
+    public void deleteById(@PathVariable Long id) {
+        postService.deleteById(id);
+    }
+
 }
