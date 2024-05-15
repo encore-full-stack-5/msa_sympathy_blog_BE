@@ -12,7 +12,7 @@ import com.example.comment.kafka.dto.KafkaStatus;
 import com.example.comment.kafka.dto.KafkaUserBlogDto;
 
 import com.example.comment.service.d2.CommentLikeService;
-import com.example.comment.kafka.dto.KafkaPostDto;
+
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
