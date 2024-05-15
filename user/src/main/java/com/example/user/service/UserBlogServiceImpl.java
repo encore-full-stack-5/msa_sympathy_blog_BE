@@ -95,9 +95,9 @@ public class UserBlogServiceImpl implements UserBlogService, UserDetailsService 
     @Transactional
     public void listen(KafkaStatus<KafkaPostDto> dto) {
         if (dto.status().equals("insert")) {
-            UserBlog user = userRepository.findById(dto.data().userBlogId()).orElseThrow(EntityNotFoundException::new);
+            UserBlog user = userRepository
+                    .findById(dto.data().userBlogId()).orElseThrow(EntityNotFoundException::new);
             user.setPostId(dto.data().id());
         }
     }
-
 }
