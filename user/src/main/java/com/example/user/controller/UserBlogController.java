@@ -45,7 +45,7 @@ public class UserBlogController {
                        @RequestBody UserBlogRequest req) {
 //        System.out.println(user.getId() + " 0" + user.getUsername());
         userBlogService.update(req, user.getId());
-        KafkaUserBlogDto kafkaUserBlogDto = new KafkaUserBlogDto(user.getId.toString(),req.nickname());
+        KafkaUserBlogDto kafkaUserBlogDto = new KafkaUserBlogDto(user.toString(),req.nickname());
         userBlogIdProducer.send(kafkaUserBlogDto,"update");
     }
 

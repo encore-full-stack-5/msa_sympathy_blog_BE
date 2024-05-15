@@ -3,6 +3,7 @@ package com.example.user;
 import com.example.user.kafka.dto.KafkaStatus;
 import com.example.user.kafka.dto.KafkaUserBlogDto;
 import com.example.user.kafka.producer.UserBlogIdProducer;
+import com.example.user.service.UserBlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
