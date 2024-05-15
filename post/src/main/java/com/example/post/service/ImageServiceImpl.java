@@ -1,5 +1,6 @@
 package com.example.post.service;
 
+import com.example.post.dto.response.ImageResponse;
 import com.example.post.exception.ImageNotFoundException;
 import com.example.post.exception.PostNotFoundException;
 import com.example.post.global.domain.entity.Image;
@@ -38,7 +39,8 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public Image findImage(Long id) {
-        return imageRepository.findById(id).orElseThrow(ImageNotFoundException::new);
+    public ImageResponse findImage(Long id) {
+        Image image = imageRepository.findById(id).orElseThrow(ImageNotFoundException::new);
+        return new ImageResponse(image.getId(), image.getPath());
     }
 }

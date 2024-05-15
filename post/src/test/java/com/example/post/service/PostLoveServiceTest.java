@@ -61,7 +61,7 @@ class PostLoveServiceTest {
 
         PostLove postLove = PostLove.builder().post(post).userBlog(userBlog).love(true).build();
         postLoveRepository.save(postLove);
-        Long count = postLoveService.countLove(post);
+        Long count = postLoveService.countLove(post.getId());
 
         assertEquals(1, count);
 
@@ -72,7 +72,7 @@ class PostLoveServiceTest {
         Post post = postRepository.findById(4L).get();
         UserBlog userBlog = userBlogRepository.findByNickname("jinho").get();
         PostLove before = postLoveRepository.findByPostIdAndUserBlogId(post.getId(), userBlog.getId()).get();
-        postLoveService.updateLove(post, userBlog);
+        postLoveService.updateLove(post.getId(), userBlog.getId());
         PostLove after = postLoveRepository.findByPostIdAndUserBlogId(post.getId(), userBlog.getId()).get();
 
         assertEquals(!before.isLove(),after.isLove());
@@ -82,7 +82,7 @@ class PostLoveServiceTest {
     @Test
     void success() {
         Post post = postRepository.findById(4L).get();
-        List<LoveResponse> posts = postLoveService.getLovers(post);
+        List<LoveResponse> posts = postLoveService.getLovers(post.getId());
         assertEquals(2, posts.size());
     }
 }

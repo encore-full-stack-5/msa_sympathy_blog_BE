@@ -31,7 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String token = bearerToken.substring(7); // "jwt " 다음에 있는 토큰 추출
             try {
                 // JWT 토큰을 검증하고 유효성을 확인하는 로직을 여기에 추가하세요.
-                UserBlog user = jwtUtil.getByEmailFromTokenAndValidate(token);
+                UserBlog user = jwtUtil.getEmailFromTokenAndValidate(token);
                 if (user != null) {
                     // 토큰에서 추출한 이메일을 사용하여 사용자 정보를 가져오는 코드 (예: 데이터베이스 조회)
 //                    UserDetails user = authService.loadUserByUsername(email);

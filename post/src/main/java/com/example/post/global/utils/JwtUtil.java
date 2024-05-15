@@ -24,7 +24,7 @@ public class JwtUtil {
         this.secretKey = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    public UserBlog getByUUIDFromTokenAndValidate(String token) {
+    public UserBlog getUUIDFromTokenAndValidate(String token) {
         Claims payload = (Claims) Jwts.parser()
                 .verifyWith(secretKey)
                 .build()

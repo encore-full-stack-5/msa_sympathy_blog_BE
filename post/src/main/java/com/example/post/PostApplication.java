@@ -28,7 +28,7 @@ import java.util.UUID;
 
 @SpringBootApplication
 //@EnableFeignClients
-@EnableScheduling
+//@EnableScheduling
 public class PostApplication {
 
 	public static void main(String[] args) {
