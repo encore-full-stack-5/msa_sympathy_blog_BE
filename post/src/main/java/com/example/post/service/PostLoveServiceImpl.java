@@ -35,7 +35,7 @@ public class PostLoveServiceImpl implements PostLoveService {
                 .findByPostIdAndUserBlogId(postId, userId)
                 .orElseThrow(PostLoveNotFoundException::new);
         postLove.setLove(!postLove.isLove());
-        return !postLove.isLove();
+        return postLove.isLove();
         // return 값에 따라, front에서 좋아요 수 +1, -1 결정
     }
 

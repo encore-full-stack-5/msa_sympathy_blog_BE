@@ -20,19 +20,19 @@ public class PostLoveController {
     private final JwtUtil jwtUtil;
 
 
-    @GetMapping("id") // 페이지 새로고침할 때 전체 갯수 가져오기
-    public Long countLove(@RequestBody Long postId) {
+    @GetMapping("/{postId}") // 페이지 새로고침할 때 전체 갯수 가져오기
+    public Long countLove(@PathVariable Long postId) {
         return postLoveService.countLove(postId);
     }
 
-    @PutMapping // 버튼 누르면 좋아요 변경하기
-    public boolean updateLove(@RequestBody Long postId, @RequestHeader("Authorization") String bearerToken) {
+    @PutMapping("/{postId}") // 버튼 누르면 좋아요 변경하기
+    public boolean updateLove(@PathVariable Long postId, @RequestHeader("Authorization") String bearerToken) {
         UUID userId = jwtUtil.getUUIDFromTokenAndValidate(bearerToken.substring(7)).getId();
         return postLoveService.updateLove(postId, userId);
     }
 
-    @GetMapping("/lovers") // 좋아요 누른 사람의 닉네임과 블로그 이름 가져오기
-    public List<LoveResponse> getLovers(@RequestBody Long postId) {
+    @GetMapping("/lovers/{postId}") // 좋아요 누른 사람의 닉네임과 블로그 이름 가져오기
+    public List<LoveResponse> getLovers(@PathVariable Long postId) {
         return postLoveService.getLovers(postId);
     }
 }

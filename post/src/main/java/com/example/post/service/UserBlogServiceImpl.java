@@ -27,12 +27,13 @@ public class UserBlogServiceImpl implements UserBlogService, UserDetailsService 
     @Override
     @KafkaListener(topics = "userBlog-topic")
     public void init(KafkaStatus<KafkaUserBlogDto> status) {
-
+        System.out.println(status.data());
         UserBlog userBlog =
                 UserBlog.builder()
                         .id(UUID.fromString(status.data().userBlogId()))
                         .nickname(status.data().nickname())
                         .build();
+
         userBlogRepository.save(userBlog);
     }
 }

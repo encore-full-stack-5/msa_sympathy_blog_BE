@@ -5,15 +5,14 @@ import com.example.post.global.domain.repository.PostRepository;
 import com.example.post.kafka.PostProducer;
 import com.example.post.kafka.dto.KafkaBlogDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
-@org.springframework.stereotype.Service
+@Service
 @RequiredArgsConstructor
-public class Service {
+public class KafkaService {
     private final PostProducer postProducer;
     private final PostRepository postRepository;
 

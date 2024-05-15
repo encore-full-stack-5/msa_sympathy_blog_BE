@@ -1,5 +1,6 @@
 package com.example.post.service;
 
+import com.example.post.dto.response.CategoryResponse;
 import com.example.post.exception.CategoryNotFoundException;
 import com.example.post.global.domain.entity.Category;
 import com.example.post.global.domain.entity.UserBlog;
@@ -30,11 +31,11 @@ class CategoryServiceTest {
     @Test
     void create() {
         UserBlog userBlog = userBlogRepository.findByNickname("wlshzz").get();
-        int length = categoryRepository.findAllByUserBlog(userBlog).size();
+        int length = categoryRepository.findAllByUserBlog_Id(userBlog.getId()).size();
         categoryService.create("New", userBlog.getId());
         Category category = categoryRepository.findByCategoryName("New").get();
         assertNotNull(category);
-        assertEquals(length + 1, categoryRepository.findAllByUserBlog(userBlog).size());
+        assertEquals(length + 1, categoryRepository.findAllByUserBlog_Id(userBlog.getId()).size());
     }
 
     @Test
@@ -53,8 +54,8 @@ class CategoryServiceTest {
             categoryService.create("Food", userBlog.getId());
             List<Category> categories = categoryService.getAllByUserId(userBlog.getId());
             Category lastOne = categories.get(categories.size()-1);
-            Category category = categoryService.getOne(lastOne.getId());
-            assertEquals("Food", category.getCategoryName());
+            CategoryResponse categoryResponse = categoryService.getOne(lastOne.getId());
+            assertEquals("Food", categoryResponse.categoryName());
         }
         @Test
         void CategoryNotFoundFail() {
@@ -70,9 +71,9 @@ class CategoryServiceTest {
             categoryService.create("Fashion", userBlog.getId());
             List<Category> categories = categoryService.getAllByUserId(userBlog.getId());
             Category lastOne = categories.get(categories.size()-1);
-            Category category = categoryService.getOne(lastOne.getId());
-            categoryService.update(category.getId(), "Diary");
-            String categoryName = categoryRepository.findById(category.getId()).get().getCategoryName();
+            CategoryResponse categoryResponse = categoryService.getOne(lastOne.getId());
+            categoryService.update(categoryResponse.id(), "Diary");
+            String categoryName = categoryRepository.findById(categoryResponse.id()).get().getCategoryName();
             assertEquals("Diary", categoryName);
         }
 
@@ -91,9 +92,9 @@ class CategoryServiceTest {
             categoryService.create("Book", userBlog.getId());
             List<Category> categories = categoryService.getAllByUserId(userBlog.getId());
             Category lastOne = categories.get(categories.size()-1);
-            Category category = categoryService.getOne(lastOne.getId());
-            categoryService.delete(category.getId());
-            assertTrue(categoryRepository.findById(category.getId()).isEmpty());
+            CategoryResponse categoryResponse = categoryService.getOne(lastOne.getId());
+            categoryService.delete(categoryResponse.id());
+            assertTrue(categoryRepository.findById(categoryResponse.id()).isEmpty());
         }
 
         @Test

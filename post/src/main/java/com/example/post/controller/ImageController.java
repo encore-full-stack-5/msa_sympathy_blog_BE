@@ -1,5 +1,6 @@
 package com.example.post.controller;
 
+import com.example.post.dto.response.ImageResponse;
 import com.example.post.global.domain.entity.Image;
 import com.example.post.service.ImageService;
 import lombok.RequiredArgsConstructor;
@@ -16,18 +17,18 @@ public class ImageController {
         imageService.save(postId, path);
     }
 
-    @DeleteMapping
-    public void delete(@RequestBody Long id) {
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
         imageService.delete(id);
     }
 
-    @PutMapping
-    public void update(@RequestBody Long id, @RequestBody String newPath) {
+    @PutMapping("/{id}")
+    public void update(@PathVariable Long id, @RequestBody String newPath) {
         imageService.update(id, newPath);
     }
 
-    @GetMapping
-    public Image getOne(@RequestBody Long id) {
+    @GetMapping("/{id}")
+    public ImageResponse getOne(@PathVariable Long id) {
         return imageService.findImage(id);
     }
 }

@@ -55,7 +55,7 @@ public class PostController {
         return postService.getPostsByUserId(pageable,userId);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Long id) {
         postService.deleteById(id);
     }
