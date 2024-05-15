@@ -6,6 +6,7 @@ import com.example.user.dto.response.SignInResponse;
 import com.example.user.dto.response.UserBlogResponse;
 import com.example.user.global.domain.entity.UserBlog;
 import com.example.user.global.domain.repository.UserBlogRepository;
+import com.example.user.kafka.dto.KafkaInitDto;
 import com.example.user.kafka.dto.KafkaUserBlogDto;
 import com.example.user.global.dto.UserBlogDto;
 import com.example.user.global.utils.JwtUtil;
@@ -22,6 +23,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -66,7 +68,7 @@ public class UserBlogServiceImpl implements UserBlogService, UserDetailsService 
 
         KafkaUserBlogDto kafkaUserBlogDto = new KafkaUserBlogDto(id.toString(),req.nickname());
         KafkaStatus<KafkaUserBlogDto> kafkaStatus = new KafkaStatus<>(kafkaUserBlogDto,"update");
-        userBlogIdProducer.send(kafkaUserBlogDto,"update");
+        userBlogIdProducer.send(kafkaStatus.data(),"update");
         return userBlog;
     }
 
@@ -79,7 +81,7 @@ public class UserBlogServiceImpl implements UserBlogService, UserDetailsService 
 
         KafkaUserBlogDto kafkaUserBlogDto = new KafkaUserBlogDto(id.toString(),null);
         KafkaStatus<KafkaUserBlogDto> kafkaStatus = new KafkaStatus<>(kafkaUserBlogDto,"delete");
-        userBlogIdProducer.send(kafkaUserBlogDto,"delete");
+        userBlogIdProducer.send(kafkaStatus.data(),"delete");
 
         return kafkaUserBlogDto;
     }
@@ -90,6 +92,25 @@ public class UserBlogServiceImpl implements UserBlogService, UserDetailsService 
                         .orElseThrow(EntityNotFoundException::new));
         return blogResponse;
     }
+
+    @Override
+    public void init() {
+
+        List<UserBlog> userBlogs = userRepository.findAll();
+
+        for(UserBlog userBlog :userBlogs){
+
+            KafkaUserBlogDto kafkaInitDto =
+                    KafkaUserBlogDto.builder().userBlogId(String.valueOf(userBlog.getId()))
+                            .nickname(userBlog.getNickname())
+                            .build();
+            KafkaStatus<KafkaUserBlogDto> kafkaStatus = new KafkaStatus<>(kafkaInitDto,"init");
+            userBlogIdProducer.send(kafkaStatus.data(),"init");
+
+        }
+
+    }
+
 
     @KafkaListener(topics = "post-topic", id = "user")
     @Transactional
