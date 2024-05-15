@@ -5,8 +5,13 @@ import com.example.comment.dto.request.CommentRequest;
 import com.example.comment.global.domain.entity.Comment;
 import com.example.comment.global.domain.entity.CommentLike;
 import com.example.comment.global.domain.repository.CommentRepository;
+<<<<<<< HEAD
 import com.example.comment.kafka.dto.KafkaPostDto;
 import com.example.comment.kafka.dto.KafkaStatus;
+=======
+import com.example.comment.kafka.dto.KafkaStatus;
+import com.example.comment.kafka.dto.KafkaUserBlogDto;
+>>>>>>> 87ba3750b6afbd8b7b90800e00f752b1caefcf8a
 import com.example.comment.service.d2.CommentLikeService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +41,6 @@ public class CommentServiceImpl implements CommentService {
         Comment comment = commentRepository.findById(id).orElseThrow();
         Comment updatedComment = request.toEntity();
         commentRepository.save(updatedComment);
-
     }
 
     @Override
@@ -72,6 +76,7 @@ public class CommentServiceImpl implements CommentService {
         return likeCount != null ? likeCount.intValue() : 0;
     }
 
+
     @KafkaListener(topics = "post-topic")
     public void deleteCommentsByPostId(KafkaStatus<KafkaPostDto> kafkaStatus, String status) {
         if (status.equals("delete")) {
@@ -80,4 +85,26 @@ public class CommentServiceImpl implements CommentService {
             comments.forEach((el) -> commentRepository.deleteById(el.getId()));
         }
     }
+
+    @KafkaListener(topics = "userBlog-topic")
+    public void synchronization(KafkaStatus<KafkaUserBlogDto> status) {
+        switch (status.status()) {
+            case "delete" -> {
+                List<Comment> byUserIds = commentRepository.findByUserId(UUID.fromString(status.data().userBlogId()));
+
+                for (Comment byUserId : byUserIds) {
+                    commentRepository.deleteById(byUserId.getId());
+                }
+            }
+            case "update" -> {
+                List<Comment> byUserIds = commentRepository.findByUserId(UUID.fromString(status.data().userBlogId()));
+
+                for (Comment byUserId : byUserIds) {
+                    byUserId.setNickname(status.data().nickname());
+                    commentRepository.save(byUserId);
+                }
+            }
+        }
+    }
+
 }

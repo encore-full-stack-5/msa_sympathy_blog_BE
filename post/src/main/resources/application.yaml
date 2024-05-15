@@ -9,7 +9,7 @@ spring:
     password: 1234
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     show-sql: true
   application:
     name: post
@@ -24,7 +24,7 @@ spring:
       auto-offset-reset: earliest
 
 jwt:
-  secret: ssssssssssssssssssssssssssmmmmmmmmmmmmmmm
+  secret: fdag32fdsavv32few89vbbafdsbaugubdsag8904fdsafdvcxcbre
   expiration: 25920000
 
 eureka:

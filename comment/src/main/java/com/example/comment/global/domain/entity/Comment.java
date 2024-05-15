@@ -37,6 +37,7 @@ public class Comment {
     @Setter
     private Integer likeCount;
 
+    @Setter
     @Column(name = "NICKNAME")
     private String nickname;
 
