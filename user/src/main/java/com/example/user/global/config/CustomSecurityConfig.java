@@ -22,7 +22,7 @@ public class CustomSecurityConfig {
         http.userDetailsService(authService);
 
         http.authorizeRequests(req ->
-                req.requestMatchers("/api/v1/users/signIn","/api/v1/users/signup","/api/v1/users")
+                req.requestMatchers("/api/v1/users/signIn","/api/v1/users/signup","/api/v1/users/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated()

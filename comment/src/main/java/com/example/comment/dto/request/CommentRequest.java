@@ -19,7 +19,7 @@ public record CommentRequest(
                 .userId(userId)
                 .content(content)
                 .nickname(nickname)
-                .createdAt(createdAt)
+                .createdAt(LocalDateTime.now())
                 .likeCount(0)
                 .build();
     }

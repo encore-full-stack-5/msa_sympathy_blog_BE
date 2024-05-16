@@ -31,8 +31,6 @@ public class UserBlogController {
 
     private final UserBlogIdProducer userBlogIdProducer;
 
-    private final UserBlogRepository userBlogRepository;
-
     @PostMapping("/signIn")
     public SignInResponse signIn(@RequestHeader("Authorization") String token) {
         UserBlogDto userInfoFromToken = tokenService.getUserInfoFromToken(token);
