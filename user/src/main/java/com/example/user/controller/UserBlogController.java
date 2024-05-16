@@ -10,18 +10,11 @@ import com.example.user.kafka.dto.KafkaUserBlogDto;
 import com.example.user.kafka.producer.UserBlogIdProducer;
 import com.example.user.service.TokenService;
 import com.example.user.service.UserBlogService;
-import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
