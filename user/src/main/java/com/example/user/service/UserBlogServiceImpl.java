@@ -2,6 +2,7 @@
 package com.example.user.service;
 
 import com.example.user.dto.request.UserBlogRequest;
+import com.example.user.dto.response.SignInResponse;
 import com.example.user.dto.response.UserBlogResponse;
 import com.example.user.global.domain.entity.UserBlog;
 import com.example.user.global.domain.repository.UserBlogRepository;
@@ -11,7 +12,6 @@ import com.example.user.global.utils.JwtUtil;
 import com.example.user.kafka.dto.KafkaPostDto;
 import com.example.user.kafka.dto.KafkaStatus;
 import com.example.user.kafka.producer.UserBlogIdProducer;
-import com.example.user.kafka.dto.KafkaPostDto;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
