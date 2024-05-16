@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/auth")
+@RequestMapping("/api/v1/users")
 public class UserBlogController {
     private final UserBlogService userBlogService;
     private final TokenService tokenService;
