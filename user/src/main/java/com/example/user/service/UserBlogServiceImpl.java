@@ -47,6 +47,7 @@ public class UserBlogServiceImpl implements UserBlogService, UserDetailsService 
         UserBlog userBlog = UserBlog.builder()
                 .email(req.toEntity().getEmail())
                 .nickname(req.toEntity().getNickname())
+                .blogName(req.toEntity().getBlogName())
                 .id(req.toEntity().getId())
                 .build();
 
