@@ -9,9 +9,9 @@ import com.example.user.global.domain.repository.UserBlogRepository;
 import com.example.user.kafka.dto.KafkaUserBlogDto;
 import com.example.user.global.dto.UserBlogDto;
 import com.example.user.global.utils.JwtUtil;
-import com.example.user.kafka.dto.KafkaPostDto;
 import com.example.user.kafka.dto.KafkaStatus;
 import com.example.user.kafka.producer.UserBlogIdProducer;
+import com.example.user.kafka.dto.KafkaPostDto;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +46,7 @@ public class UserBlogServiceImpl implements UserBlogService, UserDetailsService 
         UserBlog userBlog = UserBlog.builder()
                 .email(req.toEntity().getEmail())
                 .nickname(req.toEntity().getNickname())
+                .blogName(req.toEntity().getBlogName())
                 .id(req.toEntity().getId())
                 .build();
 
@@ -53,6 +54,14 @@ public class UserBlogServiceImpl implements UserBlogService, UserDetailsService 
         UserBlogDto userBlogDto = UserBlogDto.from(save);
 
         String token = jwtUtil.generateToken(userBlogDto);
+
+        KafkaUserBlogDto kafkaInitDto =
+                KafkaUserBlogDto.builder().userBlogId(req.userBlogId())
+                        .nickname(req.nickname())
+                        .build();
+        KafkaStatus<KafkaUserBlogDto> kafkaStatus = new KafkaStatus<>(kafkaInitDto,"init");
+        userBlogIdProducer.send(kafkaStatus.data(),"init");
+
         return SignInResponse.from(token);
     }
 
@@ -66,11 +75,10 @@ public class UserBlogServiceImpl implements UserBlogService, UserDetailsService 
 
         KafkaUserBlogDto kafkaUserBlogDto = new KafkaUserBlogDto(id.toString(),req.nickname());
         KafkaStatus<KafkaUserBlogDto> kafkaStatus = new KafkaStatus<>(kafkaUserBlogDto,"update");
-        userBlogIdProducer.send(kafkaUserBlogDto,"update");
+        userBlogIdProducer.send(kafkaStatus.data(),"update");
         return userBlog;
     }
 
-    @Override
     public KafkaUserBlogDto deleteUserBlog(UserBlogRequest req, UUID id) {
 
         UserBlog userBlog = userRepository.findById(id).orElseThrow(
@@ -80,7 +88,7 @@ public class UserBlogServiceImpl implements UserBlogService, UserDetailsService 
 
         KafkaUserBlogDto kafkaUserBlogDto = new KafkaUserBlogDto(id.toString(),null);
         KafkaStatus<KafkaUserBlogDto> kafkaStatus = new KafkaStatus<>(kafkaUserBlogDto,"delete");
-        userBlogIdProducer.send(kafkaUserBlogDto,"delete");
+        userBlogIdProducer.send(kafkaStatus.data(),"delete");
 
         return kafkaUserBlogDto;
     }
@@ -93,11 +101,14 @@ public class UserBlogServiceImpl implements UserBlogService, UserDetailsService 
         return blogResponse;
     }
 
+
+
     @KafkaListener(topics = "post-topic", id = "user")
     @Transactional
     public void listen(KafkaStatus<KafkaPostDto> dto) {
         if (dto.status().equals("insert")) {
-            UserBlog user = userRepository.findById(dto.data().userBlogId()).orElseThrow(EntityNotFoundException::new);
+            UserBlog user = userRepository
+                    .findById(dto.data().userBlogId()).orElseThrow(EntityNotFoundException::new);
             user.setPostId(dto.data().id());
         }
     }

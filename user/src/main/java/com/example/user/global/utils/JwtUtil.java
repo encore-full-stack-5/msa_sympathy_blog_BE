@@ -38,7 +38,7 @@ public class JwtUtil {
         return token;
     }
 
-    public UserBlog getByEmailFromTokenAndValidate(String token) {
+    public UserBlog getEmailFromTokenAndValidate(String token) {
         Claims payload = (Claims) Jwts.parser()
                 .verifyWith(secretKey)
                 .build()

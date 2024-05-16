@@ -30,7 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if(bearerToken != null && bearerToken.startsWith("Bearer ")) {
             String token = bearerToken.substring(7);
 //            Token 까서 (jwtUtil)
-            UserBlog user = jwtUtil.getByUUIDFromTokenAndValidate(token);
+            UserBlog user = jwtUtil.getUUIDFromTokenAndValidate(token);
 //            userDetails 생성(authService)
 //            UserDetails user = authService.loadUserByUsername(email);
             UsernamePasswordAuthenticationToken authentication

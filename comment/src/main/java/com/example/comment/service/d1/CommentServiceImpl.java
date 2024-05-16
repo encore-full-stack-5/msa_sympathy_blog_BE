@@ -1,13 +1,18 @@
 package com.example.comment.service.d1;
 
-import com.example.comment.dto.request.CommentLikeRequest;
+
 import com.example.comment.dto.request.CommentRequest;
 import com.example.comment.global.domain.entity.Comment;
 import com.example.comment.global.domain.entity.CommentLike;
 import com.example.comment.global.domain.repository.CommentRepository;
+
+import com.example.comment.kafka.dto.KafkaPostDto;
 import com.example.comment.kafka.dto.KafkaStatus;
+
 import com.example.comment.kafka.dto.KafkaUserBlogDto;
+
 import com.example.comment.service.d2.CommentLikeService;
+
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -71,6 +76,16 @@ public class CommentServiceImpl implements CommentService {
         return likeCount != null ? likeCount.intValue() : 0;
     }
 
+
+    @KafkaListener(topics = "post-topic")
+    public void deleteCommentsByPostId(KafkaStatus<KafkaPostDto> kafkaStatus, String status) {
+        if (status.equals("delete")) {
+            Long postId = kafkaStatus.data().id();
+            List<Comment> comments = commentRepository.findAllByPostId(postId);
+            comments.forEach((el) -> commentRepository.deleteById(el.getId()));
+        }
+    }
+
     @KafkaListener(topics = "userBlog-topic")
     public void synchronization(KafkaStatus<KafkaUserBlogDto> status) {
         switch (status.status()) {
@@ -79,17 +94,18 @@ public class CommentServiceImpl implements CommentService {
 
                 for (Comment byUserId : byUserIds) {
                     commentRepository.deleteById(byUserId.getId());
+                 }
                 }
-            }
             case "update" -> {
                 List<Comment> byUserIds = commentRepository.findByUserId(UUID.fromString(status.data().userBlogId()));
 
                 for (Comment byUserId : byUserIds) {
                     byUserId.setNickname(status.data().nickname());
                     commentRepository.save(byUserId);
+                  }
                 }
-            }
-        }
+
+             }
     }
 
 

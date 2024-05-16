@@ -11,15 +11,20 @@ import com.example.user.kafka.producer.UserBlogIdProducer;
 import com.example.user.service.TokenService;
 import com.example.user.service.UserBlogService;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/auth")
-//@CrossOrigin(origins = "*", allowedHeaders = "*")
+@RequestMapping("/api/v1/users")
 public class UserBlogController {
     private final UserBlogService userBlogService;
     private final TokenService tokenService;

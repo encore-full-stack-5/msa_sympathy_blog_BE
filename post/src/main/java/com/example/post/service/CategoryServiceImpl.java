@@ -1,5 +1,6 @@
 package com.example.post.service;
 
+import com.example.post.dto.response.CategoryResponse;
 import com.example.post.exception.CategoryNotFoundException;
 import com.example.post.exception.UserNotFoundException;
 import com.example.post.global.domain.entity.Category;
@@ -22,13 +23,13 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> getAllByUserId(UUID userId) {
-        UserBlog userBlog = userBlogRepository.findById(userId).orElseThrow(UserNotFoundException::new);
-        return categoryRepository.findAllByUserBlog(userBlog);
+        return categoryRepository.findAllByUserBlog_Id(userId);
     }
 
     @Override
-    public Category getOne(Long id) {
-        return categoryRepository.findById(id).orElseThrow(CategoryNotFoundException::new);
+    public CategoryResponse getOne(Long id) {
+        Category category = categoryRepository.findById(id).orElseThrow(CategoryNotFoundException::new);
+        return new CategoryResponse(id, category.getCategoryName());
     }
 
     @Override
@@ -47,7 +48,6 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void delete(Long id) {
-        categoryRepository.findById(id).orElseThrow(CategoryNotFoundException::new);
         categoryRepository.deleteById(id);
     }
 }

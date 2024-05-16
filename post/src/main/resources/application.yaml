@@ -35,7 +35,7 @@ eureka:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${random.uui}
 server:
-  port: 8088
+  port: 8090
 
 logging:
   level:

@@ -15,9 +15,9 @@ public class PostViewController {
     public Integer getPostViewByPostId(@PathVariable Long id) {
         return postViewService.getPostViewByPostId(id);
     }
-    @PutMapping("/views/{id}")
-    public void update(@PathVariable Long id, @RequestBody PostViewRequest req) {
-        postViewService.update(req, id);
+    @PutMapping("/views/{postId}")
+    public void update(@PathVariable Long postId) {
+        postViewService.update(postId);
     }
 
 }

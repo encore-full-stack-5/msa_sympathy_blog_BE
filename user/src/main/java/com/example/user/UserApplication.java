@@ -3,6 +3,7 @@ package com.example.user;
 import com.example.user.kafka.dto.KafkaStatus;
 import com.example.user.kafka.dto.KafkaUserBlogDto;
 import com.example.user.kafka.producer.UserBlogIdProducer;
+import com.example.user.service.UserBlogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -41,19 +42,9 @@ public class UserApplication {
 		return new JsonMessageConverter();
 	}
 
-	public static class KafkaInitiator {
 
-		@Autowired
-		private UserBlogIdProducer userBlogIdProducer;
-		@Autowired
-		private KafkaTemplate<String, KafkaStatus<KafkaUserBlogDto>> kafkaTemplate;
 
-		@Scheduled(cron = "* * * * * *")
-		public void init() {
-			KafkaUserBlogDto kafkaUserBlogDto = new KafkaUserBlogDto(UUID.randomUUID().toString(), "aa");
-			userBlogIdProducer.send(kafkaUserBlogDto, "update");
-		}
-	}
+
 
 
 }
