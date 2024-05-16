@@ -45,7 +45,7 @@ public class Post {
     @Column(name="POST_TITLE", nullable = false)
     private String title;
 
-    @Column(name="POST_CONTENT", nullable = false)
+    @Column(name="POST_CONTENT", columnDefinition = "TEXT", nullable = false)
     private String content;
 
 

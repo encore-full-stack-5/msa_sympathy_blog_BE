@@ -22,7 +22,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-
 import java.util.UUID;
 
 
@@ -64,9 +63,6 @@ public class UserBlogServiceImpl implements UserBlogService, UserDetailsService 
         userBlogIdProducer.send(kafkaStatus.data(),"init");
 
         return SignInResponse.from(token);
-
-
-
     }
 
     @Override
@@ -97,6 +93,7 @@ public class UserBlogServiceImpl implements UserBlogService, UserDetailsService 
         return kafkaUserBlogDto;
     }
 
+    @Override
     public UserBlogResponse getUserBlogById(UUID id) {
         UserBlogResponse blogResponse = UserBlogResponse
                 .from(userRepository.findAllById(id)
